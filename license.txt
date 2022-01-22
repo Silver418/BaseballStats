@@ -1,0 +1,12 @@
+License Information
+*******************
+
+The file "baseball.db" is made using table schemas & data from Sean Lahman's Baseball Database,
+and is accordingly under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
+
+For simplicity, the rest of the project is also licensed under the Creative Commons
+Attribution-ShareAlike 3.0 Unported License.
+
+Link to the original database: http://www.seanlahman.com/baseball-archive/statistics/
+License Summary: https://creativecommons.org/licenses/by-sa/3.0/
+License Full Text: https://creativecommons.org/licenses/by-sa/3.0/legalcode

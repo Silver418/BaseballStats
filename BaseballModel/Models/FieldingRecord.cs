@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BaseballModel.Models {
+    public enum Position { LF, CF, RF } //Left, Center, and Right field enum
+
     public class FieldingRecord {
         //static
         private static string Catcher = "C"; //"C" in the Position field represents a catcher. Catcher records have some additional fields.

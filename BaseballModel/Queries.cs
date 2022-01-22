@@ -133,7 +133,6 @@ namespace BaseballModel {
                 var fielding =
                     from field in db.Fieldings
                     where field.PlayerId == id
-                    //orderby field.YearId, field.Stint
                     select field;
 
                 FieldingList myList = new FieldingList(fielding);
@@ -148,7 +147,6 @@ namespace BaseballModel {
                 var fielding =
                     from field in db.Fieldings
                     where field.TeamId == teamId && field.LgId == lgAbbr && field.YearId == yearId
-                    //orderby field.Pos ascending, field.G descending, field.PlayerId ascending
                     select field;
 
                 FieldingList myList = new FieldingList(fielding);
@@ -157,18 +155,6 @@ namespace BaseballModel {
                 return myList;
             }
         }
-
-        /*public static FieldingOfSplitList OutfieldingSplitById(string id) {
-            using (var db = new BaseballContext()) {
-                var outfielding =
-                    from outfield in db.FieldingOfsplits
-                    where outfield.PlayerId == id
-                    orderby outfield.YearId, outfield.Stint
-                    select outfield;
-
-                return new FieldingOfSplitList(outfielding);
-            }
-        }*/
 
         public static FieldingList OutfieldingByID(string id) {
             using (var db = new BaseballContext()) {
