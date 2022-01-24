@@ -30,3 +30,5 @@ static void printPlayer(Person person) => Console.WriteLine($"{person.NameFirst}
 
 
 //FieldingList bob = TeamFieldingByID("NYN", "NL", 2011);
+
+Console.WriteLine("Hello worldo");

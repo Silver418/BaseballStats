@@ -49,7 +49,6 @@ namespace BaseballModel.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlite("Data Source=D:\\Projects\\Baseball\\Code\\BaseballStats\\BaseballModel\\Data\\baseball.db");
                 optionsBuilder.UseSqlite("Data Source=Data\\baseball.db");
             }
         }

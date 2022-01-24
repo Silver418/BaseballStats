@@ -30,8 +30,9 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.navHeader = new System.Windows.Forms.ToolStripLabel();
             this.navPlayerStats = new System.Windows.Forms.ToolStripLabel();
-            this.contentTabs = new System.Windows.Forms.TabControl();
             this.navTeamYearStats = new System.Windows.Forms.ToolStripLabel();
+            this.contentTabs = new System.Windows.Forms.TabControl();
+            this.navSeasonDates = new System.Windows.Forms.ToolStripLabel();
             this.topBarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -105,7 +106,8 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.navHeader,
             this.navPlayerStats,
-            this.navTeamYearStats});
+            this.navTeamYearStats,
+            this.navSeasonDates});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(5, 5);
             this.toolStrip1.Name = "toolStrip1";
@@ -132,15 +134,6 @@
             this.navPlayerStats.VisitedLinkColor = System.Drawing.Color.Blue;
             this.navPlayerStats.Click += new System.EventHandler(this.navPlayerStats_Click);
             // 
-            // contentTabs
-            // 
-            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.contentTabs.Location = new System.Drawing.Point(0, 0);
-            this.contentTabs.Name = "contentTabs";
-            this.contentTabs.SelectedIndex = 0;
-            this.contentTabs.Size = new System.Drawing.Size(902, 607);
-            this.contentTabs.TabIndex = 2;
-            // 
             // navTeamYearStats
             // 
             this.navTeamYearStats.IsLink = true;
@@ -150,6 +143,25 @@
             this.navTeamYearStats.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.navTeamYearStats.VisitedLinkColor = System.Drawing.Color.Blue;
             this.navTeamYearStats.Click += new System.EventHandler(this.navTeamYearStats_Click);
+            // 
+            // contentTabs
+            // 
+            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentTabs.Location = new System.Drawing.Point(0, 0);
+            this.contentTabs.Name = "contentTabs";
+            this.contentTabs.SelectedIndex = 0;
+            this.contentTabs.Size = new System.Drawing.Size(902, 607);
+            this.contentTabs.TabIndex = 2;
+            // 
+            // navSeasonDates
+            // 
+            this.navSeasonDates.IsLink = true;
+            this.navSeasonDates.Name = "navSeasonDates";
+            this.navSeasonDates.Size = new System.Drawing.Size(140, 15);
+            this.navSeasonDates.Text = "Season Dates";
+            this.navSeasonDates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navSeasonDates.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.navSeasonDates.Click += new System.EventHandler(this.navSeasonDates_Click);
             // 
             // Form1
             // 
@@ -186,5 +198,6 @@
         private ToolStripLabel navPlayerStats;
         private TabControl contentTabs;
         private ToolStripLabel navTeamYearStats;
+        private ToolStripLabel navSeasonDates;
     }
 }

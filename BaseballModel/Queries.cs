@@ -168,7 +168,7 @@ namespace BaseballModel {
                     where outfield.PlayerId == id
                     select outfield;
 
-                FieldingList result = new  FieldingList(fieldingOfSplit: outfieldingSplits, fieldingOf: outfieldingLump);
+                FieldingList result = new FieldingList(fieldingOfSplit: outfieldingSplits, fieldingOf: outfieldingLump);
                 result.PlayerSort();
                 return result;
             }
@@ -186,11 +186,12 @@ namespace BaseballModel {
                     FieldingList splitResult = new FieldingList(fieldingOfSplit: outfieldingSplits);
                     splitResult.TeamSort();
                     return splitResult;
-                } else {
+                }
+                else {
                     var players =
                         from p in db.Fieldings
                         where p.TeamId == teamId && p.LgId == lgAbbr && p.YearId == yearId
-                        select new {p.PlayerId, p.YearId, p.Stint};
+                        select new { p.PlayerId, p.YearId, p.Stint };
 
                     var outfieldingLump =
                         from outfield in db.FieldingOfs
@@ -329,6 +330,19 @@ namespace BaseballModel {
 
                 return (teamId, lgId);
             }
+        }
+
+        //**********
+        //Season Transactions for transact.db
+        //**********
+        public static int SaveYear(DateTime start, DateTime end) {
+            if (start.Year == end.Year && start < end) {
+                using (var db = new TransContext()) {
+
+                }
+                return 0;
+            }
+            return 0;
         }
     }
 }

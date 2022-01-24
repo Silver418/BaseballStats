@@ -32,5 +32,14 @@ namespace BaseballView {
             contentTabs.Controls.Add(newTab);
             contentTabs.SelectedTab = newTab;
         }
+
+        private void navSeasonDates_Click(object sender, EventArgs e) {
+            TabPage newTab = NewContentTab("Season Dates");
+            SeasonDatesEdit seasonDatesEdit = new SeasonDatesEdit();
+            seasonDatesEdit.Dock = DockStyle.Fill;
+            newTab.Controls.Add(seasonDatesEdit);
+            contentTabs.Controls.Add(newTab);
+            contentTabs.SelectedTab = newTab;
+        }
     }
 }
