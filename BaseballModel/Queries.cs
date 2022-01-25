@@ -336,13 +336,68 @@ namespace BaseballModel {
         //Season Transactions for transact.db
         //**********
         public static int SaveYear(DateTime start, DateTime end) {
+            int updated = 0;
             if (start.Year == end.Year && start < end) {
+                long year = start.Year;
+                string startString = $"{start.Month:d2}-{start.Day:d2}";
+                string endString = $"{end.Month:d2}-{end.Day:d2}";
                 using (var db = new TransContext()) {
-
+                    
+                    SeasonDate? existing = (from row in db.SeasonDates
+                                           where row.YearId == year
+                                           select row).FirstOrDefault();
+                    if (existing != null) {//update record
+                        existing.SeasonStart = startString;
+                        existing.SeasonEnd = endString;
+                    }
+                    else { //create new record
+                        SeasonDate update = new SeasonDate { YearId = year, SeasonStart = startString, SeasonEnd = endString};
+                        db.SeasonDates.Add(update);
+                    }
+                    updated = db.SaveChanges();
                 }
-                return 0;
+            }
+            return updated;
+        } //end SaveYear method
+
+        public static SeasonDateList GetAllSeasons() {
+            using (var db = new TransContext()) {
+                var seasons = from season in db.SeasonDates
+                              orderby season.YearId ascending
+                              select season;
+                return new SeasonDateList(seasons);
+            }
+        }
+
+        public static SeasonDateRecord GetSeason(long year) {
+            using (var db = new TransContext()) {
+                var season = (from row in db.SeasonDates
+                              where year == row.YearId
+                              select row).FirstOrDefault();
+                if (season != null) {
+                    return new SeasonDateRecord(season);
+                }
+                else {
+                    return null;
+                }
+                
+            }
+        }
+        public static SeasonDateRecord GetSeason(int year) {
+            return GetSeason((long)year);
+        }
+
+        public static int DeleteSeason (long year) {
+            using (var db = new TransContext()) {
+                var deletion = (from row in db.SeasonDates
+                                where row.YearId == year
+                                select row).FirstOrDefault();
+                if (deletion != null) {
+                    db.SeasonDates.Remove(deletion);
+                    return db.SaveChanges();
+                }
             }
             return 0;
         }
-    }
-}
+    } //end Queries class
+} //end BaseballModel namespace

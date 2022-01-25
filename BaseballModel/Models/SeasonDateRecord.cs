@@ -10,7 +10,7 @@ namespace BaseballModel.Models {
         public DateTime SeasonStart { get; private set; }
         public DateTime SeasonEnd { get; private set; }
 
-        SeasonDateRecord(SeasonDate seasonDate) {
+        public SeasonDateRecord(SeasonDate seasonDate) {
             YearId = seasonDate.YearId;
 
             if (seasonDate.SeasonStart != null) {

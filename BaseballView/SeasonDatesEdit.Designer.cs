@@ -34,12 +34,20 @@
             this.endPnl = new System.Windows.Forms.Panel();
             this.endPicker = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.testStart = new System.Windows.Forms.Label();
-            this.testEnd = new System.Windows.Forms.Label();
+            this.saveBtn = new System.Windows.Forms.Button();
+            this.controlPnl = new System.Windows.Forms.Panel();
+            this.closeBtn = new System.Windows.Forms.Button();
+            this.gridWrap = new System.Windows.Forms.Panel();
+            this.editBtn = new System.Windows.Forms.Button();
+            this.deleteBtn = new System.Windows.Forms.Button();
+            this.seasonGrid = new System.Windows.Forms.DataGridView();
             this.entryPnl.SuspendLayout();
             this.yearPnl.SuspendLayout();
             this.startPnl.SuspendLayout();
             this.endPnl.SuspendLayout();
+            this.controlPnl.SuspendLayout();
+            this.gridWrap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.seasonGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // headerLbl
@@ -66,6 +74,7 @@
             this.yearPicker.TabIndex = 3;
             this.yearPicker.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.yearPicker.ValueChanged += new System.EventHandler(this.yearPicker_ValueChanged);
+            this.yearPicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.recordInput_KeyDown);
             // 
             // entryPnl
             // 
@@ -76,11 +85,12 @@
             this.entryPnl.Controls.Add(this.yearPnl);
             this.entryPnl.Controls.Add(this.startPnl);
             this.entryPnl.Controls.Add(this.endPnl);
+            this.entryPnl.Controls.Add(this.saveBtn);
             this.entryPnl.Dock = System.Windows.Forms.DockStyle.Top;
             this.entryPnl.Location = new System.Drawing.Point(0, 31);
             this.entryPnl.Name = "entryPnl";
             this.entryPnl.Padding = new System.Windows.Forms.Padding(5);
-            this.entryPnl.Size = new System.Drawing.Size(606, 44);
+            this.entryPnl.Size = new System.Drawing.Size(970, 45);
             this.entryPnl.TabIndex = 4;
             // 
             // yearPnl
@@ -124,8 +134,8 @@
             this.startPicker.ShowUpDown = true;
             this.startPicker.Size = new System.Drawing.Size(70, 23);
             this.startPicker.TabIndex = 3;
-            this.startPicker.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.startPicker.ValueChanged += new System.EventHandler(this.startPicker_ValueChanged);
+            this.startPicker.Value = new System.DateTime(2000, 3, 1, 0, 0, 0, 0);
+            this.startPicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.recordInput_KeyDown);
             // 
             // label2
             // 
@@ -157,8 +167,8 @@
             this.endPicker.ShowUpDown = true;
             this.endPicker.Size = new System.Drawing.Size(70, 23);
             this.endPicker.TabIndex = 3;
-            this.endPicker.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            this.endPicker.ValueChanged += new System.EventHandler(this.endPicker_ValueChanged);
+            this.endPicker.Value = new System.DateTime(2000, 10, 31, 0, 0, 0, 0);
+            this.endPicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.recordInput_KeyDown);
             // 
             // label3
             // 
@@ -170,34 +180,108 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "End Date:";
             // 
-            // testStart
+            // saveBtn
             // 
-            this.testStart.AutoSize = true;
-            this.testStart.Location = new System.Drawing.Point(29, 87);
-            this.testStart.Name = "testStart";
-            this.testStart.Size = new System.Drawing.Size(38, 15);
-            this.testStart.TabIndex = 5;
-            this.testStart.Text = "label4";
+            this.saveBtn.Location = new System.Drawing.Point(437, 10);
+            this.saveBtn.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(75, 23);
+            this.saveBtn.TabIndex = 13;
+            this.saveBtn.Text = "&Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
-            // testEnd
+            // controlPnl
             // 
-            this.testEnd.AutoSize = true;
-            this.testEnd.Location = new System.Drawing.Point(171, 87);
-            this.testEnd.Name = "testEnd";
-            this.testEnd.Size = new System.Drawing.Size(38, 15);
-            this.testEnd.TabIndex = 6;
-            this.testEnd.Text = "label5";
+            this.controlPnl.AutoScroll = true;
+            this.controlPnl.AutoSize = true;
+            this.controlPnl.Controls.Add(this.closeBtn);
+            this.controlPnl.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.controlPnl.Location = new System.Drawing.Point(0, 544);
+            this.controlPnl.Name = "controlPnl";
+            this.controlPnl.Size = new System.Drawing.Size(970, 56);
+            this.controlPnl.TabIndex = 7;
+            // 
+            // closeBtn
+            // 
+            this.closeBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.closeBtn.Location = new System.Drawing.Point(430, 6);
+            this.closeBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.closeBtn.Name = "closeBtn";
+            this.closeBtn.Size = new System.Drawing.Size(115, 40);
+            this.closeBtn.TabIndex = 2;
+            this.closeBtn.Text = "&Close";
+            this.closeBtn.UseVisualStyleBackColor = true;
+            this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
+            // 
+            // gridWrap
+            // 
+            this.gridWrap.AutoScroll = true;
+            this.gridWrap.Controls.Add(this.editBtn);
+            this.gridWrap.Controls.Add(this.deleteBtn);
+            this.gridWrap.Controls.Add(this.seasonGrid);
+            this.gridWrap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridWrap.Location = new System.Drawing.Point(0, 76);
+            this.gridWrap.Name = "gridWrap";
+            this.gridWrap.Padding = new System.Windows.Forms.Padding(5);
+            this.gridWrap.Size = new System.Drawing.Size(970, 468);
+            this.gridWrap.TabIndex = 8;
+            // 
+            // editBtn
+            // 
+            this.editBtn.Location = new System.Drawing.Point(425, 108);
+            this.editBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.editBtn.Name = "editBtn";
+            this.editBtn.Size = new System.Drawing.Size(115, 40);
+            this.editBtn.TabIndex = 7;
+            this.editBtn.Text = "&Edit";
+            this.editBtn.UseVisualStyleBackColor = true;
+            this.editBtn.Click += new System.EventHandler(this.editBtn_Click);
+            // 
+            // deleteBtn
+            // 
+            this.deleteBtn.Location = new System.Drawing.Point(425, 15);
+            this.deleteBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(115, 40);
+            this.deleteBtn.TabIndex = 6;
+            this.deleteBtn.Text = "&Delete";
+            this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
+            // 
+            // seasonGrid
+            // 
+            this.seasonGrid.AllowUserToAddRows = false;
+            this.seasonGrid.AllowUserToDeleteRows = false;
+            this.seasonGrid.AllowUserToResizeRows = false;
+            this.seasonGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.seasonGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.seasonGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.seasonGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.seasonGrid.Location = new System.Drawing.Point(5, 5);
+            this.seasonGrid.Margin = new System.Windows.Forms.Padding(10);
+            this.seasonGrid.MinimumSize = new System.Drawing.Size(400, 250);
+            this.seasonGrid.Name = "seasonGrid";
+            this.seasonGrid.ReadOnly = true;
+            this.seasonGrid.RowTemplate.Height = 25;
+            this.seasonGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.seasonGrid.Size = new System.Drawing.Size(400, 453);
+            this.seasonGrid.TabIndex = 5;
+            this.seasonGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.seasonGrid_CellMouseDoubleClick);
+            this.seasonGrid.SelectionChanged += new System.EventHandler(this.seasonGrid_SelectionChanged);
+            this.seasonGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.seasonGrid_KeyDown);
             // 
             // SeasonDatesEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.testEnd);
-            this.Controls.Add(this.testStart);
+            this.Controls.Add(this.gridWrap);
             this.Controls.Add(this.entryPnl);
+            this.Controls.Add(this.controlPnl);
             this.Controls.Add(this.headerLbl);
             this.Name = "SeasonDatesEdit";
-            this.Size = new System.Drawing.Size(606, 377);
+            this.Size = new System.Drawing.Size(970, 600);
             this.entryPnl.ResumeLayout(false);
             this.entryPnl.PerformLayout();
             this.yearPnl.ResumeLayout(false);
@@ -206,6 +290,9 @@
             this.startPnl.PerformLayout();
             this.endPnl.ResumeLayout(false);
             this.endPnl.PerformLayout();
+            this.controlPnl.ResumeLayout(false);
+            this.gridWrap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.seasonGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,7 +311,12 @@
         private Panel endPnl;
         private DateTimePicker endPicker;
         private Label label3;
-        private Label testStart;
-        private Label testEnd;
+        private Button saveBtn;
+        private Panel controlPnl;
+        private Button closeBtn;
+        private Panel gridWrap;
+        private DataGridView seasonGrid;
+        private Button deleteBtn;
+        private Button editBtn;
     }
 }

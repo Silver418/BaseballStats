@@ -58,4 +58,4 @@ namespace BaseballModel.Models {
         }
 
     } //end BattingList class
-}
+} //end BaseballModels.Models namespace
