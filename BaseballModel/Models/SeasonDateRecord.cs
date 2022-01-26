@@ -15,25 +15,19 @@ namespace BaseballModel.Models {
             YearId = seasonDate.YearId;
 
             if (seasonDate.SeasonStart != null) {
-                string[] startArray = seasonDate.SeasonStart.Split('-');
-                try {
-                    int startMonth = int.Parse(startArray[0]);
-                    int startDay = int.Parse(startArray[1]);
-                    SeasonStart = new DateTime((int)YearId, startMonth, startDay);
-                }
-                catch {
+                DateTime? dateStart = Helpers.StringToMonthDate(YearId, seasonDate.SeasonStart);
+                if (dateStart.HasValue) {
+                    SeasonStart = (DateTime)dateStart;
+                } else {
                     SeasonStart = new DateTime((int)YearId, 3, 1); //fallback start date of March 1st
                 }
             }
             if (seasonDate.SeasonEnd != null) {
-                string[] endArray = seasonDate.SeasonEnd.Split('-');
-                try {
-                    int endMonth = int.Parse(endArray[0]);
-                    int endDay = int.Parse((endArray[1]));
-                    SeasonEnd = new DateTime((int)YearId, endMonth, endDay);
-                }
-                catch {
-                    SeasonEnd = new DateTime((int)YearId, 10, 31); //fallback start date of October 31st 
+                DateTime? dateEnd = Helpers.StringToMonthDate(YearId, seasonDate.SeasonEnd);
+                if (dateEnd.HasValue) {
+                    SeasonEnd = (DateTime)dateEnd;
+                } else {
+                    SeasonEnd = new DateTime((int)YearId, 10, 31); //fallback start date of October 31st
                 }
             }
             CalcDuration();

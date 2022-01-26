@@ -339,8 +339,8 @@ namespace BaseballModel {
             int updated = 0;
             if (start.Year == end.Year && start < end) {
                 long year = start.Year;
-                string startString = $"{start.Month:d2}-{start.Day:d2}";
-                string endString = $"{end.Month:d2}-{end.Day:d2}";
+                string startString = Helpers.MonthDateToString(start);
+                string endString = Helpers.MonthDateToString(end);
                 using (var db = new TransContext()) {
                     
                     SeasonDate? existing = (from row in db.SeasonDates

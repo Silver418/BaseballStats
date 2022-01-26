@@ -19,6 +19,5 @@ namespace BaseballView {
 
             return column;
         }
-
     } //end Helpers class
 } //end BaseballView namespace

@@ -18,6 +18,7 @@ namespace BaseballModel.Context
         }
 
         public virtual DbSet<SeasonDate> SeasonDates { get; set; } = null!;
+        public virtual DbSet<Stint> Stints { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +33,11 @@ namespace BaseballModel.Context
             modelBuilder.Entity<SeasonDate>(entity =>
             {
                 entity.Property(e => e.YearId).ValueGeneratedNever();
+            });
+
+            modelBuilder.Entity<Stint>(entity =>
+            {
+                entity.HasKey(e => new { e.PlayerId, e.YearId, e.Stint1 });
             });
 
             OnModelCreatingPartial(modelBuilder);

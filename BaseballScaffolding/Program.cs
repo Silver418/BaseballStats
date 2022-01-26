@@ -10,4 +10,11 @@
 //PMC command to scaffold transacations.db (my supplementary db for entering extra info about player trades):
 //Scaffold-DbContext -Connection 'Data Source=..\BaseballModel\Data\transactions.db' -Provider Microsoft.EntityFrameworkCore.Sqlite -Project BaseballModel -StartupProject BaseballScaffolding -Context TransContext -ContextDir Context -OutputDir Entities -DataAnnotations -Verbose
 
+
+//after using either command, change the path in the context file's OnConfiguring method to only use
+//"Data Source=Data\\<database here>" instead of the longer path.
+//      optionsBuilder.UseSqlite("Data Source=Data\\baseball.db");
+//      optionsBuilder.UseSqlite("Data Source=Data\\transactions.db");
+
+
 Console.WriteLine("Hello, World!");
