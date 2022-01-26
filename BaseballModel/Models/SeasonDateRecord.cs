@@ -9,6 +9,7 @@ namespace BaseballModel.Models {
         public long YearId { get; private set; }
         public DateTime SeasonStart { get; private set; }
         public DateTime SeasonEnd { get; private set; }
+        public int SeasonDuration { get; private set; } = 0; //season duration in days
 
         public SeasonDateRecord(SeasonDate seasonDate) {
             YearId = seasonDate.YearId;
@@ -35,6 +36,7 @@ namespace BaseballModel.Models {
                     SeasonEnd = new DateTime((int)YearId, 10, 31); //fallback start date of October 31st 
                 }
             }
+            CalcDuration();
         } //end constructor from seasonDate database record
 
         SeasonDateRecord(long year) {
@@ -51,9 +53,16 @@ namespace BaseballModel.Models {
             if (YearId == start.Year && YearId == end.Year && start < end) {
                 SeasonStart = start;
                 SeasonEnd = end;
+                CalcDuration();
                 return true; //true for successful update
             }
             return false;
+        }
+
+        //Calc season duration
+        private void CalcDuration() {
+            TimeSpan interval = SeasonEnd - SeasonStart;
+            SeasonDuration = interval.Days;
         }
     }
 }

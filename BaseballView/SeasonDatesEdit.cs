@@ -23,6 +23,7 @@ namespace BaseballView {
             seasonGrid.Columns.Add(Helpers.MakeColumn("Year", "YearId"));
             seasonGrid.Columns.Add(Helpers.MakeColumn("Season Start", "SeasonStart", format: "MMM dd"));
             seasonGrid.Columns.Add(Helpers.MakeColumn("Season End", "SeasonEnd", format: "MMM dd"));
+            seasonGrid.Columns.Add(Helpers.MakeColumn("Season Length", "SeasonDuration", "Length in Days"));
 
             RefreshDateGrid();
         }
