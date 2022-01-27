@@ -28,11 +28,14 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.navWrap = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.navHeader = new System.Windows.Forms.ToolStripLabel();
+            this.reportsHeader = new System.Windows.Forms.ToolStripLabel();
             this.navPlayerStats = new System.Windows.Forms.ToolStripLabel();
             this.navTeamYearStats = new System.Windows.Forms.ToolStripLabel();
-            this.contentTabs = new System.Windows.Forms.TabControl();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.navHeader = new System.Windows.Forms.ToolStripLabel();
             this.navSeasonDates = new System.Windows.Forms.ToolStripLabel();
+            this.navStintEdit = new System.Windows.Forms.ToolStripLabel();
+            this.contentTabs = new System.Windows.Forms.TabControl();
             this.topBarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -104,10 +107,13 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.navHeader,
+            this.reportsHeader,
             this.navPlayerStats,
             this.navTeamYearStats,
-            this.navSeasonDates});
+            this.toolStripSeparator1,
+            this.navHeader,
+            this.navSeasonDates,
+            this.navStintEdit});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(5, 5);
             this.toolStrip1.Name = "toolStrip1";
@@ -116,13 +122,13 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // navHeader
+            // reportsHeader
             // 
-            this.navHeader.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.navHeader.Name = "navHeader";
-            this.navHeader.Size = new System.Drawing.Size(140, 20);
-            this.navHeader.Text = "Reports";
-            this.navHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.reportsHeader.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.reportsHeader.Name = "reportsHeader";
+            this.reportsHeader.Size = new System.Drawing.Size(140, 20);
+            this.reportsHeader.Text = "Statistic Reports";
+            this.reportsHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // navPlayerStats
             // 
@@ -144,14 +150,19 @@
             this.navTeamYearStats.VisitedLinkColor = System.Drawing.Color.Blue;
             this.navTeamYearStats.Click += new System.EventHandler(this.navTeamYearStats_Click);
             // 
-            // contentTabs
+            // toolStripSeparator1
             // 
-            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.contentTabs.Location = new System.Drawing.Point(0, 0);
-            this.contentTabs.Name = "contentTabs";
-            this.contentTabs.SelectedIndex = 0;
-            this.contentTabs.Size = new System.Drawing.Size(902, 607);
-            this.contentTabs.TabIndex = 2;
+            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            // 
+            // navHeader
+            // 
+            this.navHeader.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.navHeader.Name = "navHeader";
+            this.navHeader.Size = new System.Drawing.Size(140, 20);
+            this.navHeader.Text = "Season Rosters";
+            this.navHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // navSeasonDates
             // 
@@ -162,6 +173,25 @@
             this.navSeasonDates.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.navSeasonDates.VisitedLinkColor = System.Drawing.Color.Blue;
             this.navSeasonDates.Click += new System.EventHandler(this.navSeasonDates_Click);
+            // 
+            // navStintEdit
+            // 
+            this.navStintEdit.IsLink = true;
+            this.navStintEdit.Name = "navStintEdit";
+            this.navStintEdit.Size = new System.Drawing.Size(140, 15);
+            this.navStintEdit.Text = "Edit Season Stints";
+            this.navStintEdit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navStintEdit.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.navStintEdit.Click += new System.EventHandler(this.navStintEdit_Click);
+            // 
+            // contentTabs
+            // 
+            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentTabs.Location = new System.Drawing.Point(0, 0);
+            this.contentTabs.Name = "contentTabs";
+            this.contentTabs.SelectedIndex = 0;
+            this.contentTabs.Size = new System.Drawing.Size(902, 607);
+            this.contentTabs.TabIndex = 2;
             // 
             // Form1
             // 
@@ -194,10 +224,13 @@
         private Label label1;
         private Panel navWrap;
         private ToolStrip toolStrip1;
-        private ToolStripLabel navHeader;
+        private ToolStripLabel reportsHeader;
         private ToolStripLabel navPlayerStats;
         private TabControl contentTabs;
         private ToolStripLabel navTeamYearStats;
         private ToolStripLabel navSeasonDates;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripLabel navHeader;
+        private ToolStripLabel navStintEdit;
     }
 }

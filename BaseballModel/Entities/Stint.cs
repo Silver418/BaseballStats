@@ -17,6 +17,8 @@ namespace BaseballModel.Entities
         [Key]
         [Column("stint", TypeName = "SMALLINT")]
         public long Stint1 { get; set; }
+        [Column("teamID", TypeName = "VARCHAR (3)")]
+        public string? TeamId { get; set; }
         [Column("stintStart", TypeName = "VARCHAR (10)")]
         public string? StintStart { get; set; }
         [Column("stintEnd", TypeName = "VARCHAR (10)")]
