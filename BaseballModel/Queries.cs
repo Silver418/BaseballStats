@@ -342,16 +342,16 @@ namespace BaseballModel {
                 string startString = Helpers.MonthDateToString(start);
                 string endString = Helpers.MonthDateToString(end);
                 using (var db = new TransContext()) {
-                    
+
                     SeasonDate? existing = (from row in db.SeasonDates
-                                           where row.YearId == year
-                                           select row).FirstOrDefault();
+                                            where row.YearId == year
+                                            select row).FirstOrDefault();
                     if (existing != null) {//update record
                         existing.SeasonStart = startString;
                         existing.SeasonEnd = endString;
                     }
                     else { //create new record
-                        SeasonDate update = new SeasonDate { YearId = year, SeasonStart = startString, SeasonEnd = endString};
+                        SeasonDate update = new SeasonDate { YearId = year, SeasonStart = startString, SeasonEnd = endString };
                         db.SeasonDates.Add(update);
                     }
                     updated = db.SaveChanges();
@@ -380,14 +380,14 @@ namespace BaseballModel {
                 else {
                     return null;
                 }
-                
+
             }
         }
         public static SeasonDateRecord GetSeason(int year) {
             return GetSeason((long)year);
         }
 
-        public static int DeleteSeason (long year) {
+        public static int DeleteSeason(long year) {
             using (var db = new TransContext()) {
                 var deletion = (from row in db.SeasonDates
                                 where row.YearId == year
@@ -399,5 +399,134 @@ namespace BaseballModel {
             }
             return 0;
         }
+
+        internal static List<PersonStint> GetPlayersWithStints(long year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
+            using (var db = new BaseballContext()) {
+                List<PersonStint> list = new List<PersonStint>();
+                
+                //easier & faster query, but can fail if dataset is missing records for stint #2 for a multi-stint player
+                /*
+                List<string> playersWithStints =
+                    (from bat in db.Battings
+                     where bat.YearId == year && bat.Stint == 2
+                     select bat.PlayerId)
+                    .Union(from field in db.Fieldings
+                           where field.YearId == year && field.Stint == 2
+                           select field.PlayerId).ToList();
+                */
+
+                List<string> playersWithStints =
+                    (from bat in db.Battings
+                     where bat.YearId == year
+                     select new { bat.PlayerId, bat.Stint })
+                    .Union(from field in db.Fieldings
+                           where field.YearId == year
+                           select new { field.PlayerId, field.Stint })
+                    .GroupBy(x => x.PlayerId).Where(x => x.Count() > 1).OrderBy(x => x.Key)
+                    .Select(x => x.Key).ToList();
+                //1. Pulls players & stint numbers from batting & fielding tables, then unions them.
+                //2. Groups the new set by player ID
+                //3. Selects a list of PlayerIds for players(groups) with more than 1 stint
+                //This avoids a theoretical problem where the dataset is missing records for stint #2 of a multi-stint player,
+                //which would omit the player even if there was data for their later stints.
+
+                //I don't know if going the longer route was worth it.
+
+
+
+                foreach (string player in playersWithStints) {
+                    list.Add(new PersonStint(player, year, seasonStart, seasonEnd, seasonDuration));
+                }
+
+                return list;
+            }
+        }
+
+        internal static void GetPlayersWithStints(int year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
+            GetPlayersWithStints((long)year, seasonStart, seasonEnd, seasonDuration);
+        }
+
+        internal static List<StintRecord> GetPlayerStints(long yearId, string playerId) {
+            using (var db = new BaseballContext()) {
+                //Due to silliness in the baseball stats database schema, I have to account for the possibility of
+                //batting & fielding records having the same playerId, YearId, and Stint #, but different TeamIds.
+
+                List<StintRecord> list = new List<StintRecord>();
+
+                var stints =
+                (from bat in db.Battings
+                 where bat.YearId == yearId && bat.PlayerId == playerId
+                 select new { bat.Stint, bat.TeamId })
+                 .Union
+                 (from field in db.Fieldings
+                  where field.YearId == yearId && field.PlayerId == playerId
+                  select new { field.Stint, field.TeamId })
+                 .OrderBy(x => x.Stint).ThenBy(x => x.TeamId).ToList();
+
+
+                foreach (var record in stints) {
+                    using (var transDb = new TransContext()) {
+                        Stint stint =
+                            (from s in transDb.Stints
+                             where s.PlayerId == playerId && s.YearId == yearId && s.StintId == record.Stint
+                             select s).FirstOrDefault();
+
+                        if (stint != null) { //an existing record in the stint table is found: Use that one
+                            list.Add(new StintRecord(stint));
+                        }
+                        else { //no existing record: check if a fresh record for this stint has already been created locally
+                            //(this is necessary due to the possibility of the batting & fielding tables disagreeing about what team a player was on for a given stint
+                            bool recordExists =
+                                (from localRecord in list
+                                where localRecord.StintId == record.Stint
+                                select localRecord).Any();
+
+                            if (!recordExists) { //if no fresh record exists in the local list, create one & add
+                                list.Add(new StintRecord(playerId, yearId, record.Stint, record.TeamId));
+                            } //no action necessary if an existing record is found
+                        }
+
+                    } //end using TransContext
+                } //end foreach
+                return list;
+            } //end using BaseballContext
+        } //end GetPlayerStints method
+
+        //save changed Stint back to database
+        internal static int UpdateStint(StintRecord record) {
+            using (var db = new TransContext()) {
+                Stint? stint =
+                    (from s in db.Stints
+                     where s.PlayerId == record.PlayerId
+                     && s.YearId == record.YearId
+                     && s.StintId == record.StintId
+                     select s).FirstOrDefault();
+                string startString = "";
+                string endString = "";
+                if (record.StintStart != null) {
+                    startString = Helpers.MonthDateToString((DateTime)record.StintStart);
+                }
+                if (record.StintEnd != null) {
+                    endString = Helpers.MonthDateToString((DateTime)record.StintEnd);
+                }
+                if (stint != null) { //update existing record
+                    stint.StintStart = startString;
+                    stint.StintEnd = endString;
+                }
+                else { //else create new record
+                    Stint update = new Stint {
+                        PlayerId = record.PlayerId,
+                        YearId = record.YearId,
+                        StintId = record.StintId,
+                        TeamId = record.TeamId,
+                        StintStart = startString,
+                        StintEnd = endString
+                    };
+                    db.Stints.Add(update);
+                }
+                return db.SaveChanges();
+            }
+        }
+
     } //end Queries class
 } //end BaseballModel namespace

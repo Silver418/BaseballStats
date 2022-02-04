@@ -266,7 +266,7 @@
             this.seasonGrid.ReadOnly = true;
             this.seasonGrid.RowTemplate.Height = 25;
             this.seasonGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.seasonGrid.Size = new System.Drawing.Size(400, 453);
+            this.seasonGrid.Size = new System.Drawing.Size(400, 526);
             this.seasonGrid.TabIndex = 5;
             this.seasonGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.seasonGrid_CellMouseDoubleClick);
             this.seasonGrid.SelectionChanged += new System.EventHandler(this.seasonGrid_SelectionChanged);

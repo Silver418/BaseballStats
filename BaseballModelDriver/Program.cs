@@ -31,4 +31,6 @@ static void printPlayer(Person person) => Console.WriteLine($"{person.NameFirst}
 
 //FieldingList bob = TeamFieldingByID("NYN", "NL", 2011);
 
+
+//GetPlayersWithStints(1953);
 Console.WriteLine("Hello worldo");

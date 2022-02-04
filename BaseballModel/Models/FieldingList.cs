@@ -72,75 +72,11 @@ namespace BaseballModel.Models {
             Count = list.Count;
         } //end 3-param constructor
 
-        /*
-        //constructor for Fielding records only
-        public FieldingList(IEnumerable<Fielding> results) {
-            foreach (Fielding fielding in results) {
-                list.Add(new FieldingRecord(fielding));
-            }
-
-            Count = list.Count;
-        }
-
-        //constructor for FieldingOfSplits records only (more detailed outfield data)
-        public FieldingList(IEnumerable<FieldingOfsplit> results) {
-            foreach (FieldingOfsplit record in results) {
-                list.Add(new FieldingRecord(record));
-            }
-
-            Count = list.Count;
-        }
-
-        //constructor for FieldingOF records only (less detailed outfield data)
-        public FieldingList(IEnumerable<FieldingOf> results) {
-            foreach (FieldingOf record in results) {
-                if (record.Glf > 0) {
-                    list.Add(new FieldingRecord(record, Position.LF));
-                }
-                if (record.Gcf > 0) {
-                    list.Add(new FieldingRecord(record, Position.CF));
-                }
-                if (record.Grf > 0) {
-                    list.Add(new FieldingRecord(record, Position.RF));
-                }
-            }
-        }
-
-        //constructor for FieldingOFsplit + FieldingOF records
-        public FieldingList(IEnumerable<FieldingOfsplit> splits, IEnumerable<FieldingOf> lump)
-            : this(splits) {
-            foreach (FieldingOf lumpLine in lump) {
-                //see if matching records already exist in the Splits data
-                int count = (from record in list
-                             where record.PlayerId == lumpLine.PlayerId
-                             && record.YearId == lumpLine.YearId
-                             && record.Stint == lumpLine.Stint
-                             select record.Pos).Count();
-
-                //make non-detailed records if no detailed records are found for that year/stint
-                if (count == 0) {
-                    if (lumpLine.Glf > 0) {
-                        list.Add(new FieldingRecord(lumpLine, Position.LF));
-                    }
-                    if (lumpLine.Gcf > 0) {
-                        list.Add(new FieldingRecord(lumpLine, Position.CF));
-                    }
-                    if (lumpLine.Grf > 0) {
-                        list.Add(new FieldingRecord(lumpLine, Position.RF));
-                    }
-                }
-
-                //sort list
-                //list = list.OrderBy(x => x.YearId).ThenBy(x => x.Stint).ToList();
-            } //end foreach for lump records
-        } //end constructor for splits + lump
-        */
-
         //**********
 
-        //get list copy
+        //get list
         public List<FieldingRecord> GetResults() {
-            return new List<FieldingRecord>(list);
+            return list;
         }
 
         //sort functions

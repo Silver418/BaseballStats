@@ -18,7 +18,7 @@ namespace BaseballModel.Models {
         }
 
         public List<PersonSearchRecord> getResults() {
-            return new List<PersonSearchRecord>(list);
+            return list;
         }
     }
 }

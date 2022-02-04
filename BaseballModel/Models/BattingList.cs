@@ -52,9 +52,9 @@ namespace BaseballModel.Models {
             
         }
 
-        //get list copy
+        //get list
         public List<BattingRecord> GetResults() {
-            return new List<BattingRecord>(list);
+            return list;
         }
 
     } //end BattingList class

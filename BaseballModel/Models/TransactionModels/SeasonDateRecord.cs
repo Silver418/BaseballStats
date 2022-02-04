@@ -15,20 +15,10 @@ namespace BaseballModel.Models {
             YearId = seasonDate.YearId;
 
             if (seasonDate.SeasonStart != null) {
-                DateTime? dateStart = Helpers.StringToMonthDate(YearId, seasonDate.SeasonStart);
-                if (dateStart.HasValue) {
-                    SeasonStart = (DateTime)dateStart;
-                } else {
-                    SeasonStart = new DateTime((int)YearId, 3, 1); //fallback start date of March 1st
-                }
+                SeasonStart = Helpers.StringToMonthDate(YearId, seasonDate.SeasonStart) ?? new DateTime((int)YearId, 3, 1); //fallback date March 1st;
             }
             if (seasonDate.SeasonEnd != null) {
-                DateTime? dateEnd = Helpers.StringToMonthDate(YearId, seasonDate.SeasonEnd);
-                if (dateEnd.HasValue) {
-                    SeasonEnd = (DateTime)dateEnd;
-                } else {
-                    SeasonEnd = new DateTime((int)YearId, 10, 31); //fallback start date of October 31st
-                }
+                SeasonEnd = Helpers.StringToMonthDate(YearId, seasonDate.SeasonEnd) ?? new DateTime((int)YearId, 10, 31); //fallback date October 31st
             }
             CalcDuration();
         } //end constructor from seasonDate database record

@@ -64,7 +64,7 @@ namespace BaseballModel.Models {
 
         //get list copy
         public List<PitchingRecord> GetResults() {
-            return new List<PitchingRecord>(list);
+            return list;
         }
     }
 }

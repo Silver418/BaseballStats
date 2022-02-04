@@ -17,9 +17,9 @@ namespace BaseballModel.Models {
             Count = list.Count;
         }
 
-        //get list copy
+        //get list
         public List<SeasonDateRecord> GetResults() {
-            return new List<SeasonDateRecord>(list);
+            return list;
         }
     }
 }

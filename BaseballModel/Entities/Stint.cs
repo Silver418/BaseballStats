@@ -15,8 +15,8 @@ namespace BaseballModel.Entities
         [Column("yearID", TypeName = "SMALLINT")]
         public long YearId { get; set; }
         [Key]
-        [Column("stint", TypeName = "SMALLINT")]
-        public long Stint1 { get; set; }
+        [Column("stintID", TypeName = "SMALLINT")]
+        public long StintId { get; set; }
         [Column("teamID", TypeName = "VARCHAR (3)")]
         public string? TeamId { get; set; }
         [Column("stintStart", TypeName = "VARCHAR (10)")]

@@ -37,7 +37,7 @@ namespace BaseballModel.Context
 
             modelBuilder.Entity<Stint>(entity =>
             {
-                entity.HasKey(e => new { e.PlayerId, e.YearId, e.Stint1 });
+                entity.HasKey(e => new { e.PlayerId, e.YearId, e.StintId });
             });
 
             OnModelCreatingPartial(modelBuilder);
