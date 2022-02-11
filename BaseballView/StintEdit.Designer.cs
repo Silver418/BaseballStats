@@ -39,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.searchBtn = new System.Windows.Forms.Button();
             this.yearFilterPnl = new System.Windows.Forms.Panel();
+            this.clearFilterBtn = new System.Windows.Forms.Button();
             this.filterTeamCmb = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.filterIncompleteChk = new System.Windows.Forms.CheckBox();
@@ -231,6 +232,7 @@
             // yearFilterPnl
             // 
             this.yearFilterPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.yearFilterPnl.Controls.Add(this.clearFilterBtn);
             this.yearFilterPnl.Controls.Add(this.filterTeamCmb);
             this.yearFilterPnl.Controls.Add(this.label6);
             this.yearFilterPnl.Controls.Add(this.filterIncompleteChk);
@@ -241,6 +243,19 @@
             this.yearFilterPnl.Name = "yearFilterPnl";
             this.yearFilterPnl.Size = new System.Drawing.Size(763, 110);
             this.yearFilterPnl.TabIndex = 11;
+            // 
+            // clearFilterBtn
+            // 
+            this.clearFilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearFilterBtn.Enabled = false;
+            this.clearFilterBtn.Location = new System.Drawing.Point(636, 10);
+            this.clearFilterBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.clearFilterBtn.Name = "clearFilterBtn";
+            this.clearFilterBtn.Size = new System.Drawing.Size(115, 40);
+            this.clearFilterBtn.TabIndex = 9;
+            this.clearFilterBtn.Text = "Clear Filter";
+            this.clearFilterBtn.UseVisualStyleBackColor = true;
+            this.clearFilterBtn.Click += new System.EventHandler(this.clearFilterBtn_Click);
             // 
             // filterTeamCmb
             // 
@@ -518,5 +533,6 @@
         private CheckBox filterIncompleteChk;
         private Button filterBtn;
         private ComboBox filterTeamCmb;
+        private Button clearFilterBtn;
     }
 }

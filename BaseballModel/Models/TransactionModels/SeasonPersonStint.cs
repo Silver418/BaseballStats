@@ -19,6 +19,29 @@ namespace BaseballModel.Models {
             return personStintList;
         }
 
+        public List<PersonStint> FilterPlayers(bool incompleteOnly = false, string teamId = "") {
+            List<PersonStint> filtered = new List<PersonStint>();
+            foreach (PersonStint person in personStintList) {
+                filtered.Add(person);
+            } //filtered holds direct handles to the same PersonStint objects as the original, but only a selected subset of them
+
+            if (incompleteOnly) {
+                filtered = (from r in filtered
+                           where r.IsComplete == false
+                           select r).ToList();
+            }
+            if (!teamId.Equals("")) {
+                filtered = (from r in filtered
+                            where r.PlayedForTeam(teamId) == true
+                            select r).ToList();
+            }
+
+            int original = personStintList.Count;
+            int copy = filtered.Count;
+
+            return filtered;
+        }
+
         //get editable list of stints for a given player
         public List<StintRecord>? GetPlayerStints(string playerId) {
             return (from player in personStintList

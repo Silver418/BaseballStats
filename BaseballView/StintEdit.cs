@@ -112,14 +112,18 @@ namespace BaseballView {
                 filterTeamCmb.SelectedIndex = 0;
                 filterTeamCmb.Enabled = true;
                 filterBtn.Enabled = true;
+                clearFilterBtn.Enabled = true;
             }
         }
 
         private void ApplyFilter() {
             if (sps != null) {//check that season has been selected
-                //TODO: Actually apply filter. Remove debug code.
-                MessageBox.Show($"Incomplete players only: {filterIncompleteChk.Checked}" +
-                    $"\nTeam ID: {filterTeamCmb.SelectedValue}");
+                if (filterTeamCmb.SelectedValue.ToString().Equals(teamDefaultKey)) {
+                    playerDataGrid.DataSource = sps.FilterPlayers(filterIncompleteChk.Checked);
+                }
+                else {
+                    playerDataGrid.DataSource = sps.FilterPlayers(filterIncompleteChk.Checked, filterTeamCmb.SelectedValue.ToString() ?? "");
+                }
             }
         }
 
@@ -209,6 +213,12 @@ namespace BaseballView {
             if (e.KeyCode == Keys.Enter) {
                 ApplyFilter();
             }
+        }
+
+        private void clearFilterBtn_Click(object sender, EventArgs e) {
+            filterIncompleteChk.Checked = false;
+            filterTeamCmb.SelectedIndex = 0;
+            ApplyFilter();
         }
     }
 }

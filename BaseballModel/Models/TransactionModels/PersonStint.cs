@@ -67,6 +67,16 @@ namespace BaseballModel.Models {
             }
         }
 
+        //whether player has any stints with a specific team (by ID)
+        internal bool PlayedForTeam(string teamId) {
+            foreach (StintRecord stint in stintsApproved) {
+                if (stint.TeamId.Equals(teamId)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         //Copy the approved stints to editable. Use to build initial editable copy and to cancel user changes.
         internal void ApprovedToEditableStints() {
             stintsEditable = new List<StintRecord>();
