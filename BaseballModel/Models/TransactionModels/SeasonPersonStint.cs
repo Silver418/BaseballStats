@@ -26,6 +26,11 @@ namespace BaseballModel.Models {
                     select player.stintsEditable).FirstOrDefault();
         }
 
+        //get sorted dictionary of teams in this year
+        public SortedDictionary<string, string> GetTeams() {
+            return Queries.GetTeams(Season.YearId);
+        }
+
         //revert a given player's stint records
         public void RevertStintsPlayer(string playerId) {
             PersonStint? player = (from p in personStintList

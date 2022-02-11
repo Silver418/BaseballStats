@@ -16,6 +16,9 @@ namespace BaseballView {
         SeasonPersonStint sps;
         string activePlayer = "";
         string stintDefaultHeader = "Stints for Selected Player";
+        //other
+        string teamDefaultKey = "000000DEFAULT"; //default key for the "select all" team selection filter option
+        string teamDefaultText = "<Show All Teams>"; //default text for ^
 
         public StintEdit(Panel containing) {
             InitializeComponent();
@@ -58,9 +61,9 @@ namespace BaseballView {
                 //retrieve player data & populate player grid
                 playerDataGrid.DataSource = sps.GetPlayers();
                 playerDataGrid.Enabled = true;
-                //editPlayerBtn.Enabled = true;
 
-                //TODO: populate & unlock filter controls here (once they exist)
+                //enable & populate filter controls
+                SetupFilter();
 
                 //clear & lock stint editing grid until a player is selected
                 stintEditGrid.DataSource = null;
@@ -94,6 +97,31 @@ namespace BaseballView {
             }
         }
 
+        private void SetupFilter() {
+            if (sps != null) { //check that season has been selected
+                //build options for combobox
+                SortedDictionary<string, string> teamOptions = sps.GetTeams();                
+                teamOptions.TryAdd(teamDefaultKey, teamDefaultText);
+                filterTeamCmb.DataSource = teamOptions.ToList();
+                filterTeamCmb.ValueMember = "Key";
+                filterTeamCmb.DisplayMember = "Value";
+
+                //enable filter controls
+                filterIncompleteChk.Checked = false;
+                filterIncompleteChk.Enabled = true;
+                filterTeamCmb.SelectedIndex = 0;
+                filterTeamCmb.Enabled = true;
+                filterBtn.Enabled = true;
+            }
+        }
+
+        private void ApplyFilter() {
+            if (sps != null) {//check that season has been selected
+                //TODO: Actually apply filter. Remove debug code.
+                MessageBox.Show($"Incomplete players only: {filterIncompleteChk.Checked}" +
+                    $"\nTeam ID: {filterTeamCmb.SelectedValue}");
+            }
+        }
 
         //*****
         //Events
@@ -173,6 +201,14 @@ namespace BaseballView {
             e.Cancel = true;
         }
 
+        private void filterBtn_Click(object sender, EventArgs e) {
+            ApplyFilter();
+        }
 
+        private void filterTeamCmb_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                ApplyFilter();
+            }
+        }
     }
 }

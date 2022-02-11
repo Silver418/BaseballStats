@@ -39,6 +39,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.searchBtn = new System.Windows.Forms.Button();
             this.yearFilterPnl = new System.Windows.Forms.Panel();
+            this.filterTeamCmb = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.filterIncompleteChk = new System.Windows.Forms.CheckBox();
+            this.filterBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.yearPnl = new System.Windows.Forms.Panel();
             this.playerSelectPnl = new System.Windows.Forms.Panel();
@@ -227,6 +231,10 @@
             // yearFilterPnl
             // 
             this.yearFilterPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.yearFilterPnl.Controls.Add(this.filterTeamCmb);
+            this.yearFilterPnl.Controls.Add(this.label6);
+            this.yearFilterPnl.Controls.Add(this.filterIncompleteChk);
+            this.yearFilterPnl.Controls.Add(this.filterBtn);
             this.yearFilterPnl.Controls.Add(this.label3);
             this.yearFilterPnl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.yearFilterPnl.Location = new System.Drawing.Point(201, 0);
@@ -234,14 +242,59 @@
             this.yearFilterPnl.Size = new System.Drawing.Size(763, 110);
             this.yearFilterPnl.TabIndex = 11;
             // 
+            // filterTeamCmb
+            // 
+            this.filterTeamCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.filterTeamCmb.Enabled = false;
+            this.filterTeamCmb.FormattingEnabled = true;
+            this.filterTeamCmb.Location = new System.Drawing.Point(5, 77);
+            this.filterTeamCmb.Name = "filterTeamCmb";
+            this.filterTeamCmb.Size = new System.Drawing.Size(267, 23);
+            this.filterTeamCmb.TabIndex = 8;
+            this.filterTeamCmb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filterTeamCmb_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(5, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(159, 15);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Players who played for team:";
+            // 
+            // filterIncompleteChk
+            // 
+            this.filterIncompleteChk.AutoSize = true;
+            this.filterIncompleteChk.Enabled = false;
+            this.filterIncompleteChk.Location = new System.Drawing.Point(5, 30);
+            this.filterIncompleteChk.Name = "filterIncompleteChk";
+            this.filterIncompleteChk.Size = new System.Drawing.Size(267, 19);
+            this.filterIncompleteChk.TabIndex = 6;
+            this.filterIncompleteChk.Text = "Show only players with incomplete stint dates";
+            this.filterIncompleteChk.UseVisualStyleBackColor = true;
+            // 
+            // filterBtn
+            // 
+            this.filterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterBtn.Enabled = false;
+            this.filterBtn.Location = new System.Drawing.Point(637, 59);
+            this.filterBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.filterBtn.Name = "filterBtn";
+            this.filterBtn.Size = new System.Drawing.Size(115, 40);
+            this.filterBtn.TabIndex = 5;
+            this.filterBtn.Text = "&Apply Filter";
+            this.filterBtn.UseVisualStyleBackColor = true;
+            this.filterBtn.Click += new System.EventHandler(this.filterBtn_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 31);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(5, 5);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(279, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Filters for players/teams will go here once they exist";
+            this.label3.Size = new System.Drawing.Size(52, 20);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Filters";
             // 
             // yearPnl
             // 
@@ -445,7 +498,6 @@
         private Label label1;
         private Button searchBtn;
         private Panel yearFilterPnl;
-        private Label label3;
         private Panel yearPnl;
         private Panel playerSelectPnl;
         private Panel stintEditPnl;
@@ -461,5 +513,10 @@
         private Label label7;
         private Label seasonYearLbl;
         private Label label8;
+        private Label label3;
+        private Label label6;
+        private CheckBox filterIncompleteChk;
+        private Button filterBtn;
+        private ComboBox filterTeamCmb;
     }
 }

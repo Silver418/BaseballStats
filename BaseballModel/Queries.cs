@@ -332,6 +332,24 @@ namespace BaseballModel {
             }
         }
 
+        //gets teams active in a given year, as a sorted dictionary of <TeamId, TeamName>
+        public static SortedDictionary<string, string> GetTeams(long year) {
+            using (var db = new BaseballContext()) {
+                SortedDictionary<string, string> teams = new SortedDictionary<string, string>();
+
+                var query =
+                    (from team in db.Teams
+                     where team.YearId == year
+                     select team);
+
+                foreach (var team in query) {
+                    teams.Add(team.TeamId, team.Name ?? "");
+                }
+
+                return teams;
+            }
+        }
+
         //**********
         //Season Transactions for transact.db
         //**********
@@ -466,7 +484,7 @@ namespace BaseballModel {
 
                 foreach (var record in stints) {
                     using (var transDb = new TransContext()) {
-                        Stint stint =
+                        Stint? stint =
                             (from s in transDb.Stints
                              where s.PlayerId == playerId && s.YearId == yearId && s.StintId == record.Stint
                              select s).FirstOrDefault();
