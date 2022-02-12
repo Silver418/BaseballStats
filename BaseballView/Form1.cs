@@ -67,5 +67,10 @@ namespace BaseballView {
                 AddTabContent(newTab, new StintEdit(newTab));
             }
         }
+
+        private void navRosterWithStints_Click(object sender, EventArgs e) {
+            TabPage newTab = NewContentTab("View Season Rosters");
+            AddTabContent(newTab, new SeasonRosters(newTab));
+        }
     } //end Form1 class
 } //end BaseballView namespace

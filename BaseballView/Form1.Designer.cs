@@ -35,6 +35,7 @@
             this.navHeader = new System.Windows.Forms.ToolStripLabel();
             this.navSeasonDates = new System.Windows.Forms.ToolStripLabel();
             this.navStintEdit = new System.Windows.Forms.ToolStripLabel();
+            this.navRosterWithStints = new System.Windows.Forms.ToolStripLabel();
             this.contentTabs = new System.Windows.Forms.TabControl();
             this.topBarPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -113,7 +114,8 @@
             this.toolStripSeparator1,
             this.navHeader,
             this.navSeasonDates,
-            this.navStintEdit});
+            this.navStintEdit,
+            this.navRosterWithStints});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(5, 5);
             this.toolStrip1.Name = "toolStrip1";
@@ -184,6 +186,16 @@
             this.navStintEdit.VisitedLinkColor = System.Drawing.Color.Blue;
             this.navStintEdit.Click += new System.EventHandler(this.navStintEdit_Click);
             // 
+            // navRosterWithStints
+            // 
+            this.navRosterWithStints.IsLink = true;
+            this.navRosterWithStints.Name = "navRosterWithStints";
+            this.navRosterWithStints.Size = new System.Drawing.Size(140, 15);
+            this.navRosterWithStints.Text = "View Season Rosters";
+            this.navRosterWithStints.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navRosterWithStints.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.navRosterWithStints.Click += new System.EventHandler(this.navRosterWithStints_Click);
+            // 
             // contentTabs
             // 
             this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -232,5 +244,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripLabel navHeader;
         private ToolStripLabel navStintEdit;
+        private ToolStripLabel navRosterWithStints;
     }
 }
