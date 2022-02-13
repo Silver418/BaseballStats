@@ -45,8 +45,10 @@ namespace BaseballModel.Models {
 
         //Calc season duration
         private void CalcDuration() {
-            TimeSpan interval = SeasonEnd - SeasonStart;
-            SeasonDuration = interval.Days;
+            if (SeasonStart != null && SeasonEnd != null) {
+                TimeSpan interval = SeasonEnd - SeasonStart;
+                SeasonDuration = interval.Days;
+            }
         }
     }
 }

@@ -460,8 +460,8 @@ namespace BaseballModel {
             }
         }
 
-        internal static void GetPlayersWithStints(int year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
-            GetPlayersWithStints((long)year, seasonStart, seasonEnd, seasonDuration);
+        internal static List<PersonStint> GetPlayersWithStints(int year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
+            return GetPlayersWithStints((long)year, seasonStart, seasonEnd, seasonDuration);
         }
 
         internal static List<StintRecord> GetPlayerStints(long yearId, string playerId) {
@@ -543,6 +543,20 @@ namespace BaseballModel {
                     db.Stints.Add(update);
                 }
                 return db.SaveChanges();
+            }
+        }
+
+        internal static StintRecord? GetStint(string teamId, long yearId, string playerId) {
+            using (var db = new TransContext()) {
+                var stint =
+                    (from rec in db.Stints
+                     where rec.TeamId == teamId
+                     && rec.YearId == yearId
+                     && rec.PlayerId == playerId
+                     select rec).FirstOrDefault();
+                if (stint != null)
+                    return new StintRecord(stint);
+                return null;
             }
         }
 
