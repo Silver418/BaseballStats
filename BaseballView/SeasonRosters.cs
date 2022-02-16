@@ -12,12 +12,8 @@ namespace BaseballView {
     public partial class SeasonRosters : UserControl {
         //handle to container of the this control (so the Close button can remove this control)
         private Panel myHome { get; set; }
-        //results from team search popup
-        private long yearId { get; set; }
-        private string teamId { get; set; }
-        private string lgId { get; set; }
-
         //handle to active data
+        private TeamYearSearchRecord teamRecord;
         private SeasonDateRecord? season;
         private PitchingStintList pitchingResults;
 
@@ -38,7 +34,7 @@ namespace BaseballView {
             pitchingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "MyStint.StintStart", format: "MMM dd"));
             pitchingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
             pitchingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;0.000;#"));
+            pitchingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
         }
 
         private void closeBtn_Click(object sender, EventArgs e) {
@@ -54,20 +50,23 @@ namespace BaseballView {
             TeamYearSearch form = new TeamYearSearch();
             var result = form.ShowDialog();
             if (result == DialogResult.OK) {
-                yearId = form.YearIdResult;
-                teamId = form.TeamIdResult;
-                lgId = form.LgIdResult;
+                teamRecord = Queries.TeamYearByID(form.TeamIdResult, form.LgIdResult, form.YearIdResult);
 
-                yearIdLbl.Text = yearId.ToString();
-                teamIdLbl.Text = teamId;
-                lgIdLbl.Text = lgId;
+                //team bio info
+                yearLbl.Text = teamRecord.YearId.ToString();
+                teamIdLbl.Text = teamRecord.TeamId;
+                leagueLbl.Text = teamRecord.LgId;
+                teamNameLbl.Text = teamRecord.Name;
+                divLbl.Text = teamRecord.DivId;
+                gamesLbl.Text = teamRecord.G.ToString();
 
-                season = Queries.GetSeason(yearId);
+
+                season = Queries.GetSeason(teamRecord.YearId);
                 if (season != null) {
-                    pitchingResults = new PitchingStintList(teamId, lgId, season);
+                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {
-                    pitchingResults = new PitchingStintList(teamId, lgId, yearId);
+                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 pitchingGrid.DataSource = pitchingResults.GetResults();
             }
