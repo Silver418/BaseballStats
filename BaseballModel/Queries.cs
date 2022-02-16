@@ -142,17 +142,43 @@ namespace BaseballModel {
             }
         }
 
-        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId) {
+        //includeOfDetails is whether to include detailed info on left, center, and right fielding if available.
+        //A line lumping all Outfield stats together will always be provided.
+        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId, bool includeOfDetails = false) {
             using (var db = new BaseballContext()) {
                 var fielding =
                     from field in db.Fieldings
                     where field.TeamId == teamId && field.LgId == lgAbbr && field.YearId == yearId
                     select field;
 
-                FieldingList myList = new FieldingList(fielding);
-                myList.TeamSort();
+                if (!includeOfDetails) { //do not want detailed OF info
+                    FieldingList myList = new FieldingList(fielding);
+                    myList.TeamSort();
 
-                return myList;
+                    return myList;
+                }
+                else {
+                    var outfieldingSplits =
+                        from outfield in db.FieldingOfsplits
+                        where outfield.TeamId == teamId && outfield.LgId == lgAbbr && outfield.YearId == yearId
+                        orderby outfield.Pos ascending, outfield.G descending, outfield.PlayerId ascending
+                        select outfield;
+
+                    var players =
+                        from p in db.Fieldings
+                        where p.TeamId == teamId && p.LgId == lgAbbr && p.YearId == yearId
+                        select new { p.PlayerId, p.YearId, p.Stint };
+
+                    var outfieldingLump =
+                        from outfield in db.FieldingOfs
+                        join p in players on new { outfield.PlayerId, outfield.YearId, outfield.Stint }
+                        equals new { p.PlayerId, p.YearId, p.Stint }
+                        select outfield;
+
+                    FieldingList myList = new FieldingList(fielding, outfieldingSplits, outfieldingLump);
+                    myList.TeamSort();
+                    return myList;
+                }
             }
         }
 
@@ -421,7 +447,7 @@ namespace BaseballModel {
         internal static List<PersonStint> GetPlayersWithStints(long year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
             using (var db = new BaseballContext()) {
                 List<PersonStint> list = new List<PersonStint>();
-                
+
                 //easier & faster query, but can fail if dataset is missing records for stint #2 for a multi-stint player
                 /*
                 List<string> playersWithStints =
@@ -496,8 +522,8 @@ namespace BaseballModel {
                             //(this is necessary due to the possibility of the batting & fielding tables disagreeing about what team a player was on for a given stint
                             bool recordExists =
                                 (from localRecord in list
-                                where localRecord.StintId == record.Stint
-                                select localRecord).Any();
+                                 where localRecord.StintId == record.Stint
+                                 select localRecord).Any();
 
                             if (!recordExists) { //if no fresh record exists in the local list, create one & add
                                 list.Add(new StintRecord(playerId, yearId, record.Stint, record.TeamId));

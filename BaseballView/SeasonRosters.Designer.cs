@@ -27,7 +27,7 @@
             this.controlPnl = new System.Windows.Forms.Panel();
             this.searchBtn = new System.Windows.Forms.Button();
             this.closeBtn = new System.Windows.Forms.Button();
-            this.pitchingGrid = new System.Windows.Forms.DataGridView();
+            this.fieldingGrid = new System.Windows.Forms.DataGridView();
             this.bioPnl = new System.Windows.Forms.FlowLayoutPanel();
             this.teamIdPnl = new System.Windows.Forms.Panel();
             this.teamIdLbl = new System.Windows.Forms.Label();
@@ -47,8 +47,15 @@
             this.gamesPnl = new System.Windows.Forms.Panel();
             this.gamesLbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.statsPnl = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.fieldingTab = new System.Windows.Forms.TabPage();
+            this.fieldingWrap = new System.Windows.Forms.Panel();
+            this.battingTab = new System.Windows.Forms.TabPage();
+            this.battingWrap = new System.Windows.Forms.Panel();
+            this.battingGrid = new System.Windows.Forms.DataGridView();
             this.controlPnl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pitchingGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).BeginInit();
             this.bioPnl.SuspendLayout();
             this.teamIdPnl.SuspendLayout();
             this.yearPnl.SuspendLayout();
@@ -56,6 +63,13 @@
             this.divPnl.SuspendLayout();
             this.teamNamePnl.SuspendLayout();
             this.gamesPnl.SuspendLayout();
+            this.statsPnl.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.fieldingTab.SuspendLayout();
+            this.fieldingWrap.SuspendLayout();
+            this.battingTab.SuspendLayout();
+            this.battingWrap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.battingGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // headerLbl
@@ -107,21 +121,23 @@
             this.closeBtn.UseVisualStyleBackColor = true;
             this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
             // 
-            // pitchingGrid
+            // fieldingGrid
             // 
-            this.pitchingGrid.AllowUserToAddRows = false;
-            this.pitchingGrid.AllowUserToDeleteRows = false;
-            this.pitchingGrid.AllowUserToResizeColumns = false;
-            this.pitchingGrid.AllowUserToResizeRows = false;
-            this.pitchingGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.pitchingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pitchingGrid.Location = new System.Drawing.Point(3, 119);
-            this.pitchingGrid.Name = "pitchingGrid";
-            this.pitchingGrid.ReadOnly = true;
-            this.pitchingGrid.RowTemplate.Height = 25;
-            this.pitchingGrid.Size = new System.Drawing.Size(897, 268);
-            this.pitchingGrid.TabIndex = 12;
-            this.pitchingGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.pitchingGrid_DataBindingComplete);
+            this.fieldingGrid.AllowUserToAddRows = false;
+            this.fieldingGrid.AllowUserToDeleteRows = false;
+            this.fieldingGrid.AllowUserToResizeColumns = false;
+            this.fieldingGrid.AllowUserToResizeRows = false;
+            this.fieldingGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.fieldingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.fieldingGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fieldingGrid.Location = new System.Drawing.Point(5, 5);
+            this.fieldingGrid.MinimumSize = new System.Drawing.Size(600, 250);
+            this.fieldingGrid.Name = "fieldingGrid";
+            this.fieldingGrid.ReadOnly = true;
+            this.fieldingGrid.RowTemplate.Height = 25;
+            this.fieldingGrid.Size = new System.Drawing.Size(946, 415);
+            this.fieldingGrid.TabIndex = 12;
+            this.fieldingGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.pitchingGrid_DataBindingComplete);
             // 
             // bioPnl
             // 
@@ -317,18 +333,100 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Games:";
             // 
+            // statsPnl
+            // 
+            this.statsPnl.Controls.Add(this.tabControl1);
+            this.statsPnl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statsPnl.Location = new System.Drawing.Point(0, 85);
+            this.statsPnl.Name = "statsPnl";
+            this.statsPnl.Size = new System.Drawing.Size(970, 459);
+            this.statsPnl.TabIndex = 14;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.fieldingTab);
+            this.tabControl1.Controls.Add(this.battingTab);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(970, 459);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // fieldingTab
+            // 
+            this.fieldingTab.AutoScroll = true;
+            this.fieldingTab.Controls.Add(this.fieldingWrap);
+            this.fieldingTab.Location = new System.Drawing.Point(4, 24);
+            this.fieldingTab.Name = "fieldingTab";
+            this.fieldingTab.Padding = new System.Windows.Forms.Padding(3);
+            this.fieldingTab.Size = new System.Drawing.Size(962, 431);
+            this.fieldingTab.TabIndex = 1;
+            this.fieldingTab.Text = "Defense Positions";
+            this.fieldingTab.UseVisualStyleBackColor = true;
+            // 
+            // fieldingWrap
+            // 
+            this.fieldingWrap.Controls.Add(this.fieldingGrid);
+            this.fieldingWrap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fieldingWrap.Location = new System.Drawing.Point(3, 3);
+            this.fieldingWrap.Name = "fieldingWrap";
+            this.fieldingWrap.Padding = new System.Windows.Forms.Padding(5);
+            this.fieldingWrap.Size = new System.Drawing.Size(956, 425);
+            this.fieldingWrap.TabIndex = 8;
+            // 
+            // battingTab
+            // 
+            this.battingTab.AutoScroll = true;
+            this.battingTab.Controls.Add(this.battingWrap);
+            this.battingTab.Location = new System.Drawing.Point(4, 24);
+            this.battingTab.Name = "battingTab";
+            this.battingTab.Padding = new System.Windows.Forms.Padding(3);
+            this.battingTab.Size = new System.Drawing.Size(962, 431);
+            this.battingTab.TabIndex = 0;
+            this.battingTab.Text = "Designated Hitters";
+            this.battingTab.UseVisualStyleBackColor = true;
+            // 
+            // battingWrap
+            // 
+            this.battingWrap.Controls.Add(this.battingGrid);
+            this.battingWrap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.battingWrap.Location = new System.Drawing.Point(3, 3);
+            this.battingWrap.Name = "battingWrap";
+            this.battingWrap.Padding = new System.Windows.Forms.Padding(5);
+            this.battingWrap.Size = new System.Drawing.Size(956, 425);
+            this.battingWrap.TabIndex = 6;
+            // 
+            // battingGrid
+            // 
+            this.battingGrid.AllowUserToAddRows = false;
+            this.battingGrid.AllowUserToDeleteRows = false;
+            this.battingGrid.AllowUserToResizeRows = false;
+            this.battingGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.battingGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.battingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.battingGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.battingGrid.Location = new System.Drawing.Point(5, 5);
+            this.battingGrid.Margin = new System.Windows.Forms.Padding(5);
+            this.battingGrid.MinimumSize = new System.Drawing.Size(600, 250);
+            this.battingGrid.Name = "battingGrid";
+            this.battingGrid.ReadOnly = true;
+            this.battingGrid.RowTemplate.Height = 25;
+            this.battingGrid.Size = new System.Drawing.Size(946, 415);
+            this.battingGrid.TabIndex = 5;
+            // 
             // SeasonRosters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pitchingGrid);
+            this.Controls.Add(this.statsPnl);
             this.Controls.Add(this.controlPnl);
             this.Controls.Add(this.bioPnl);
             this.Controls.Add(this.headerLbl);
             this.Name = "SeasonRosters";
             this.Size = new System.Drawing.Size(970, 600);
             this.controlPnl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pitchingGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).EndInit();
             this.bioPnl.ResumeLayout(false);
             this.bioPnl.PerformLayout();
             this.teamIdPnl.ResumeLayout(false);
@@ -343,6 +441,13 @@
             this.teamNamePnl.PerformLayout();
             this.gamesPnl.ResumeLayout(false);
             this.gamesPnl.PerformLayout();
+            this.statsPnl.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.fieldingTab.ResumeLayout(false);
+            this.fieldingWrap.ResumeLayout(false);
+            this.battingTab.ResumeLayout(false);
+            this.battingWrap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.battingGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,7 +459,7 @@
         private Panel controlPnl;
         private Button closeBtn;
         private Button searchBtn;
-        private DataGridView pitchingGrid;
+        private DataGridView fieldingGrid;
         private FlowLayoutPanel bioPnl;
         private Panel teamIdPnl;
         private Label teamIdLbl;
@@ -374,5 +479,12 @@
         private Panel gamesPnl;
         private Label gamesLbl;
         private Label label3;
+        private Panel statsPnl;
+        private TabControl tabControl1;
+        private TabPage fieldingTab;
+        private Panel fieldingWrap;
+        private TabPage battingTab;
+        private Panel battingWrap;
+        private DataGridView battingGrid;
     }
 }

@@ -15,7 +15,7 @@ namespace BaseballView {
         //handle to active data
         private TeamYearSearchRecord teamRecord;
         private SeasonDateRecord? season;
-        private PitchingStintList pitchingResults;
+        private FieldingStintList fieldingResults;
 
 
         public SeasonRosters(Panel containing) {
@@ -25,16 +25,17 @@ namespace BaseballView {
             //Columns with a period in the DataPropertyName have special processing in the DataBindingComplete event
 
             //setup pitching grid
-            pitchingGrid.AutoGenerateColumns = false;
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "MyPitching.PlayerId"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("First Name", "MyPitching.NameFirst"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("Last Name", "MyPitching.NameLast"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("G", "MyPitching.G", "Games Played"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("GS", "MyPitching.Gs", "Games Started"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "MyStint.StintStart", format: "MMM dd"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
-            pitchingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
+            fieldingGrid.AutoGenerateColumns = false;
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "MyFielding.PlayerId"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("First Name", "MyFielding.NameFirst"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Last Name", "MyFielding.NameLast"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Position", "MyFielding.Pos"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("G", "MyFielding.G", "Games Played"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("GS", "MyFielding.Gs", "Games Started"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "MyStint.StintStart", format: "MMM dd"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
         }
 
         private void closeBtn_Click(object sender, EventArgs e) {
@@ -63,24 +64,24 @@ namespace BaseballView {
 
                 season = Queries.GetSeason(teamRecord.YearId);
                 if (season != null) {
-                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, season);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {
-                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
-                pitchingGrid.DataSource = pitchingResults.GetResults();
+                fieldingGrid.DataSource = fieldingResults.GetResults();
             }
         }
 
         //DataBindEvent; processes columns with a DataPropertyName with a period in it, meant to point to data inside the source's child objects
         private void pitchingGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            for (int row = 0; row < pitchingGrid.Rows.Count; row++) {
-                for (int cell = 0; cell < pitchingGrid.Rows[row].Cells.Count; cell++) {
-                    DataGridViewCell thisCell = pitchingGrid.Rows[row].Cells[cell];
+            for (int row = 0; row < fieldingGrid.Rows.Count; row++) {
+                for (int cell = 0; cell < fieldingGrid.Rows[row].Cells.Count; cell++) {
+                    DataGridViewCell thisCell = fieldingGrid.Rows[row].Cells[cell];
                     if (thisCell.Value == null) {
                         if (thisCell.OwningColumn.DataPropertyName.Contains(".")) {
                             string[] DataPropArgs = thisCell.OwningColumn.DataPropertyName.Split(".");
-                            Object thisRowSource = pitchingGrid.Rows[row].DataBoundItem;
+                            Object thisRowSource = fieldingGrid.Rows[row].DataBoundItem;
                             PropertyInfo childObjectInfo = thisRowSource.GetType().GetProperty(DataPropArgs[0]);
                             if (childObjectInfo != null) {
                                 var childObjectValue = childObjectInfo.GetValue(thisRowSource);
