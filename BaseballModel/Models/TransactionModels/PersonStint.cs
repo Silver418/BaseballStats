@@ -19,11 +19,12 @@ namespace BaseballModel.Models {
         //*****
 
         //Constructor
-        internal PersonStint(string playerId, long yearId, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
+        internal PersonStint(string playerId, long yearId, DateTime seasonStart, DateTime seasonEnd, int seasonDuration = 0) {
             PlayerId = playerId;
             YearId = yearId;
             (NameFirst, NameLast) = Queries.PlayerName(PlayerId);
-            stintsApproved = Queries.GetPlayerStints(YearId, PlayerId);
+            stintsApproved = Queries.GetPlayerStints(YearId, PlayerId, seasonDuration);
+            
             //if first and last stint record don't have dates (ie, they were fresh records), add the season start/stop dates to them
             if (stintsApproved.Count > 0) {
                 if (stintsApproved[0].StintStart == null) {
@@ -32,9 +33,6 @@ namespace BaseballModel.Models {
                 if (stintsApproved[stintsApproved.Count - 1].StintEnd == null) {
                     stintsApproved[stintsApproved.Count - 1].StintEnd = seasonEnd;
                 }
-            }
-            foreach (StintRecord stint in stintsApproved) { //do StintX calculations
-                stint.CalcStintX(seasonDuration);
             }
             ApprovedToEditableStints(); //Copy approved records from database to editable stint list for user changes
             Count = stintsApproved.Count;

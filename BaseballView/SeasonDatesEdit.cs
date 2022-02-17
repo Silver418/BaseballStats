@@ -28,8 +28,9 @@ namespace BaseballView {
             RefreshDateGrid();
         }
 
-        //*****
+        //**********
         //Helper methods
+        //**********
         private void RefreshDateGrid() {
             SeasonDateList dates = Queries.GetAllSeasons();
             seasonGrid.DataSource = dates.GetResults();
@@ -85,8 +86,9 @@ namespace BaseballView {
             }
         }
 
-        //*****
+        //**********
         //Events
+        //**********
         private void yearPicker_ValueChanged(object sender, EventArgs e) {
             if (startPicker.Value.Day == 29 && startPicker.Value.Month == 2 && DateTime.IsLeapYear(startPicker.Value.Year)) {
                 startPicker.Value = new DateTime(yearPicker.Value.Year, startPicker.Value.Month, 28);
