@@ -11,7 +11,7 @@ namespace BaseballModel.Models {
 
         //constructor used when a SeasonDateRecord is available (calculates stint's StintX values)
         public FieldingStintList(string teamId, string lgId, SeasonDateRecord s) {
-            this.season = s;
+            season = s;
 
             FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, season.YearId);
 

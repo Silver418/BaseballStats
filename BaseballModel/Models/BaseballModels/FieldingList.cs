@@ -134,7 +134,7 @@ namespace BaseballModel.Models {
 
         private class PositionComparer : IComparer<String> {
             //for non-alphabetical sorting of fielding positions
-            private static string[] fieldPositions = { "P", "C", "1B", "2B", "3B", "SS", "OF", "LF", "CF", "RF" };
+            private static string[] fieldPositions = { "P", "C", "1B", "2B", "3B", "SS", "OF", "LF", "CF", "RF", "DH" };
 
             public int Compare(string? x, string? y) {
                 int pos1 = Array.IndexOf(fieldPositions, x);

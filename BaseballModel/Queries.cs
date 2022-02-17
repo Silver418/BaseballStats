@@ -66,6 +66,18 @@ namespace BaseballModel {
             }
         }
 
+        public static AppearanceList TeamAppearancesByID(string teamId, string lgId, long yearId) {
+            using (var db = new BaseballContext()) {
+                var list =
+                    from appearance in db.Appearances
+                    where appearance.TeamId == teamId && appearance.LgId == lgId && appearance.YearId == yearId
+                    orderby appearance.PlayerId ascending
+                    select appearance;
+
+                return new AppearanceList(list);
+            }
+        }
+
         public static TeamYearSearchRecord TeamYearByID(string teamId, string lgAbbr, long yearId) {
             using (var db = new BaseballContext()) {
                 var result =
@@ -142,22 +154,20 @@ namespace BaseballModel {
             }
         }
 
-        //includeOfDetails is whether to include detailed info on left, center, and right fielding if available.
-        //A line lumping all Outfield stats together will always be provided.
-        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId, bool includeOfDetails = false) {
+        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId, bool includeOutfieldDetails = false) {
             using (var db = new BaseballContext()) {
                 var fielding =
                     from field in db.Fieldings
                     where field.TeamId == teamId && field.LgId == lgAbbr && field.YearId == yearId
                     select field;
 
-                if (!includeOfDetails) { //do not want detailed OF info
+                if (!includeOutfieldDetails) { //do not want detailed OF info
                     FieldingList myList = new FieldingList(fielding);
                     myList.TeamSort();
 
                     return myList;
                 }
-                else {
+                else { //want detailed OF info
                     var outfieldingSplits =
                         from outfield in db.FieldingOfsplits
                         where outfield.TeamId == teamId && outfield.LgId == lgAbbr && outfield.YearId == yearId
@@ -490,10 +500,11 @@ namespace BaseballModel {
             return GetPlayersWithStints((long)year, seasonStart, seasonEnd, seasonDuration);
         }
 
-        internal static List<StintRecord> GetPlayerStints(long yearId, string playerId) {
+        internal static List<StintRecord> GetPlayerStints(long yearId, string playerId, int seasonDuration = 0) {
             using (var db = new BaseballContext()) {
                 //Due to silliness in the baseball stats database schema, I have to account for the possibility of
                 //batting & fielding records having the same playerId, YearId, and Stint #, but different TeamIds.
+                //there should've just been a stint table to avoid duplicating info
 
                 List<StintRecord> list = new List<StintRecord>();
 
@@ -516,7 +527,12 @@ namespace BaseballModel {
                              select s).FirstOrDefault();
 
                         if (stint != null) { //an existing record in the stint table is found: Use that one
-                            list.Add(new StintRecord(stint));
+                            if (seasonDuration > 0) {
+                                list.Add(new StintRecord(stint, seasonDuration));
+                            }
+                            else {
+                                list.Add(new StintRecord(stint));
+                            }
                         }
                         else { //no existing record: check if a fresh record for this stint has already been created locally
                             //(this is necessary due to the possibility of the batting & fielding tables disagreeing about what team a player was on for a given stint
@@ -572,7 +588,7 @@ namespace BaseballModel {
             }
         }
 
-        internal static StintRecord? GetStint(string teamId, long yearId, string playerId) {
+        internal static StintRecord? GetStint(string teamId, long yearId, string playerId, int seasonDuration = 0) {
             using (var db = new TransContext()) {
                 var stint =
                     (from rec in db.Stints
@@ -580,8 +596,14 @@ namespace BaseballModel {
                      && rec.YearId == yearId
                      && rec.PlayerId == playerId
                      select rec).FirstOrDefault();
-                if (stint != null)
-                    return new StintRecord(stint);
+                if (stint != null) {
+                    if (seasonDuration > 0) {
+                        return new StintRecord(stint, seasonDuration);
+                    }
+                    else {
+                        return new StintRecord(stint);
+                    }
+                }
                 return null;
             }
         }

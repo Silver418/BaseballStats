@@ -61,6 +61,10 @@ namespace BaseballModel.Models {
             CalcDuration();
         }
 
+        internal StintRecord(Stint stint, int seasonDuration) : this(stint){
+            CalcStintX(seasonDuration);
+        }
+
         //for creating fresh records that don't exist in database yet, so user can input dates
         internal StintRecord(string playerId, long yearId, long stintId, string teamId) {
             PlayerId = playerId;

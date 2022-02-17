@@ -51,9 +51,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.fieldingTab = new System.Windows.Forms.TabPage();
             this.fieldingWrap = new System.Windows.Forms.Panel();
-            this.battingTab = new System.Windows.Forms.TabPage();
-            this.battingWrap = new System.Windows.Forms.Panel();
-            this.battingGrid = new System.Windows.Forms.DataGridView();
+            this.desigHitterTab = new System.Windows.Forms.TabPage();
+            this.desigHitterWrap = new System.Windows.Forms.Panel();
+            this.desigHitterGrid = new System.Windows.Forms.DataGridView();
             this.controlPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).BeginInit();
             this.bioPnl.SuspendLayout();
@@ -67,9 +67,9 @@
             this.tabControl1.SuspendLayout();
             this.fieldingTab.SuspendLayout();
             this.fieldingWrap.SuspendLayout();
-            this.battingTab.SuspendLayout();
-            this.battingWrap.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.battingGrid)).BeginInit();
+            this.desigHitterTab.SuspendLayout();
+            this.desigHitterWrap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // headerLbl
@@ -135,6 +135,7 @@
             this.fieldingGrid.Name = "fieldingGrid";
             this.fieldingGrid.ReadOnly = true;
             this.fieldingGrid.RowTemplate.Height = 25;
+            this.fieldingGrid.ShowCellToolTips = false;
             this.fieldingGrid.Size = new System.Drawing.Size(946, 415);
             this.fieldingGrid.TabIndex = 12;
             this.fieldingGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.pitchingGrid_DataBindingComplete);
@@ -345,7 +346,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.fieldingTab);
-            this.tabControl1.Controls.Add(this.battingTab);
+            this.tabControl1.Controls.Add(this.desigHitterTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -375,45 +376,46 @@
             this.fieldingWrap.Size = new System.Drawing.Size(956, 425);
             this.fieldingWrap.TabIndex = 8;
             // 
-            // battingTab
+            // desigHitterTab
             // 
-            this.battingTab.AutoScroll = true;
-            this.battingTab.Controls.Add(this.battingWrap);
-            this.battingTab.Location = new System.Drawing.Point(4, 24);
-            this.battingTab.Name = "battingTab";
-            this.battingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.battingTab.Size = new System.Drawing.Size(962, 431);
-            this.battingTab.TabIndex = 0;
-            this.battingTab.Text = "Designated Hitters";
-            this.battingTab.UseVisualStyleBackColor = true;
+            this.desigHitterTab.AutoScroll = true;
+            this.desigHitterTab.Controls.Add(this.desigHitterWrap);
+            this.desigHitterTab.Location = new System.Drawing.Point(4, 24);
+            this.desigHitterTab.Name = "desigHitterTab";
+            this.desigHitterTab.Padding = new System.Windows.Forms.Padding(3);
+            this.desigHitterTab.Size = new System.Drawing.Size(962, 431);
+            this.desigHitterTab.TabIndex = 0;
+            this.desigHitterTab.Text = "Designated Hitters";
+            this.desigHitterTab.UseVisualStyleBackColor = true;
             // 
-            // battingWrap
+            // desigHitterWrap
             // 
-            this.battingWrap.Controls.Add(this.battingGrid);
-            this.battingWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.battingWrap.Location = new System.Drawing.Point(3, 3);
-            this.battingWrap.Name = "battingWrap";
-            this.battingWrap.Padding = new System.Windows.Forms.Padding(5);
-            this.battingWrap.Size = new System.Drawing.Size(956, 425);
-            this.battingWrap.TabIndex = 6;
+            this.desigHitterWrap.Controls.Add(this.desigHitterGrid);
+            this.desigHitterWrap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.desigHitterWrap.Location = new System.Drawing.Point(3, 3);
+            this.desigHitterWrap.Name = "desigHitterWrap";
+            this.desigHitterWrap.Padding = new System.Windows.Forms.Padding(5);
+            this.desigHitterWrap.Size = new System.Drawing.Size(956, 425);
+            this.desigHitterWrap.TabIndex = 6;
             // 
-            // battingGrid
+            // desigHitterGrid
             // 
-            this.battingGrid.AllowUserToAddRows = false;
-            this.battingGrid.AllowUserToDeleteRows = false;
-            this.battingGrid.AllowUserToResizeRows = false;
-            this.battingGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.battingGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.battingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.battingGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.battingGrid.Location = new System.Drawing.Point(5, 5);
-            this.battingGrid.Margin = new System.Windows.Forms.Padding(5);
-            this.battingGrid.MinimumSize = new System.Drawing.Size(600, 250);
-            this.battingGrid.Name = "battingGrid";
-            this.battingGrid.ReadOnly = true;
-            this.battingGrid.RowTemplate.Height = 25;
-            this.battingGrid.Size = new System.Drawing.Size(946, 415);
-            this.battingGrid.TabIndex = 5;
+            this.desigHitterGrid.AllowUserToAddRows = false;
+            this.desigHitterGrid.AllowUserToDeleteRows = false;
+            this.desigHitterGrid.AllowUserToResizeRows = false;
+            this.desigHitterGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.desigHitterGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.desigHitterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.desigHitterGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.desigHitterGrid.Location = new System.Drawing.Point(5, 5);
+            this.desigHitterGrid.Margin = new System.Windows.Forms.Padding(5);
+            this.desigHitterGrid.MinimumSize = new System.Drawing.Size(600, 250);
+            this.desigHitterGrid.Name = "desigHitterGrid";
+            this.desigHitterGrid.ReadOnly = true;
+            this.desigHitterGrid.RowTemplate.Height = 25;
+            this.desigHitterGrid.ShowCellToolTips = false;
+            this.desigHitterGrid.Size = new System.Drawing.Size(946, 415);
+            this.desigHitterGrid.TabIndex = 5;
             // 
             // SeasonRosters
             // 
@@ -445,9 +447,9 @@
             this.tabControl1.ResumeLayout(false);
             this.fieldingTab.ResumeLayout(false);
             this.fieldingWrap.ResumeLayout(false);
-            this.battingTab.ResumeLayout(false);
-            this.battingWrap.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.battingGrid)).EndInit();
+            this.desigHitterTab.ResumeLayout(false);
+            this.desigHitterWrap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -483,8 +485,8 @@
         private TabControl tabControl1;
         private TabPage fieldingTab;
         private Panel fieldingWrap;
-        private TabPage battingTab;
-        private Panel battingWrap;
-        private DataGridView battingGrid;
+        private TabPage desigHitterTab;
+        private Panel desigHitterWrap;
+        private DataGridView desigHitterGrid;
     }
 }

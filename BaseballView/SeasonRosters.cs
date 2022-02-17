@@ -16,6 +16,7 @@ namespace BaseballView {
         private TeamYearSearchRecord teamRecord;
         private SeasonDateRecord? season;
         private FieldingStintList fieldingResults;
+        private DesignatedStintList dhResults;
 
 
         public SeasonRosters(Panel containing) {
@@ -36,6 +37,16 @@ namespace BaseballView {
             fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
+
+            //setup designated hitter grid
+            desigHitterGrid.AutoGenerateColumns = false;
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("Player ID", "PlayerId"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G", "GDh", "Games Played as Designated Hitter"));
+
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("StintX Sum", "StintXSum", "Sum of StintX for this player's stint with this team", "0.000;#;#"));
         }
 
         private void closeBtn_Click(object sender, EventArgs e) {
@@ -65,11 +76,14 @@ namespace BaseballView {
                 season = Queries.GetSeason(teamRecord.YearId);
                 if (season != null) {
                     fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season);
+                    dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {
                     fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
+                    dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 fieldingGrid.DataSource = fieldingResults.GetResults();
+                desigHitterGrid.DataSource = dhResults.GetResults();
             }
         }
 
