@@ -14,14 +14,15 @@ namespace BaseballModel.Models {
         public string Pos { get; } = "DH"; //position
         public long GDh { get; private set; } //games played as a designated hitter
         public long GDefense { get; private set; } //games played at a defensive position
-        internal List<StintRecord> StintRecords { get; private set; } //collection of this player's stint records (TBD: for this team only?)
+        public List<StintRecord> StintRecords { get; private set; } //collection of this player's stint records
+                                                                      //TODO: want all stints, or for this team only?
         //queried data
         public string TeamName { get; private set; }
         public string NameFirst { get; private set; }
         public string NameLast { get; private set; }
         //calculated data
         public decimal StintXSum { get; private set; } = 0; //sum of all stints a player did for this team
-        
+        public int Count { get; private set; }
 
         public DesignatedStintRecord(AppearanceRecord appeareance, List<StintRecord> stintRecords, SeasonDateRecord? s = null) {
             StintRecords = stintRecords;
@@ -44,6 +45,7 @@ namespace BaseballModel.Models {
                     StintXSum += record.StintX;
                 }
             }
+            Count = StintRecords.Count();
         }
     }
 }

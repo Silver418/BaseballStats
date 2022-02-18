@@ -52,8 +52,10 @@
             this.fieldingTab = new System.Windows.Forms.TabPage();
             this.fieldingWrap = new System.Windows.Forms.Panel();
             this.desigHitterTab = new System.Windows.Forms.TabPage();
-            this.desigHitterWrap = new System.Windows.Forms.Panel();
+            this.desigHitterWrap = new System.Windows.Forms.SplitContainer();
             this.desigHitterGrid = new System.Windows.Forms.DataGridView();
+            this.detailsBtn = new System.Windows.Forms.Button();
+            this.desigDetailGrid = new System.Windows.Forms.DataGridView();
             this.controlPnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).BeginInit();
             this.bioPnl.SuspendLayout();
@@ -68,8 +70,12 @@
             this.fieldingTab.SuspendLayout();
             this.fieldingWrap.SuspendLayout();
             this.desigHitterTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.desigHitterWrap)).BeginInit();
+            this.desigHitterWrap.Panel1.SuspendLayout();
+            this.desigHitterWrap.Panel2.SuspendLayout();
             this.desigHitterWrap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.desigDetailGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // headerLbl
@@ -390,13 +396,24 @@
             // 
             // desigHitterWrap
             // 
-            this.desigHitterWrap.Controls.Add(this.desigHitterGrid);
             this.desigHitterWrap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.desigHitterWrap.Location = new System.Drawing.Point(3, 3);
             this.desigHitterWrap.Name = "desigHitterWrap";
-            this.desigHitterWrap.Padding = new System.Windows.Forms.Padding(5);
+            this.desigHitterWrap.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // desigHitterWrap.Panel1
+            // 
+            this.desigHitterWrap.Panel1.Controls.Add(this.desigHitterGrid);
+            this.desigHitterWrap.Panel1MinSize = 100;
+            // 
+            // desigHitterWrap.Panel2
+            // 
+            this.desigHitterWrap.Panel2.Controls.Add(this.detailsBtn);
+            this.desigHitterWrap.Panel2.Controls.Add(this.desigDetailGrid);
+            this.desigHitterWrap.Panel2MinSize = 100;
             this.desigHitterWrap.Size = new System.Drawing.Size(956, 425);
-            this.desigHitterWrap.TabIndex = 6;
+            this.desigHitterWrap.SplitterDistance = 318;
+            this.desigHitterWrap.TabIndex = 7;
             // 
             // desigHitterGrid
             // 
@@ -407,15 +424,52 @@
             this.desigHitterGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.desigHitterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.desigHitterGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.desigHitterGrid.Location = new System.Drawing.Point(5, 5);
+            this.desigHitterGrid.Location = new System.Drawing.Point(0, 0);
             this.desigHitterGrid.Margin = new System.Windows.Forms.Padding(5);
             this.desigHitterGrid.MinimumSize = new System.Drawing.Size(600, 250);
             this.desigHitterGrid.Name = "desigHitterGrid";
             this.desigHitterGrid.ReadOnly = true;
             this.desigHitterGrid.RowTemplate.Height = 25;
+            this.desigHitterGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.desigHitterGrid.ShowCellToolTips = false;
-            this.desigHitterGrid.Size = new System.Drawing.Size(946, 415);
+            this.desigHitterGrid.Size = new System.Drawing.Size(956, 318);
             this.desigHitterGrid.TabIndex = 5;
+            this.desigHitterGrid.SelectionChanged += new System.EventHandler(this.desigHitterGrid_SelectionChanged);
+            this.desigHitterGrid.DoubleClick += new System.EventHandler(this.details_Click);
+            this.desigHitterGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.desigHitterGrid_KeyDown);
+            // 
+            // detailsBtn
+            // 
+            this.detailsBtn.Enabled = false;
+            this.detailsBtn.Location = new System.Drawing.Point(3, 10);
+            this.detailsBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.detailsBtn.Name = "detailsBtn";
+            this.detailsBtn.Size = new System.Drawing.Size(115, 40);
+            this.detailsBtn.TabIndex = 7;
+            this.detailsBtn.Text = "Show &Details";
+            this.detailsBtn.UseVisualStyleBackColor = true;
+            this.detailsBtn.Click += new System.EventHandler(this.details_Click);
+            // 
+            // desigDetailGrid
+            // 
+            this.desigDetailGrid.AllowUserToAddRows = false;
+            this.desigDetailGrid.AllowUserToDeleteRows = false;
+            this.desigDetailGrid.AllowUserToResizeRows = false;
+            this.desigDetailGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.desigDetailGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.desigDetailGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            this.desigDetailGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.desigDetailGrid.Location = new System.Drawing.Point(120, 0);
+            this.desigDetailGrid.Margin = new System.Windows.Forms.Padding(5);
+            this.desigDetailGrid.MinimumSize = new System.Drawing.Size(600, 100);
+            this.desigDetailGrid.Name = "desigDetailGrid";
+            this.desigDetailGrid.ReadOnly = true;
+            this.desigDetailGrid.RowTemplate.Height = 25;
+            this.desigDetailGrid.ShowCellToolTips = false;
+            this.desigDetailGrid.Size = new System.Drawing.Size(835, 100);
+            this.desigDetailGrid.TabIndex = 6;
             // 
             // SeasonRosters
             // 
@@ -448,8 +502,12 @@
             this.fieldingTab.ResumeLayout(false);
             this.fieldingWrap.ResumeLayout(false);
             this.desigHitterTab.ResumeLayout(false);
+            this.desigHitterWrap.Panel1.ResumeLayout(false);
+            this.desigHitterWrap.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.desigHitterWrap)).EndInit();
             this.desigHitterWrap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.desigDetailGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -486,7 +544,9 @@
         private TabPage fieldingTab;
         private Panel fieldingWrap;
         private TabPage desigHitterTab;
-        private Panel desigHitterWrap;
         private DataGridView desigHitterGrid;
+        private SplitContainer desigHitterWrap;
+        private Button detailsBtn;
+        private DataGridView desigDetailGrid;
     }
 }

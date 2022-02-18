@@ -44,11 +44,37 @@ namespace BaseballView {
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
-            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G", "GDh", "Games Played as Designated Hitter"));
-
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G DH", "GDh", "Games Played as Designated Hitter"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G Def", "GDefense", "Games Played in a Defensive Position"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("Total Stints", "Count", format: "#"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("StintX Sum", "StintXSum", "Sum of StintX for this player's stint with this team", "0.000;#;#"));
+
+            //setup designated hitter details grid
+            desigDetailGrid.AutoGenerateColumns = false;
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("Stint #", "StintId"));
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("Team", "TeamName"));
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format: "MMM dd"));
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("End Date", "StintEnd", format: "MMM dd"));
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
+            desigDetailGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;0.000;#"));
         }
 
+        //**********
+        //Helper Methods
+        //**********
+
+        public void GetDesigDetails() {
+            if(desigHitterGrid.SelectedRows.Count == 1) {
+                DesignatedStintRecord source = (DesignatedStintRecord)desigHitterGrid.SelectedRows[0].DataBoundItem;
+                desigDetailGrid.DataSource = source.StintRecords;
+            }
+        }
+
+
+
+        //**********
+        //Events
+        //**********
         private void closeBtn_Click(object sender, EventArgs e) {
             if (myHome is TabPage) {
                 myHome.Parent.Controls.Remove(myHome);
@@ -118,5 +144,26 @@ namespace BaseballView {
                 }
             }
         } //end DataBindingComplete
+
+        private void desigHitterGrid_SelectionChanged(object sender, EventArgs e) {
+            if (desigHitterGrid.SelectedRows.Count == 1) {
+                detailsBtn.Enabled = true;
+            }
+            else {
+                detailsBtn.Enabled = false;
+            }
+        }
+
+        private void details_Click(object sender, EventArgs e) {
+            GetDesigDetails();
+        }
+
+        private void desigHitterGrid_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                GetDesigDetails();
+            }
+        }
     }
 }
