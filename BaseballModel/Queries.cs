@@ -456,43 +456,46 @@ namespace BaseballModel {
 
         internal static List<PersonStint> GetPlayersWithStints(long year, DateTime seasonStart, DateTime seasonEnd, int seasonDuration) {
             using (var db = new BaseballContext()) {
-                List<PersonStint> list = new List<PersonStint>();
+                using (var trans = new TransContext()) {
+                    List<PersonStint> finalList = new List<PersonStint>();
+                    //list of players who already have stint records with filled-out dates & values
+                    //this is necessary to grab select one-stint players the user entered partial-season dates for
+                    List<string> playersWithExistingStints =
+                        (from stint in trans.Stints
+                         where stint.YearId == year
+                         select stint.PlayerId).ToList();
 
-                //easier & faster query, but can fail if dataset is missing records for stint #2 for a multi-stint player
-                /*
-                List<string> playersWithStints =
-                    (from bat in db.Battings
-                     where bat.YearId == year && bat.Stint == 2
-                     select bat.PlayerId)
-                    .Union(from field in db.Fieldings
-                           where field.YearId == year && field.Stint == 2
-                           select field.PlayerId).ToList();
-                */
+                    //list of players from batting & fielding records who have 2+ stints
+                    //this is necessary to grab players who do not have stint dates entered, but ought to
+                    List<string> playersNeedingStints =
+                        (from bat in db.Battings
+                         where bat.YearId == year
+                         select new { bat.PlayerId, bat.Stint })
+                        .Union(from field in db.Fieldings
+                               where field.YearId == year
+                               select new { field.PlayerId, field.Stint })
+                        .GroupBy(x => x.PlayerId).Where(x => x.Count() > 1).OrderBy(x => x.Key)
+                        .Select(x => x.Key).ToList();
+                    //1. Pulls players & stint numbers from batting & fielding tables, then unions them.
+                    //2. Groups the new set by player ID
+                    //3. Selects a list of PlayerIds for players(groups) with more than 1 stint
+                    //This avoids a theoretical problem where the dataset is missing records for stint #2 of a multi-stint player,
+                    //which would omit the player even if there was data for their later stints.
 
-                List<string> playersWithStints =
-                    (from bat in db.Battings
-                     where bat.YearId == year
-                     select new { bat.PlayerId, bat.Stint })
-                    .Union(from field in db.Fieldings
-                           where field.YearId == year
-                           select new { field.PlayerId, field.Stint })
-                    .GroupBy(x => x.PlayerId).Where(x => x.Count() > 1).OrderBy(x => x.Key)
-                    .Select(x => x.Key).ToList();
-                //1. Pulls players & stint numbers from batting & fielding tables, then unions them.
-                //2. Groups the new set by player ID
-                //3. Selects a list of PlayerIds for players(groups) with more than 1 stint
-                //This avoids a theoretical problem where the dataset is missing records for stint #2 of a multi-stint player,
-                //which would omit the player even if there was data for their later stints.
+                    //I don't know if going the longer route was worth it.
 
-                //I don't know if going the longer route was worth it.
+                    //combine lists
+                    List<string> combined = playersWithExistingStints.Union(playersNeedingStints).ToList();
+                    combined.Sort();
+                    
+                        
 
+                    foreach (string player in combined) {
+                        finalList.Add(new PersonStint(player, year, seasonStart, seasonEnd, seasonDuration));
+                    }
 
-
-                foreach (string player in playersWithStints) {
-                    list.Add(new PersonStint(player, year, seasonStart, seasonEnd, seasonDuration));
+                    return finalList;
                 }
-
-                return list;
             }
         }
 
