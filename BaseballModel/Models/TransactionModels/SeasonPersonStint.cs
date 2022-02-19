@@ -35,10 +35,6 @@ namespace BaseballModel.Models {
                             where r.PlayedForTeam(teamId) == true
                             select r).ToList();
             }
-
-            int original = personStintList.Count;
-            int copy = filtered.Count;
-
             return filtered;
         }
 
@@ -46,7 +42,7 @@ namespace BaseballModel.Models {
         public List<StintRecord>? GetPlayerStints(string playerId) {
             return (from player in personStintList
                     where player.PlayerId == playerId
-                    select player.stintsEditable).FirstOrDefault();
+                    select player.StintsEditable).FirstOrDefault();
         }
 
         //get sorted dictionary of teams in this year

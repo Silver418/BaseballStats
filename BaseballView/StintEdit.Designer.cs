@@ -47,6 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.yearPnl = new System.Windows.Forms.Panel();
             this.playerSelectPnl = new System.Windows.Forms.Panel();
+            this.singleStintsBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.editPlayerBtn = new System.Windows.Forms.Button();
             this.playerDataGrid = new System.Windows.Forms.DataGridView();
@@ -297,7 +298,7 @@
             this.filterBtn.Name = "filterBtn";
             this.filterBtn.Size = new System.Drawing.Size(115, 40);
             this.filterBtn.TabIndex = 5;
-            this.filterBtn.Text = "&Apply Filter";
+            this.filterBtn.Text = "Apply &Filter";
             this.filterBtn.UseVisualStyleBackColor = true;
             this.filterBtn.Click += new System.EventHandler(this.filterBtn_Click);
             // 
@@ -324,6 +325,7 @@
             // playerSelectPnl
             // 
             this.playerSelectPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.playerSelectPnl.Controls.Add(this.singleStintsBtn);
             this.playerSelectPnl.Controls.Add(this.label5);
             this.playerSelectPnl.Controls.Add(this.editPlayerBtn);
             this.playerSelectPnl.Controls.Add(this.playerDataGrid);
@@ -332,6 +334,19 @@
             this.playerSelectPnl.Name = "playerSelectPnl";
             this.playerSelectPnl.Size = new System.Drawing.Size(964, 234);
             this.playerSelectPnl.TabIndex = 13;
+            // 
+            // singleStintsBtn
+            // 
+            this.singleStintsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleStintsBtn.Enabled = false;
+            this.singleStintsBtn.Location = new System.Drawing.Point(837, 90);
+            this.singleStintsBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.singleStintsBtn.Name = "singleStintsBtn";
+            this.singleStintsBtn.Size = new System.Drawing.Size(115, 40);
+            this.singleStintsBtn.TabIndex = 5;
+            this.singleStintsBtn.Text = "Single-S&tint Players";
+            this.singleStintsBtn.UseVisualStyleBackColor = true;
+            this.singleStintsBtn.Click += new System.EventHandler(this.singleStintsBtn_Click);
             // 
             // label5
             // 
@@ -534,5 +549,6 @@
         private Button filterBtn;
         private ComboBox filterTeamCmb;
         private Button clearFilterBtn;
+        private Button singleStintsBtn;
     }
 }

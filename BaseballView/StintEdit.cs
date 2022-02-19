@@ -61,6 +61,7 @@ namespace BaseballView {
                 //retrieve player data & populate player grid
                 playerDataGrid.DataSource = sps.GetPlayers();
                 playerDataGrid.Enabled = true;
+                singleStintsBtn.Enabled = true;
 
                 //enable & populate filter controls
                 SetupFilter();
@@ -219,6 +220,13 @@ namespace BaseballView {
             filterIncompleteChk.Checked = false;
             filterTeamCmb.SelectedIndex = 0;
             ApplyFilter();
+        }
+
+        private void singleStintsBtn_Click(object sender, EventArgs e) {
+            SingleStintPlayers form = new SingleStintPlayers(sps, (int)sps.Season.YearId);
+            form.ShowDialog();
+            playerDataGrid.Refresh();
+            playerDataGrid.Update();
         }
     }
 }

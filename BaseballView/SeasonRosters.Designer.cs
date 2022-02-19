@@ -144,7 +144,6 @@
             this.fieldingGrid.ShowCellToolTips = false;
             this.fieldingGrid.Size = new System.Drawing.Size(946, 415);
             this.fieldingGrid.TabIndex = 12;
-            this.fieldingGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.pitchingGrid_DataBindingComplete);
             // 
             // bioPnl
             // 

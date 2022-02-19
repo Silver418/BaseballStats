@@ -14,19 +14,19 @@ namespace BaseballModel.Models {
         public string Teams { get; private set; } = ""; //list of all teams the player was on during this season
         public bool IsComplete { get; private set; } = false; //whether all stint records have complete date data entered
         private List<StintRecord> stintsApproved = new List<StintRecord>(); //for records pulled from database, or validated & saved to database
-        public List<StintRecord> stintsEditable = new List<StintRecord>(); //for user-editable records, subject to validation before being saved
+        public List<StintRecord> StintsEditable = new List<StintRecord>(); //for user-editable records, subject to validation before being saved
 
         //*****
 
-        //Constructor
-        internal PersonStint(string playerId, long yearId, DateTime seasonStart, DateTime seasonEnd, int seasonDuration = 0) {
+        //Constructor with season information available; will fill in start & end of season on first/last stints & check if records validate
+        internal PersonStint(string playerId, long yearId, DateTime? seasonStart = null, DateTime? seasonEnd = null, int seasonDuration = 0) {
             PlayerId = playerId;
             YearId = yearId;
             (NameFirst, NameLast) = Queries.PlayerName(PlayerId);
             stintsApproved = Queries.GetPlayerStints(YearId, PlayerId, seasonDuration);
             
             //if first and last stint record don't have dates (ie, they were fresh records), add the season start/stop dates to them
-            if (stintsApproved.Count > 0) {
+            if (stintsApproved.Count > 0 && seasonStart != null && seasonEnd != null) {
                 if (stintsApproved[0].StintStart == null) {
                     stintsApproved[0].StintStart = seasonStart;
                 }
@@ -38,10 +38,29 @@ namespace BaseballModel.Models {
             Count = stintsApproved.Count;
             FillTeams();
             
-            if (Validate(seasonStart, seasonEnd)) { //if record as pulled form db passes validation, mark player as complete
-                IsComplete = true;
+            if (seasonStart != null && seasonEnd != null) {
+                if (Validate((DateTime)seasonStart, (DateTime)seasonEnd)) { //if record as pulled form db passes validation, mark player as complete
+                    IsComplete = true;
+                }
             }
         }
+
+        //constructor with premade List<StintRecord> (to avoid ugly GetPlayerStints query if we can get stints more easily elsewhere)
+        //this is used when grabbing players with only one stint, since that can be drawn from the Appearances table without having
+        //to resort to unioning results from the batting and fielding tables to be sure we're getting all stints.
+        //Lahman's database really should've had a Stints table, or the Appearances table should've differentiated between stints for the same team. :<
+        //Since the list is premade, this constructor won't do any season start/stop calcs or date validations.
+        //Client will have to enter dates & send season info to trigger the validation checking before saving to database.
+        internal PersonStint(string playerId, long yearId, List<StintRecord> list) {
+            PlayerId = playerId;
+            YearId = yearId;
+            (NameFirst, NameLast) = Queries.PlayerName(PlayerId);
+            stintsApproved = list;
+            ApprovedToEditableStints();
+            Count = stintsApproved.Count;
+            FillTeams();
+        }
+
 
         //Populate teams string from stints
         private void FillTeams() {
@@ -77,42 +96,42 @@ namespace BaseballModel.Models {
 
         //Copy the approved stints to editable. Use to build initial editable copy and to cancel user changes.
         internal void ApprovedToEditableStints() {
-            stintsEditable = new List<StintRecord>();
+            StintsEditable = new List<StintRecord>();
             foreach (StintRecord record in stintsApproved) {
-                stintsEditable.Add(record.Copy());
+                StintsEditable.Add(record.Copy());
             }
         }
 
         //validate stints only
         internal bool Validate(DateTime seasonStart, DateTime seasonEnd) {
-            for (int i = 0; i < stintsEditable.Count; i++) {
+            for (int i = 0; i < StintsEditable.Count; i++) {
 
-                if (stintsEditable[i].StintStart == null || stintsEditable[i].StintEnd == null) {
+                if (StintsEditable[i].StintStart == null || StintsEditable[i].StintEnd == null) {
                     return false; //fail if any dates have null values
                 }
-                if (stintsEditable[i].StintStart >= stintsEditable[i].StintEnd) {
+                if (StintsEditable[i].StintStart >= StintsEditable[i].StintEnd) {
                     return false;
                 }
                 //check start date
                 if (i == 0) { //first record in set fails if it starts before the season starts
-                    if (stintsEditable[i].StintStart < seasonStart) {
+                    if (StintsEditable[i].StintStart < seasonStart) {
                         return false;
                     }
                 }
                 else { //all others fails they start before the previous stint ends
-                    if (stintsEditable[i].StintStart < stintsEditable[i - 1].StintEnd) {
+                    if (StintsEditable[i].StintStart < StintsEditable[i - 1].StintEnd) {
                         return false;
                     }
                 }
 
                 //check end date
-                if (i == stintsEditable.Count - 1) { //last record in set fails if it ends after the season ends
-                    if (stintsEditable[i].StintEnd > seasonEnd) {
+                if (i == StintsEditable.Count - 1) { //last record in set fails if it ends after the season ends
+                    if (StintsEditable[i].StintEnd > seasonEnd) {
                         return false;
                     }
                 }
                 else { //all others fails if they end after the next stint starts
-                    if (stintsEditable[i].StintEnd > stintsEditable[i + 1].StintEnd) {
+                    if (StintsEditable[i].StintEnd > StintsEditable[i + 1].StintEnd) {
                         return false;
                     }
                 }
@@ -128,7 +147,7 @@ namespace BaseballModel.Models {
 
                 //calculate derived values, copy records to Approved, and save back to database
                 int changedRecords = 0;
-                foreach (StintRecord stint in stintsEditable) {
+                foreach (StintRecord stint in StintsEditable) {
                     stint.CalcDuration();
                     stint.CalcStintX(seasonDuration);
                     stintsApproved.Add(stint.Copy());

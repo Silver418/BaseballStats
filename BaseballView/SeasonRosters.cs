@@ -25,7 +25,7 @@ namespace BaseballView {
 
             //Columns with a period in the DataPropertyName have special processing in the DataBindingComplete event
 
-            //setup pitching grid
+            //setup grid for stints from fielding data
             fieldingGrid.AutoGenerateColumns = false;
             fieldingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "MyFielding.PlayerId"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("First Name", "MyFielding.NameFirst"));
@@ -109,41 +109,10 @@ namespace BaseballView {
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 fieldingGrid.DataSource = fieldingResults.GetResults();
+                Helpers.ParseDataSourceWithChild(fieldingGrid);
                 desigHitterGrid.DataSource = dhResults.GetResults();
             }
         }
-
-        //DataBindEvent; processes columns with a DataPropertyName with a period in it, meant to point to data inside the source's child objects
-        private void pitchingGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            for (int row = 0; row < fieldingGrid.Rows.Count; row++) {
-                for (int cell = 0; cell < fieldingGrid.Rows[row].Cells.Count; cell++) {
-                    DataGridViewCell thisCell = fieldingGrid.Rows[row].Cells[cell];
-                    if (thisCell.Value == null) {
-                        if (thisCell.OwningColumn.DataPropertyName.Contains(".")) {
-                            string[] DataPropArgs = thisCell.OwningColumn.DataPropertyName.Split(".");
-                            Object thisRowSource = fieldingGrid.Rows[row].DataBoundItem;
-                            PropertyInfo childObjectInfo = thisRowSource.GetType().GetProperty(DataPropArgs[0]);
-                            if (childObjectInfo != null) {
-                                var childObjectValue = childObjectInfo.GetValue(thisRowSource);
-                                if (childObjectValue.GetType().GetProperty(DataPropArgs[1]) != null) {
-                                    thisCell.Value = childObjectValue.GetType().GetProperty(DataPropArgs[1]).GetValue(childObjectValue);
-                                }
-                                else { //code ends up here if the column's DataSource second half does not match the name of a property in the child object
-                                    if (row == 0) {
-                                        MessageBox.Show($"Data field {DataPropArgs[1]} not found");
-                                    }
-                                }
-                            }
-                            else {//code ends up here if the column's DataSource first half does not match the name of a child object in the source
-                                if (row == 0) {
-                                    MessageBox.Show($"Child object {DataPropArgs[0]} not found");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } //end DataBindingComplete
 
         private void desigHitterGrid_SelectionChanged(object sender, EventArgs e) {
             if (desigHitterGrid.SelectedRows.Count == 1) {

@@ -487,8 +487,8 @@ namespace BaseballModel {
                     //combine lists
                     List<string> combined = playersWithExistingStints.Union(playersNeedingStints).ToList();
                     combined.Sort();
-                    
-                        
+
+
 
                     foreach (string player in combined) {
                         finalList.Add(new PersonStint(player, year, seasonStart, seasonEnd, seasonDuration));
@@ -554,6 +554,71 @@ namespace BaseballModel {
                 return list;
             } //end using BaseballContext
         } //end GetPlayerStints method
+
+        //get List<StintRecord> of players who only have one stint in a given season; pulls StintRecord if exists, or creates fresh record
+        public static List<PersonStint> GetSingleStintPlayers(long yearId) {
+            using (BaseballContext db = new BaseballContext()) {
+                List<PersonStint> personList = new List<PersonStint>();
+                //List<StintRecord> list = new List<StintRecord>();
+
+                var oneStintPlayers =
+                    (from a in db.Appearances
+                     where a.YearId == yearId
+                     group a by a.PlayerId into player
+                     where player.Count() == 1
+                     orderby player.Key ascending
+                     select new { player.First().PlayerId, player.First().TeamId }).ToList();
+                     
+                     //select new { a.PlayerId, a.TeamId })
+                     //.GroupBy(a => a.PlayerId).Where(a => a.Count() == 1).OrderBy(a => a.Key)
+                     //.ToList();
+
+                foreach (var player in oneStintPlayers) {
+                    List<StintRecord> stintList = new List<StintRecord>();
+                    StintRecord existing = GetStint(player.PlayerId, yearId, 1);
+                    if (existing != null) {
+                        stintList.Add(existing);
+                    }
+                    else {
+                        stintList.Add(new StintRecord(player.PlayerId, yearId, 1, player.TeamId));
+                    }
+                    personList.Add(new PersonStint(player.PlayerId, yearId, stintList));
+                }
+                /*
+                foreach (var player in oneStintPlayers) { //foreach through each player
+                    List<StintRecord> stintList = new List<StintRecord>();
+                    foreach(var x in player) { //foreach through each appearance subrecord in player group - should only be one
+                        
+                        
+                        if (existing != null) {
+                            stintList.Add(existing);
+                        }
+                        else {
+                            stintList.Add(new StintRecord(x.PlayerId, yearId, 1, x.TeamId));
+                        }
+                        personList.Add(new PersonStint(x.PlayerId, yearId, stintList));
+                    }
+                    
+                }
+                */
+                return personList;
+            }
+        }
+
+        //get a single StintRecord if it exists in transaction.db; 
+        public static StintRecord GetStint(string playerId, long yearId, int stintId) {
+            using (TransContext db = new TransContext()) {
+                Stint? stint = (from s in db.Stints
+                                where s.PlayerId == playerId
+                                && s.YearId == yearId
+                                && s.StintId == stintId
+                                select s).FirstOrDefault();
+                if (stint != null) {
+                    return new StintRecord(stint);
+                }
+                else return null;
+            }
+        }
 
         //save changed Stint back to database
         internal static int UpdateStint(StintRecord record) {
