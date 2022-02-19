@@ -23,21 +23,9 @@ namespace BaseballView {
             resultsGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("# Stints", "Count"));
-            
+            resultsGrid.Columns.Add(Helpers.MakeColumn("Team", "Teams"));
 
-
-            //    Helpers.MakeColumn("Team", ""));
             resultsGrid.DataSource = singlePlayerStints;
-
-            DataGridViewTextBoxColumn teamCol = new DataGridViewTextBoxColumn();
-            teamCol.Name = "Team";
-            resultsGrid.Columns.Add(teamCol);
-
-            //Helpers.ParseDataSourceWithChild(resultsGrid);
-            //MessageBox.Show("bob");
-            foreach (DataGridViewRow row in resultsGrid.Rows) {
-                row.Cells[4].Value = "bob";
-            }
         }
 
         private void CloseBtn_Click(object sender, EventArgs e) {
