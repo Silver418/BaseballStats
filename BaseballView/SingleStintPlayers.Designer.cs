@@ -47,7 +47,6 @@
             // 
             this.resultsGrid.AllowUserToAddRows = false;
             this.resultsGrid.AllowUserToDeleteRows = false;
-            this.resultsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.resultsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resultsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultsGrid.Location = new System.Drawing.Point(10, 10);
@@ -57,6 +56,7 @@
             this.resultsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.resultsGrid.Size = new System.Drawing.Size(780, 329);
             this.resultsGrid.TabIndex = 4;
+            this.resultsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultsGrid_DataBindingComplete);
             // 
             // controlPnl
             // 
