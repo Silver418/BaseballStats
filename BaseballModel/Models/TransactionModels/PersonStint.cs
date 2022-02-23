@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BaseballModel.Models {
-    public class PersonStint {
+    public class PersonStint : IComparable<PersonStint> {
         public string PlayerId { get; private set; }
         public long YearId { get; private set; }
         public string NameFirst { get; private set; }
@@ -24,9 +24,9 @@ namespace BaseballModel.Models {
             YearId = yearId;
             (NameFirst, NameLast) = Queries.PlayerName(PlayerId);
             stintsApproved = Queries.GetPlayerStints(YearId, PlayerId, seasonDuration);
-            
-            //if first and last stint record don't have dates (ie, they were fresh records), add the season start/stop dates to them
-            if (stintsApproved.Count > 0 && seasonStart != null && seasonEnd != null) {
+
+            //if first and last stint record in a set with 2+ stints don't have dates (ie, they were fresh records), add the season start/stop dates to them
+            if (stintsApproved.Count > 1 && seasonStart != null && seasonEnd != null) {
                 if (stintsApproved[0].StintStart == null) {
                     stintsApproved[0].StintStart = seasonStart;
                 }
@@ -37,7 +37,7 @@ namespace BaseballModel.Models {
             ApprovedToEditableStints(); //Copy approved records from database to editable stint list for user changes
             Count = stintsApproved.Count;
             FillTeams();
-            
+
             if (seasonStart != null && seasonEnd != null) {
                 if (Validate((DateTime)seasonStart, (DateTime)seasonEnd)) { //if record as pulled form db passes validation, mark player as complete
                     IsComplete = true;
@@ -159,6 +159,32 @@ namespace BaseballModel.Models {
 
             }
             else return (false, 0);
+        }
+
+        //Save player's stints without validating (best to only use with a fresh, empty record). Returns # of records updated
+        //Will not calculate derived values due to lack of validation
+        internal int SaveWithoutValidate() {
+            //new Approved Stints list
+            stintsApproved = new List<StintRecord>();
+            
+            int changedRecords = 0;
+            foreach (StintRecord stint in StintsEditable) {
+                stintsApproved.Add(stint.Copy());
+                changedRecords += Queries.UpdateStint(stint);
+            }
+            return changedRecords;
+        }
+
+        //PlayerId is all we care about for comparing PersonStint records
+        public int CompareTo(PersonStint other) {
+            return this.PlayerId.CompareTo(other.PlayerId);
+        }
+    } // end PersonStint class
+
+    //comparer for PersonStint; 
+    public class PersonStintComparer : IComparer<PersonStint> {
+        public int Compare(PersonStint x, PersonStint y) {
+            return x.PlayerId.CompareTo(y.PlayerId);
         }
     }
 }

@@ -28,19 +28,23 @@
             this.controlPnl = new System.Windows.Forms.Panel();
             this.CloseBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnsWrap = new System.Windows.Forms.Panel();
+            this.removeBtn = new System.Windows.Forms.Button();
+            this.addBtn = new System.Windows.Forms.Button();
             this.gridWrap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.resultsGrid)).BeginInit();
             this.controlPnl.SuspendLayout();
+            this.btnsWrap.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridWrap
             // 
             this.gridWrap.Controls.Add(this.resultsGrid);
             this.gridWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridWrap.Location = new System.Drawing.Point(0, 21);
+            this.gridWrap.Location = new System.Drawing.Point(0, 106);
             this.gridWrap.Name = "gridWrap";
             this.gridWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.gridWrap.Size = new System.Drawing.Size(800, 349);
+            this.gridWrap.Size = new System.Drawing.Size(800, 264);
             this.gridWrap.TabIndex = 12;
             // 
             // resultsGrid
@@ -54,7 +58,7 @@
             this.resultsGrid.ReadOnly = true;
             this.resultsGrid.RowTemplate.Height = 25;
             this.resultsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.resultsGrid.Size = new System.Drawing.Size(780, 329);
+            this.resultsGrid.Size = new System.Drawing.Size(780, 244);
             this.resultsGrid.TabIndex = 4;
             this.resultsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultsGrid_DataBindingComplete);
             // 
@@ -90,6 +94,40 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Players with One Stint";
             // 
+            // btnsWrap
+            // 
+            this.btnsWrap.Controls.Add(this.removeBtn);
+            this.btnsWrap.Controls.Add(this.addBtn);
+            this.btnsWrap.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnsWrap.Location = new System.Drawing.Point(0, 21);
+            this.btnsWrap.Margin = new System.Windows.Forms.Padding(5);
+            this.btnsWrap.Name = "btnsWrap";
+            this.btnsWrap.Padding = new System.Windows.Forms.Padding(10);
+            this.btnsWrap.Size = new System.Drawing.Size(800, 85);
+            this.btnsWrap.TabIndex = 14;
+            // 
+            // removeBtn
+            // 
+            this.removeBtn.Location = new System.Drawing.Point(150, 15);
+            this.removeBtn.Margin = new System.Windows.Forms.Padding(5);
+            this.removeBtn.Name = "removeBtn";
+            this.removeBtn.Size = new System.Drawing.Size(125, 60);
+            this.removeBtn.TabIndex = 7;
+            this.removeBtn.Text = "&Remove Selected Players from Editing";
+            this.removeBtn.UseVisualStyleBackColor = true;
+            this.removeBtn.Click += new System.EventHandler(this.removeBtn_Click);
+            // 
+            // addBtn
+            // 
+            this.addBtn.Location = new System.Drawing.Point(15, 15);
+            this.addBtn.Margin = new System.Windows.Forms.Padding(5);
+            this.addBtn.Name = "addBtn";
+            this.addBtn.Size = new System.Drawing.Size(125, 60);
+            this.addBtn.TabIndex = 8;
+            this.addBtn.Text = "&Add Selected Players for Editing";
+            this.addBtn.UseVisualStyleBackColor = true;
+            this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
+            // 
             // SingleStintPlayers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -97,6 +135,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.gridWrap);
             this.Controls.Add(this.controlPnl);
+            this.Controls.Add(this.btnsWrap);
             this.Controls.Add(this.label1);
             this.Name = "SingleStintPlayers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -104,6 +143,7 @@
             this.gridWrap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.resultsGrid)).EndInit();
             this.controlPnl.ResumeLayout(false);
+            this.btnsWrap.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,5 +156,8 @@
         private Panel controlPnl;
         private Button CloseBtn;
         private Label label1;
+        private Panel btnsWrap;
+        private Button removeBtn;
+        private Button addBtn;
     }
 }

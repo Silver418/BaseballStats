@@ -72,5 +72,27 @@ namespace BaseballModel.Models {
                 return (false, 0);
             }
         }
+
+        //add a PersonStint record to the list & save record; assumes list is sorted by PlayerID
+        public int AddPersonStint(PersonStint personStint) {
+            //list is empty OR new item is after end of list; add item
+            if (personStintList.Count == 0 || personStintList[personStintList.Count - 1].CompareTo(personStint) <= 0) {
+                personStintList.Add(personStint);
+                return personStint.SaveWithoutValidate();
+            }
+            //new item is before start of list; add to start
+            if (personStintList[0].CompareTo(personStint) >= 0) {
+                personStintList.Insert(0, personStint);
+                return personStint.SaveWithoutValidate();
+            }
+            //new item is somewhere in the middle of the list
+            int index = personStintList.BinarySearch(personStint, new PersonStintComparer());
+            if (index < 0) { //BinarySearch, if item is not found, returns a negative bitwise complement of the next largest item (or Count)
+                index = ~index; //undoing the bitwise complement to get the index we want to insert at
+                personStintList.Insert(index, personStint);
+                return personStint.SaveWithoutValidate();
+            }
+            return 0; //should only reach here if a record with the same PlayerId already exists. Item will not be added.
+        }
     }
 }
