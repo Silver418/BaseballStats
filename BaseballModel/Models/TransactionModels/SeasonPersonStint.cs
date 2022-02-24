@@ -94,5 +94,22 @@ namespace BaseballModel.Models {
             }
             return 0; //should only reach here if a record with the same PlayerId already exists. Item will not be added.
         }
+
+        //remove a PersonStint record by PlayerID
+        public bool RemovePersonStint(string playerID) {
+            var record =
+                from person in personStintList
+                where person.PlayerId == playerID
+                select person;
+
+            if (record.Any()) {
+                record.First().DeleteStints();
+                personStintList.Remove(record.First());
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

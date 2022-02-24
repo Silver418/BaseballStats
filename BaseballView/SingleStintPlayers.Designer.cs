@@ -61,6 +61,7 @@
             this.resultsGrid.Size = new System.Drawing.Size(780, 244);
             this.resultsGrid.TabIndex = 4;
             this.resultsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultsGrid_DataBindingComplete);
+            this.resultsGrid.SelectionChanged += new System.EventHandler(this.resultsGrid_SelectionChanged);
             // 
             // controlPnl
             // 

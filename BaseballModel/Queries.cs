@@ -568,10 +568,10 @@ namespace BaseballModel {
                      where player.Count() == 1
                      orderby player.Key ascending
                      select new { player.First().PlayerId, player.First().TeamId }).ToList();
-                     
-                     //select new { a.PlayerId, a.TeamId })
-                     //.GroupBy(a => a.PlayerId).Where(a => a.Count() == 1).OrderBy(a => a.Key)
-                     //.ToList();
+
+                //select new { a.PlayerId, a.TeamId })
+                //.GroupBy(a => a.PlayerId).Where(a => a.Count() == 1).OrderBy(a => a.Key)
+                //.ToList();
 
                 foreach (var player in oneStintPlayers) {
                     List<StintRecord> stintList = new List<StintRecord>();
@@ -653,6 +653,25 @@ namespace BaseballModel {
                     db.Stints.Add(update);
                 }
                 return db.SaveChanges();
+            }
+        }
+
+        internal static int DeleteStint(StintRecord record) {
+            using (var db = new TransContext()) {
+                var stint =
+                    (from s in db.Stints
+                     where s.PlayerId == record.PlayerId
+                     && s.YearId == record.YearId
+                     && s.StintId == record.StintId
+                     select s);
+                if (stint.Any()) {
+                    db.Remove(stint.First());
+                    
+                    return db.SaveChanges();
+                }
+                else {
+                    return 0;
+                }
             }
         }
 

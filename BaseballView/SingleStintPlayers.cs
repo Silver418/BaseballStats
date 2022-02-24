@@ -129,7 +129,34 @@ namespace BaseballView {
         }
 
         private void removeBtn_Click(object sender, EventArgs e) {
+            if (resultsGrid.SelectedRows.Count > 0) {
+                DialogResult doTheThing = MessageBox.Show("WARNING: Removing a single-stint player will delete any dates and StintX values for that player." +
+                    $"\n\nAttempt to delete {resultsGrid.SelectedRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
+                if (doTheThing == DialogResult.Yes) {
+                    int affectedRows = 0;
+                    foreach (DataGridViewRow row in resultsGrid.SelectedRows) {
+                        if (sps.RemovePersonStint(((PersonStint)row.DataBoundItem).PlayerId)) {
+                            affectedRows++;
+                            row.Cells["Editable"].Value = false.ToString();
+                        }
+                    }
+                    MessageBox.Show($"{affectedRows} records deleted.");
+                }
+            }
+            else {
+                MessageBox.Show("No records selected.");
+            }
+        }
 
+        private void resultsGrid_SelectionChanged(object sender, EventArgs e) {
+            if (resultsGrid.SelectedRows.Count > 0) {
+                addBtn.Enabled = true;
+                removeBtn.Enabled = true;
+            }
+            else {
+                addBtn.Enabled = false;
+                removeBtn.Enabled = false;
+            }
         }
     }
 }

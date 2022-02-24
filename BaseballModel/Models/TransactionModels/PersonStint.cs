@@ -179,6 +179,15 @@ namespace BaseballModel.Models {
         public int CompareTo(PersonStint other) {
             return this.PlayerId.CompareTo(other.PlayerId);
         }
+
+        //delete all stints from database
+        public int DeleteStints() {
+            int deletedRecords = 0;
+            foreach (StintRecord stint in stintsApproved) {
+                deletedRecords += Queries.DeleteStint(stint);
+            }
+            return deletedRecords;
+        }
     } // end PersonStint class
 
     //comparer for PersonStint; 
