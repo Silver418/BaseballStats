@@ -180,7 +180,7 @@ namespace BaseballModel.Models {
             return this.PlayerId.CompareTo(other.PlayerId);
         }
 
-        //delete all stints from database
+        //delete this player's stints from database
         public int DeleteStints() {
             int deletedRecords = 0;
             foreach (StintRecord stint in stintsApproved) {

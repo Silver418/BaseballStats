@@ -666,7 +666,6 @@ namespace BaseballModel {
                      select s);
                 if (stint.Any()) {
                     db.Remove(stint.First());
-                    
                     return db.SaveChanges();
                 }
                 else {

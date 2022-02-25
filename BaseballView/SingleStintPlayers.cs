@@ -14,16 +14,15 @@ namespace BaseballView {
         List<PersonStint> singlePlayerStints; //players who have only one stint this season
         //List<PersonStint> multiStinters; //stints currently displayed on the calling StintEdit form
 
-        //counter for how many times the DataBindingComplete event fires. We want to manipulate all values on the 3rd event only
+        //counter for how many times the DataBindingComplete event fires. We want to manipulate all values on the 2nd event only
         //this is very hacky, but is the least bad way I've found to run an initial value editing exactly once without getting overwritten
         int dataBindingCount = 0;
 
+        CancellationTokenSource cts = new CancellationTokenSource();
 
-        public SingleStintPlayers(SeasonPersonStint sps, int yearId) {
+        public SingleStintPlayers(SeasonPersonStint sps) {
             InitializeComponent();
             this.sps = sps;
-            //multiStinters = sps.GetPlayers();
-            singlePlayerStints = Queries.GetSingleStintPlayers(yearId);
 
             //set up grid of single-stint players
             resultsGrid.AutoGenerateColumns = false;
@@ -33,45 +32,106 @@ namespace BaseballView {
             resultsGrid.Columns.Add(Helpers.MakeColumn("# Stints", "Count"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("Team", "Teams"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("Editable"));
-
-            resultsGrid.DataSource = singlePlayerStints;
         }
 
         //**********
         //Helper Methods
         //**********
 
+        private void SetProgress(int current, int max) {
+            Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
+        }
+
+        private void ClearProgress() {
+            Invoke(() => progressLbl.Text = "");
+        }
+
+        private void DisableButtons() {
+            Invoke(() => {
+                addBtn.Enabled = false;
+                removeBtn.Enabled = false;
+            });
+        }
+
+        private void EnableButtons() {
+            Invoke(() => {
+                addBtn.Enabled = true;
+                removeBtn.Enabled = true;
+            });
+        }
+
         //checks whether the players listed in the Single Stinter list already appear in the editable stint list passed
         //to this form by the parent form & marks the "Editable" column appropriately.
         //This goes through both lists entirely; best to use it only once, at initial setup.
-        private void CheckAllSingleStinters() {
+        private async void CheckAllSingleStinters() {
             int sIndex = 0; //index for our loop through the Single Stinters list. (also maps to the resultsGrid rows)
             int mIndex = 0; //index for our loop through the Multi Stinters list
             List<PersonStint> multiStinters = sps.GetPlayers();
 
-            while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
-                int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
-                
-                if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
-                    resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString();
-                    sIndex++;
-                    mIndex++;
+            await Task.Run(() => {
+                while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
+                    SetProgress(sIndex, singlePlayerStints.Count);
+
+
+                    int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
+
+                    if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
+                        Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString());
+                        sIndex++;
+                        mIndex++;
+                    }
+                    else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
+                        Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
+                        sIndex++;
+                    }
+                    else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
+                        mIndex++;
+                    }
                 }
-                else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
-                    resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString();
-                    sIndex++;
+                // likely to run out of multi-stinters before single stinters. This labels the remaining records
+                for (; sIndex < singlePlayerStints.Count; sIndex++) {
+                    SetProgress(sIndex, singlePlayerStints.Count);
+                    Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
                 }
-                else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
-                    mIndex++;
-                }
-            }
-            // likely to run out of multi-stinters before single stinters. This labels the remaining records
-            for (; sIndex < singlePlayerStints.Count; sIndex++) {
-                resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString();
-            }
+                //cleanup
+                ClearProgress();
+                Invoke(() => resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells);
+            });
         }
 
-        //add selected PersonStint record from the single stint players list to the parent form's editable multi-stint player list
+        //add selected set of PersonStintRecords to parent form's editable list
+        private async Task AddOperation(CancellationToken ct) {
+            await Task.Run(() => {
+                DataGridViewSelectedRowCollection ourRows = resultsGrid.SelectedRows;
+                if (ourRows.Count > 0) {
+                    int result = 0;
+                    DisableButtons();
+                    if (ourRows.Count == 1) {
+                        result = AddPersonStint(ourRows[0]);
+                    }
+                    else { //task for multi-entry operation
+                        for (int i = 0; i < ourRows.Count; i++) {
+                            SetProgress(i + 1, ourRows.Count);
+                            result += AddPersonStint(ourRows[i]);
+                            ClearProgress();
+                        }
+                    }
+                    if (result > 0) {
+                        MessageBox.Show($"{result} record(s) added for editing." +
+                            $"\nReturn to the Stint Editing form to enter dates for new stints.");
+                    }
+                    else {
+                        MessageBox.Show("All selected records are already editable.");
+                    }
+                    EnableButtons();
+                }
+                else {
+                    MessageBox.Show("No records selected.");
+                }
+            }, ct);
+        }
+
+        //add one PersonStint record from the single stint players list to the parent form's editable multi-stint player list
         private int AddPersonStint(DataGridViewRow personRow) {
             if (personRow.Cells["Editable"].Value.Equals(false.ToString())) {
                 PersonStint personStint = (PersonStint)personRow.DataBoundItem;
@@ -95,52 +155,47 @@ namespace BaseballView {
 
         //adds "true" or "false" to each PlayerStint's row to show whether they are already in the parent form's editable stint list
         private void resultsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            resultsGrid.ClearSelection();
             dataBindingCount++;
-            if (dataBindingCount == 3) { //Event unavoidably fires 3 times on initial load & overwrites previous work. Only working on last one to avoid large performance hit
+            if (dataBindingCount == 2) { //Event unavoidably fires twice on initial load & overwrites previous work. Only working on last one to avoid large performance hit
                 CheckAllSingleStinters();//<--actual work here
                 //set autosizing after data binding to avoid huge slowdown during binding
-                resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                resultsGrid.ClearSelection();
             }
         }
 
-        private void addBtn_Click(object sender, EventArgs e) {
-            if (resultsGrid.SelectedRows.Count > 0) {
-                int result = 0;
-                if (resultsGrid.SelectedRows.Count == 1) {
-                    result = AddPersonStint((DataGridViewRow)resultsGrid.SelectedRows[0]);
-                }
-                else {
-                    foreach (DataGridViewRow row in resultsGrid.SelectedRows) {
-                        result += AddPersonStint(row);
-                    }
-                }
-                if (result > 0) {
-                    MessageBox.Show($"{result} record(s) added for editing." +
-                        $"\nReturn to the Stint Editing form to enter dates for new stints.");
-                }
-                else {
-                    MessageBox.Show("All selected records are already editable.");
-                }
+        private async void addBtn_Click(object sender, EventArgs e) {
+            try {
+                await AddOperation(cts.Token);
             }
-            else {
-                MessageBox.Show("No records selected.");
+            catch (OperationCanceledException ex) {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void removeBtn_Click(object sender, EventArgs e) {
-            if (resultsGrid.SelectedRows.Count > 0) {
+        private async void removeBtn_Click(object sender, EventArgs e) {
+            DataGridViewSelectedRowCollection ourRows = resultsGrid.SelectedRows;
+
+            if (ourRows.Count > 0) {
                 DialogResult doTheThing = MessageBox.Show("WARNING: Removing a single-stint player will delete any dates and StintX values for that player." +
-                    $"\n\nAttempt to delete {resultsGrid.SelectedRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
+                    $"\n\nAttempt to delete {ourRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
                 if (doTheThing == DialogResult.Yes) {
+                    DisableButtons();
                     int affectedRows = 0;
-                    foreach (DataGridViewRow row in resultsGrid.SelectedRows) {
-                        if (sps.RemovePersonStint(((PersonStint)row.DataBoundItem).PlayerId)) {
-                            affectedRows++;
-                            row.Cells["Editable"].Value = false.ToString();
+                    await Task.Run(() => {
+                        for (int i = 0; i < ourRows.Count; i++) {
+                            SetProgress(i + 1, ourRows.Count);
+                            if (sps.RemovePersonStint(((PersonStint)ourRows[i].DataBoundItem).PlayerId)) {
+                                affectedRows++;
+                                ourRows[i].Cells["Editable"].Value = false.ToString();
+                            }
                         }
-                    }
+                        ClearProgress();
+                    });
                     MessageBox.Show($"{affectedRows} records deleted.");
+                    EnableButtons();
                 }
             }
             else {
@@ -150,13 +205,28 @@ namespace BaseballView {
 
         private void resultsGrid_SelectionChanged(object sender, EventArgs e) {
             if (resultsGrid.SelectedRows.Count > 0) {
-                addBtn.Enabled = true;
-                removeBtn.Enabled = true;
+                EnableButtons();
             }
             else {
-                addBtn.Enabled = false;
-                removeBtn.Enabled = false;
+                DisableButtons();
             }
+        }
+
+        private async void SingleStintPlayers_Shown(object sender, EventArgs e) {
+            try {
+                await Task.Run(() => {
+                    //TODO: Make the GetSingleStintPlayers query async & feed it the cancellation token
+                    singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId);
+                    Invoke(() => resultsGrid.DataSource = singlePlayerStints);
+                });
+            }
+            catch (OperationCanceledException ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SingleStintPlayers_FormClosing(object sender, FormClosingEventArgs e) {
+            cts.Cancel();
         }
     }
 }

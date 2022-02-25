@@ -29,6 +29,7 @@
             this.CloseBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnsWrap = new System.Windows.Forms.Panel();
+            this.progressLbl = new System.Windows.Forms.Label();
             this.removeBtn = new System.Windows.Forms.Button();
             this.addBtn = new System.Windows.Forms.Button();
             this.gridWrap.SuspendLayout();
@@ -41,10 +42,10 @@
             // 
             this.gridWrap.Controls.Add(this.resultsGrid);
             this.gridWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridWrap.Location = new System.Drawing.Point(0, 106);
+            this.gridWrap.Location = new System.Drawing.Point(0, 116);
             this.gridWrap.Name = "gridWrap";
             this.gridWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.gridWrap.Size = new System.Drawing.Size(800, 264);
+            this.gridWrap.Size = new System.Drawing.Size(800, 254);
             this.gridWrap.TabIndex = 12;
             // 
             // resultsGrid
@@ -58,7 +59,8 @@
             this.resultsGrid.ReadOnly = true;
             this.resultsGrid.RowTemplate.Height = 25;
             this.resultsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.resultsGrid.Size = new System.Drawing.Size(780, 244);
+            this.resultsGrid.ShowCellToolTips = false;
+            this.resultsGrid.Size = new System.Drawing.Size(780, 234);
             this.resultsGrid.TabIndex = 4;
             this.resultsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultsGrid_DataBindingComplete);
             this.resultsGrid.SelectionChanged += new System.EventHandler(this.resultsGrid_SelectionChanged);
@@ -97,6 +99,7 @@
             // 
             // btnsWrap
             // 
+            this.btnsWrap.Controls.Add(this.progressLbl);
             this.btnsWrap.Controls.Add(this.removeBtn);
             this.btnsWrap.Controls.Add(this.addBtn);
             this.btnsWrap.Dock = System.Windows.Forms.DockStyle.Top;
@@ -104,8 +107,18 @@
             this.btnsWrap.Margin = new System.Windows.Forms.Padding(5);
             this.btnsWrap.Name = "btnsWrap";
             this.btnsWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.btnsWrap.Size = new System.Drawing.Size(800, 85);
+            this.btnsWrap.Size = new System.Drawing.Size(800, 95);
             this.btnsWrap.TabIndex = 14;
+            // 
+            // progressLbl
+            // 
+            this.progressLbl.AutoSize = true;
+            this.progressLbl.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.progressLbl.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.progressLbl.Location = new System.Drawing.Point(283, 10);
+            this.progressLbl.Name = "progressLbl";
+            this.progressLbl.Size = new System.Drawing.Size(0, 20);
+            this.progressLbl.TabIndex = 9;
             // 
             // removeBtn
             // 
@@ -141,10 +154,13 @@
             this.Name = "SingleStintPlayers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SingleStintPlayers";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SingleStintPlayers_FormClosing);
+            this.Shown += new System.EventHandler(this.SingleStintPlayers_Shown);
             this.gridWrap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.resultsGrid)).EndInit();
             this.controlPnl.ResumeLayout(false);
             this.btnsWrap.ResumeLayout(false);
+            this.btnsWrap.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,5 +176,6 @@
         private Panel btnsWrap;
         private Button removeBtn;
         private Button addBtn;
+        private Label progressLbl;
     }
 }

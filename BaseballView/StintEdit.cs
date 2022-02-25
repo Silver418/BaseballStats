@@ -223,7 +223,7 @@ namespace BaseballView {
         }
 
         private void singleStintsBtn_Click(object sender, EventArgs e) {
-            SingleStintPlayers form = new SingleStintPlayers(sps, (int)sps.Season.YearId);
+            SingleStintPlayers form = new SingleStintPlayers(sps);
             form.ShowDialog();
             playerDataGrid.DataSource = null;
             playerDataGrid.DataSource = sps.GetPlayers();            
