@@ -38,9 +38,12 @@ namespace BaseballView {
         //Helper Methods
         //**********
 
+        private void SetProgress(int current, int max) {
+            Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
+        }
         private void SetProgress(int current, int max, CancellationToken ct) {
             if (!ct.IsCancellationRequested) {
-                Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
+                SetProgress(current, max);
             }
         }
 
@@ -78,42 +81,43 @@ namespace BaseballView {
         //checks whether the players listed in the Single Stinter list already appear in the editable stint list passed
         //to this form by the parent form & marks the "Editable" column appropriately.
         //This goes through both lists entirely; best to use it only once, at initial setup.
-        private async void CheckAllSingleStinters() {
+        private async void CheckAllSingleStinters(CancellationToken ct) {
             int sIndex = 0; //index for our loop through the Single Stinters list. (also maps to the resultsGrid rows)
             int mIndex = 0; //index for our loop through the Multi Stinters list
             List<PersonStint> multiStinters = sps.GetPlayers();
 
-            cts = new CancellationTokenSource();
-            CancellationToken ct = cts.Token;
-
             await Task.Run(() => {
-                while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
-                    SetProgress(sIndex, singlePlayerStints.Count, ct);
-
-
-                    int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
-
-                    if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
-                        Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString());
-                        sIndex++;
-                        mIndex++;
+                try {
+                    while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
+                        if (ct.IsCancellationRequested) return;
+                        SetProgress(sIndex, singlePlayerStints.Count, ct);
+                        int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
+                        if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
+                            Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString());
+                            sIndex++;
+                            mIndex++;
+                        }
+                        else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
+                            if (ct.IsCancellationRequested) return;
+                            Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
+                            sIndex++;
+                        }
+                        else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
+                            mIndex++;
+                        }
                     }
-                    else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
+                    // likely to run out of multi-stinters before single stinters. This labels the remaining records
+                    for (; sIndex < singlePlayerStints.Count; sIndex++) {
+                        if (ct.IsCancellationRequested) return;
+                        SetProgress(sIndex, singlePlayerStints.Count, ct);
                         Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
-                        sIndex++;
                     }
-                    else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
-                        mIndex++;
-                    }
+                    //cleanup
+                    ClearProgress();
+                    Invoke(() => resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells);
                 }
-                // likely to run out of multi-stinters before single stinters. This labels the remaining records
-                for (; sIndex < singlePlayerStints.Count; sIndex++) {
-                    SetProgress(sIndex, singlePlayerStints.Count, ct);
-                    Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
-                }
-                //cleanup
-                ClearProgress();
-                Invoke(() => resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells);
+                catch (OperationCanceledException ex) { }
+                catch (ObjectDisposedException ex) { }
             });
         }
 
@@ -181,9 +185,9 @@ namespace BaseballView {
             resultsGrid.ClearSelection();
             dataBindingCount++;
             if (dataBindingCount == 2) { //Event unavoidably fires twice on initial load & overwrites previous work. Only working on last one to avoid large performance hit
-
-                CheckAllSingleStinters();//<--actual work here
-
+                cts = new CancellationTokenSource();
+                CancellationToken ct = cts.Token;
+                await Task.Run(() => CheckAllSingleStinters(ct), ct);
             }
         }
 
@@ -202,7 +206,7 @@ namespace BaseballView {
                 DialogResult doTheThing = MessageBox.Show("WARNING: Removing a single-stint player will delete any dates and StintX values for that player." +
                     $"\n\nAttempt to delete {ourRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
                 if (doTheThing == DialogResult.Yes) {
-                    
+
                     await Task.Run(() => {
                         try {
                             int affectedRows = 0;
@@ -219,7 +223,7 @@ namespace BaseballView {
                             MessageBox.Show($"{affectedRows} records deleted.");
                             EnableButtons(ct);
                         }
-                        catch(OperationCanceledException oce) {
+                        catch (OperationCanceledException oce) {
                         }
                     }, ct);
                 }
@@ -244,11 +248,13 @@ namespace BaseballView {
 
             await Task.Run(() => {
                 //TODO: Make the GetSingleStintPlayers query async & feed it the cancellation token
+                if (ct.IsCancellationRequested)
+                    return;
                 singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId);
+                if (ct.IsCancellationRequested)
+                    return;
                 Invoke(() => resultsGrid.DataSource = singlePlayerStints);
             }, ct);
-
-
         }
 
         private async void SingleStintPlayers_FormClosing(object sender, FormClosingEventArgs e) {
