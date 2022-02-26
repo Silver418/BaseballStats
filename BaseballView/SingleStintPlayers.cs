@@ -202,20 +202,26 @@ namespace BaseballView {
                 DialogResult doTheThing = MessageBox.Show("WARNING: Removing a single-stint player will delete any dates and StintX values for that player." +
                     $"\n\nAttempt to delete {ourRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
                 if (doTheThing == DialogResult.Yes) {
-                    DisableButtons(ct);
-                    int affectedRows = 0;
+                    
                     await Task.Run(() => {
-                        for (int i = 0; i < ourRows.Count; i++) {
-                            SetProgress(i + 1, ourRows.Count, ct);
-                            if (sps.RemovePersonStint(((PersonStint)ourRows[i].DataBoundItem).PlayerId)) {
-                                affectedRows++;
-                                ourRows[i].Cells["Editable"].Value = false.ToString();
+                        try {
+                            int affectedRows = 0;
+                            DisableButtons(ct);
+                            for (int i = 0; i < ourRows.Count; i++) {
+                                ct.ThrowIfCancellationRequested();
+                                SetProgress(i + 1, ourRows.Count, ct);
+                                if (sps.RemovePersonStint(((PersonStint)ourRows[i].DataBoundItem).PlayerId)) {
+                                    affectedRows++;
+                                    ourRows[i].Cells["Editable"].Value = false.ToString();
+                                }
                             }
+                            ClearProgress();
+                            MessageBox.Show($"{affectedRows} records deleted.");
+                            EnableButtons(ct);
                         }
-                        ClearProgress();
-                    });
-                    MessageBox.Show($"{affectedRows} records deleted.");
-                    EnableButtons(ct);
+                        catch(OperationCanceledException oce) {
+                        }
+                    }, ct);
                 }
             }
             else {
