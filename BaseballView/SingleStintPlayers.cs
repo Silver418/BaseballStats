@@ -18,7 +18,7 @@ namespace BaseballView {
         //this is very hacky, but is the least bad way I've found to run an initial value editing exactly once without getting overwritten
         int dataBindingCount = 0;
 
-        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationTokenSource cts = null;
 
         public SingleStintPlayers(SeasonPersonStint sps) {
             InitializeComponent();
@@ -38,12 +38,17 @@ namespace BaseballView {
         //Helper Methods
         //**********
 
-        private void SetProgress(int current, int max) {
-            Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
+        private void SetProgress(int current, int max, CancellationToken ct) {
+            if (!ct.IsCancellationRequested) {
+                Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
+            }
         }
 
         private void ClearProgress() {
             Invoke(() => progressLbl.Text = "");
+        }
+        private void ClearProgress(CancellationToken ct) {
+
         }
 
         private void DisableButtons() {
@@ -52,12 +57,22 @@ namespace BaseballView {
                 removeBtn.Enabled = false;
             });
         }
+        private void DisableButtons(CancellationToken ct) {
+            if (!ct.IsCancellationRequested) {
+                DisableButtons();
+            }
+        }
 
         private void EnableButtons() {
             Invoke(() => {
                 addBtn.Enabled = true;
                 removeBtn.Enabled = true;
             });
+        }
+        private void EnableButtons(CancellationToken ct) {
+            if (!ct.IsCancellationRequested) {
+                EnableButtons();
+            }
         }
 
         //checks whether the players listed in the Single Stinter list already appear in the editable stint list passed
@@ -68,9 +83,12 @@ namespace BaseballView {
             int mIndex = 0; //index for our loop through the Multi Stinters list
             List<PersonStint> multiStinters = sps.GetPlayers();
 
+            cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
+
             await Task.Run(() => {
                 while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
-                    SetProgress(sIndex, singlePlayerStints.Count);
+                    SetProgress(sIndex, singlePlayerStints.Count, ct);
 
 
                     int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
@@ -90,7 +108,7 @@ namespace BaseballView {
                 }
                 // likely to run out of multi-stinters before single stinters. This labels the remaining records
                 for (; sIndex < singlePlayerStints.Count; sIndex++) {
-                    SetProgress(sIndex, singlePlayerStints.Count);
+                    SetProgress(sIndex, singlePlayerStints.Count, ct);
                     Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
                 }
                 //cleanup
@@ -100,21 +118,23 @@ namespace BaseballView {
         }
 
         //add selected set of PersonStintRecords to parent form's editable list
-        private async Task AddOperation(CancellationToken ct) {
-            await Task.Run(() => {
+        private void AddOperation(CancellationToken ct) {
+            try {
                 DataGridViewSelectedRowCollection ourRows = resultsGrid.SelectedRows;
                 if (ourRows.Count > 0) {
                     int result = 0;
-                    DisableButtons();
+                    DisableButtons(ct);
+
                     if (ourRows.Count == 1) {
                         result = AddPersonStint(ourRows[0]);
                     }
-                    else { //task for multi-entry operation
+                    else { //multi-entry operation: requires cancellation checks
                         for (int i = 0; i < ourRows.Count; i++) {
-                            SetProgress(i + 1, ourRows.Count);
+                            ct.ThrowIfCancellationRequested();
+                            SetProgress(i + 1, ourRows.Count, ct);
                             result += AddPersonStint(ourRows[i]);
-                            ClearProgress();
                         }
+                        ClearProgress(ct);
                     }
                     if (result > 0) {
                         MessageBox.Show($"{result} record(s) added for editing." +
@@ -123,12 +143,15 @@ namespace BaseballView {
                     else {
                         MessageBox.Show("All selected records are already editable.");
                     }
-                    EnableButtons();
+
+                    EnableButtons(ct);
                 }
                 else {
                     MessageBox.Show("No records selected.");
                 }
-            }, ct);
+            }
+            catch (OperationCanceledException oce) {
+            }
         }
 
         //add one PersonStint record from the single stint players list to the parent form's editable multi-stint player list
@@ -154,39 +177,36 @@ namespace BaseballView {
         }
 
         //adds "true" or "false" to each PlayerStint's row to show whether they are already in the parent form's editable stint list
-        private void resultsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+        private async void resultsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             resultsGrid.ClearSelection();
             dataBindingCount++;
             if (dataBindingCount == 2) { //Event unavoidably fires twice on initial load & overwrites previous work. Only working on last one to avoid large performance hit
+
                 CheckAllSingleStinters();//<--actual work here
-                //set autosizing after data binding to avoid huge slowdown during binding
+
             }
         }
 
         private async void addBtn_Click(object sender, EventArgs e) {
-            try {
-                await AddOperation(cts.Token);
-            }
-            catch (OperationCanceledException ex) {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
+            cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
+            await Task.Run(() => AddOperation(ct));
         }
 
         private async void removeBtn_Click(object sender, EventArgs e) {
             DataGridViewSelectedRowCollection ourRows = resultsGrid.SelectedRows;
+            cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
 
             if (ourRows.Count > 0) {
                 DialogResult doTheThing = MessageBox.Show("WARNING: Removing a single-stint player will delete any dates and StintX values for that player." +
                     $"\n\nAttempt to delete {ourRows.Count} records?", "Delete?", MessageBoxButtons.YesNo);
                 if (doTheThing == DialogResult.Yes) {
-                    DisableButtons();
+                    DisableButtons(ct);
                     int affectedRows = 0;
                     await Task.Run(() => {
                         for (int i = 0; i < ourRows.Count; i++) {
-                            SetProgress(i + 1, ourRows.Count);
+                            SetProgress(i + 1, ourRows.Count, ct);
                             if (sps.RemovePersonStint(((PersonStint)ourRows[i].DataBoundItem).PlayerId)) {
                                 affectedRows++;
                                 ourRows[i].Cells["Editable"].Value = false.ToString();
@@ -195,7 +215,7 @@ namespace BaseballView {
                         ClearProgress();
                     });
                     MessageBox.Show($"{affectedRows} records deleted.");
-                    EnableButtons();
+                    EnableButtons(ct);
                 }
             }
             else {
@@ -213,20 +233,23 @@ namespace BaseballView {
         }
 
         private async void SingleStintPlayers_Shown(object sender, EventArgs e) {
-            try {
-                await Task.Run(() => {
-                    //TODO: Make the GetSingleStintPlayers query async & feed it the cancellation token
-                    singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId);
-                    Invoke(() => resultsGrid.DataSource = singlePlayerStints);
-                });
-            }
-            catch (OperationCanceledException ex) {
-                MessageBox.Show(ex.Message);
-            }
+            cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
+
+            await Task.Run(() => {
+                //TODO: Make the GetSingleStintPlayers query async & feed it the cancellation token
+                singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId);
+                Invoke(() => resultsGrid.DataSource = singlePlayerStints);
+            }, ct);
+
+
         }
 
-        private void SingleStintPlayers_FormClosing(object sender, FormClosingEventArgs e) {
-            cts.Cancel();
+        private async void SingleStintPlayers_FormClosing(object sender, FormClosingEventArgs e) {
+            if (cts != null) {
+                cts.Cancel();
+                cts.Dispose();
+            }
         }
     }
 }
