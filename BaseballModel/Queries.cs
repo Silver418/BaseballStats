@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -556,9 +557,9 @@ namespace BaseballModel {
         } //end GetPlayerStints method
 
         //get List<StintRecord> of players who only have one stint in a given season; pulls StintRecord if exists, or creates fresh record
-        public static List<PersonStint> GetSingleStintPlayers(long yearId) {
+        public async static Task<List<PersonStint>> GetSingleStintPlayers(long yearId) {
             using (BaseballContext db = new BaseballContext()) {
-                List<PersonStint> personList = new List<PersonStint>();
+                ConcurrentBag<PersonStint> personBag = new ConcurrentBag<PersonStint>();
                 //List<StintRecord> list = new List<StintRecord>();
 
                 var oneStintPlayers =
@@ -567,12 +568,10 @@ namespace BaseballModel {
                      group a by a.PlayerId into player
                      where player.Count() == 1
                      orderby player.Key ascending
-                     select new { player.First().PlayerId, player.First().TeamId }).ToList();
+                     select new { player.First().PlayerId, player.First().TeamId })/*.AsParallel()*/.ToList();
 
-                //select new { a.PlayerId, a.TeamId })
-                //.GroupBy(a => a.PlayerId).Where(a => a.Count() == 1).OrderBy(a => a.Key)
-                //.ToList();
 
+                /*
                 foreach (var player in oneStintPlayers) {
                     List<StintRecord> stintList = new List<StintRecord>();
                     StintRecord existing = GetStint(player.PlayerId, yearId, 1);
@@ -584,23 +583,23 @@ namespace BaseballModel {
                     }
                     personList.Add(new PersonStint(player.PlayerId, yearId, stintList));
                 }
-                /*
-                foreach (var player in oneStintPlayers) { //foreach through each player
-                    List<StintRecord> stintList = new List<StintRecord>();
-                    foreach(var x in player) { //foreach through each appearance subrecord in player group - should only be one
-                        
-                        
-                        if (existing != null) {
-                            stintList.Add(existing);
-                        }
-                        else {
-                            stintList.Add(new StintRecord(x.PlayerId, yearId, 1, x.TeamId));
-                        }
-                        personList.Add(new PersonStint(x.PlayerId, yearId, stintList));
-                    }
-                    
-                }
                 */
+                int stuff = 0;
+                Parallel.ForEach(oneStintPlayers, player => {
+                    List<StintRecord> stintList = new List<StintRecord>();
+                    StintRecord existing = GetStint(player.PlayerId, yearId, 1);
+                    if (existing != null) {
+                        stintList.Add(existing);
+                    }
+                    else {
+                        stintList.Add(new StintRecord(player.PlayerId, yearId, 1, player.TeamId));
+                    }
+                    personBag.Add(new PersonStint(player.PlayerId, yearId, stintList));
+                    stuff++;
+                });
+                List<PersonStint> personList = personBag.ToList();
+                personList.Sort(new PersonStintComparer());
+
                 return personList;
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -247,12 +248,9 @@ namespace BaseballView {
             CancellationToken ct = cts.Token;
 
             await Task.Run(() => {
-                //TODO: Make the GetSingleStintPlayers query async & feed it the cancellation token
-                if (ct.IsCancellationRequested)
-                    return;
-                singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId);
-                if (ct.IsCancellationRequested)
-                    return;
+                Invoke(()=>progressLbl.Text = "Working; please wait.");
+                singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId).Result;
+                if (ct.IsCancellationRequested) return;
                 Invoke(() => resultsGrid.DataSource = singlePlayerStints);
             }, ct);
         }
