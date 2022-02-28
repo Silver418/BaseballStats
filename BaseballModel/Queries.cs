@@ -568,7 +568,7 @@ namespace BaseballModel {
                      group a by a.PlayerId into player
                      where player.Count() == 1
                      orderby player.Key ascending
-                     select new { player.First().PlayerId, player.First().TeamId })/*.AsParallel()*/.ToList();
+                     select new { player.First().PlayerId, player.First().TeamId }).ToList();
 
 
                 /*
@@ -584,7 +584,6 @@ namespace BaseballModel {
                     personList.Add(new PersonStint(player.PlayerId, yearId, stintList));
                 }
                 */
-                int stuff = 0;
                 Parallel.ForEach(oneStintPlayers, player => {
                     List<StintRecord> stintList = new List<StintRecord>();
                     StintRecord existing = GetStint(player.PlayerId, yearId, 1);
@@ -595,7 +594,6 @@ namespace BaseballModel {
                         stintList.Add(new StintRecord(player.PlayerId, yearId, 1, player.TeamId));
                     }
                     personBag.Add(new PersonStint(player.PlayerId, yearId, stintList));
-                    stuff++;
                 });
                 List<PersonStint> personList = personBag.ToList();
                 personList.Sort(new PersonStintComparer());

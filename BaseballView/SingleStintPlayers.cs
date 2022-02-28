@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,13 +14,9 @@ namespace BaseballView {
         List<PersonStint> singlePlayerStints; //players who have only one stint this season
         //List<PersonStint> multiStinters; //stints currently displayed on the calling StintEdit form
 
-        //counter for how many times the DataBindingComplete event fires. We want to manipulate all values on the 2nd event only
-        //this is very hacky, but is the least bad way I've found to run an initial value editing exactly once without getting overwritten
-        int dataBindingCount = 0;
-
         CancellationTokenSource cts = null;
 
-        public SingleStintPlayers(SeasonPersonStint sps) {
+        public SingleStintPlayers(SeasonPersonStint sps, SortedDictionary<string, string> teamOptions) {
             InitializeComponent();
             this.sps = sps;
 
@@ -33,6 +28,11 @@ namespace BaseballView {
             resultsGrid.Columns.Add(Helpers.MakeColumn("# Stints", "Count"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("Team", "Teams"));
             resultsGrid.Columns.Add(Helpers.MakeColumn("Editable"));
+
+            //team options filter
+            filterTeamCmb.DataSource = teamOptions.ToList();
+            filterTeamCmb.ValueMember = "Key";
+            filterTeamCmb.DisplayMember = "Value";
         }
 
         //**********
@@ -61,6 +61,7 @@ namespace BaseballView {
                 removeBtn.Enabled = false;
             });
         }
+
         private void DisableButtons(CancellationToken ct) {
             if (!ct.IsCancellationRequested) {
                 DisableButtons();
@@ -83,43 +84,45 @@ namespace BaseballView {
         //to this form by the parent form & marks the "Editable" column appropriately.
         //This goes through both lists entirely; best to use it only once, at initial setup.
         private async void CheckAllSingleStinters(CancellationToken ct) {
-            int sIndex = 0; //index for our loop through the Single Stinters list. (also maps to the resultsGrid rows)
-            int mIndex = 0; //index for our loop through the Multi Stinters list
-            List<PersonStint> multiStinters = sps.GetPlayers();
+            if (resultsGrid.Rows[0].Cells["Editable"].Value == null){ //check whether we've alraedy made these changes; if so, don't bother
+                int sIndex = 0; //index for our loop through the Single Stinters list. (also maps to the resultsGrid rows)
+                int mIndex = 0; //index for our loop through the Multi Stinters list
+                List<PersonStint> multiStinters = sps.GetPlayers();
 
-            await Task.Run(() => {
-                try {
-                    while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
-                        if (ct.IsCancellationRequested) return;
-                        SetProgress(sIndex, singlePlayerStints.Count, ct);
-                        int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
-                        if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
-                            Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString());
-                            sIndex++;
-                            mIndex++;
-                        }
-                        else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
+                await Task.Run(() => {
+                    try {
+                        while (sIndex < singlePlayerStints.Count && mIndex < multiStinters.Count) {
                             if (ct.IsCancellationRequested) return;
+                            SetProgress(sIndex, singlePlayerStints.Count, ct);
+                            int comparison = String.Compare(singlePlayerStints[sIndex].PlayerId, multiStinters[mIndex].PlayerId);
+                            if (comparison == 0) { //player IDs equal; single-stint player already exists in editable multi-stint list
+                                Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = true.ToString());
+                                sIndex++;
+                                mIndex++;
+                            }
+                            else if (comparison < 0) { //single stint PlayerID < multi stint Player ID: no matches found, no further matches possible
+                                if (ct.IsCancellationRequested) return;
+                                Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
+                                sIndex++;
+                            }
+                            else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
+                                mIndex++;
+                            }
+                        }
+                        // likely to run out of multi-stinters before single stinters. This labels the remaining records
+                        for (; sIndex < singlePlayerStints.Count; sIndex++) {
+                            if (ct.IsCancellationRequested) return;
+                            SetProgress(sIndex, singlePlayerStints.Count, ct);
                             Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
-                            sIndex++;
                         }
-                        else { //single stint Player ID > multi stint Player ID: no match found, but remaining multi records might be a match
-                            mIndex++;
-                        }
+                        //cleanup
+                        ClearProgress();
+                        Invoke(() => resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells);
                     }
-                    // likely to run out of multi-stinters before single stinters. This labels the remaining records
-                    for (; sIndex < singlePlayerStints.Count; sIndex++) {
-                        if (ct.IsCancellationRequested) return;
-                        SetProgress(sIndex, singlePlayerStints.Count, ct);
-                        Invoke(() => resultsGrid.Rows[sIndex].Cells["Editable"].Value = false.ToString());
-                    }
-                    //cleanup
-                    ClearProgress();
-                    Invoke(() => resultsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells);
-                }
-                catch (OperationCanceledException ex) { }
-                catch (ObjectDisposedException ex) { }
-            });
+                    catch (OperationCanceledException ex) { }
+                    catch (ObjectDisposedException ex) { }
+                });
+            }
         }
 
         //add selected set of PersonStintRecords to parent form's editable list
@@ -184,12 +187,9 @@ namespace BaseballView {
         //adds "true" or "false" to each PlayerStint's row to show whether they are already in the parent form's editable stint list
         private async void resultsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             resultsGrid.ClearSelection();
-            dataBindingCount++;
-            if (dataBindingCount == 2) { //Event unavoidably fires twice on initial load & overwrites previous work. Only working on last one to avoid large performance hit
-                cts = new CancellationTokenSource();
-                CancellationToken ct = cts.Token;
-                await Task.Run(() => CheckAllSingleStinters(ct), ct);
-            }
+            cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
+            await Task.Run(() => CheckAllSingleStinters(ct), ct);
         }
 
         private async void addBtn_Click(object sender, EventArgs e) {
@@ -247,12 +247,12 @@ namespace BaseballView {
             cts = new CancellationTokenSource();
             CancellationToken ct = cts.Token;
 
+            Invoke(() => progressLbl.Text = "Working; please wait.");
             await Task.Run(() => {
-                Invoke(()=>progressLbl.Text = "Working; please wait.");
-                singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId).Result;
                 if (ct.IsCancellationRequested) return;
-                Invoke(() => resultsGrid.DataSource = singlePlayerStints);
+                singlePlayerStints = Queries.GetSingleStintPlayers(sps.Season.YearId).Result;
             }, ct);
+            Invoke(() => resultsGrid.DataSource = singlePlayerStints);
         }
 
         private async void SingleStintPlayers_FormClosing(object sender, FormClosingEventArgs e) {
