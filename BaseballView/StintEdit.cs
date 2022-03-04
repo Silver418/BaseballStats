@@ -19,6 +19,7 @@ namespace BaseballView {
         //other
         string teamDefaultKey = "000000DEFAULT"; //default key for the "select all" team selection filter option
         string teamDefaultText = "<Show All Teams>"; //default text for ^
+        SortedDictionary<string, string> teamOptions; //used for filters; will also pass this to child form (single stint editing) rather than rebuild
 
         public StintEdit(Panel containing) {
             InitializeComponent();
@@ -101,7 +102,7 @@ namespace BaseballView {
         private void SetupFilter() {
             if (sps != null) { //check that season has been selected
                 //build options for combobox
-                SortedDictionary<string, string> teamOptions = sps.GetTeams();                
+                teamOptions = sps.GetTeams();                
                 teamOptions.TryAdd(teamDefaultKey, teamDefaultText);
                 filterTeamCmb.DataSource = teamOptions.ToList();
                 filterTeamCmb.ValueMember = "Key";
@@ -223,7 +224,7 @@ namespace BaseballView {
         }
 
         private void singleStintsBtn_Click(object sender, EventArgs e) {
-            SingleStintPlayers form = new SingleStintPlayers(sps);
+            SingleStintPlayers form = new SingleStintPlayers(sps, teamOptions);
             form.ShowDialog();
             playerDataGrid.DataSource = null;
             playerDataGrid.DataSource = sps.GetPlayers();            

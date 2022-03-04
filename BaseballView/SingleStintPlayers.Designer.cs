@@ -29,6 +29,11 @@
             this.CloseBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnsWrap = new System.Windows.Forms.Panel();
+            this.clearFilterBtn = new System.Windows.Forms.Button();
+            this.filterBtn = new System.Windows.Forms.Button();
+            this.filterTeamCmb = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.progressLbl = new System.Windows.Forms.Label();
             this.removeBtn = new System.Windows.Forms.Button();
             this.addBtn = new System.Windows.Forms.Button();
@@ -42,10 +47,10 @@
             // 
             this.gridWrap.Controls.Add(this.resultsGrid);
             this.gridWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridWrap.Location = new System.Drawing.Point(0, 116);
+            this.gridWrap.Location = new System.Drawing.Point(0, 128);
             this.gridWrap.Name = "gridWrap";
             this.gridWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.gridWrap.Size = new System.Drawing.Size(800, 254);
+            this.gridWrap.Size = new System.Drawing.Size(800, 242);
             this.gridWrap.TabIndex = 12;
             // 
             // resultsGrid
@@ -60,7 +65,7 @@
             this.resultsGrid.RowTemplate.Height = 25;
             this.resultsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.resultsGrid.ShowCellToolTips = false;
-            this.resultsGrid.Size = new System.Drawing.Size(780, 234);
+            this.resultsGrid.Size = new System.Drawing.Size(780, 222);
             this.resultsGrid.TabIndex = 4;
             this.resultsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultsGrid_DataBindingComplete);
             this.resultsGrid.SelectionChanged += new System.EventHandler(this.resultsGrid_SelectionChanged);
@@ -99,6 +104,11 @@
             // 
             // btnsWrap
             // 
+            this.btnsWrap.Controls.Add(this.clearFilterBtn);
+            this.btnsWrap.Controls.Add(this.filterBtn);
+            this.btnsWrap.Controls.Add(this.filterTeamCmb);
+            this.btnsWrap.Controls.Add(this.label6);
+            this.btnsWrap.Controls.Add(this.label3);
             this.btnsWrap.Controls.Add(this.progressLbl);
             this.btnsWrap.Controls.Add(this.removeBtn);
             this.btnsWrap.Controls.Add(this.addBtn);
@@ -107,15 +117,65 @@
             this.btnsWrap.Margin = new System.Windows.Forms.Padding(5);
             this.btnsWrap.Name = "btnsWrap";
             this.btnsWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.btnsWrap.Size = new System.Drawing.Size(800, 95);
+            this.btnsWrap.Size = new System.Drawing.Size(800, 107);
             this.btnsWrap.TabIndex = 14;
+            // 
+            // clearFilterBtn
+            // 
+            this.clearFilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearFilterBtn.Location = new System.Drawing.Point(563, 10);
+            this.clearFilterBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.clearFilterBtn.Name = "clearFilterBtn";
+            this.clearFilterBtn.Size = new System.Drawing.Size(115, 40);
+            this.clearFilterBtn.TabIndex = 19;
+            this.clearFilterBtn.Text = "Clear Filter";
+            this.clearFilterBtn.UseVisualStyleBackColor = true;
+            // 
+            // filterBtn
+            // 
+            this.filterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterBtn.Location = new System.Drawing.Point(563, 54);
+            this.filterBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.filterBtn.Name = "filterBtn";
+            this.filterBtn.Size = new System.Drawing.Size(115, 40);
+            this.filterBtn.TabIndex = 18;
+            this.filterBtn.Text = "Apply &Filter";
+            this.filterBtn.UseVisualStyleBackColor = true;
+            // 
+            // filterTeamCmb
+            // 
+            this.filterTeamCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.filterTeamCmb.FormattingEnabled = true;
+            this.filterTeamCmb.Location = new System.Drawing.Point(283, 56);
+            this.filterTeamCmb.Name = "filterTeamCmb";
+            this.filterTeamCmb.Size = new System.Drawing.Size(267, 23);
+            this.filterTeamCmb.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(283, 38);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(159, 15);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Players who played for team:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(283, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 20);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Filters";
             // 
             // progressLbl
             // 
             this.progressLbl.AutoSize = true;
             this.progressLbl.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.progressLbl.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.progressLbl.Location = new System.Drawing.Point(283, 10);
+            this.progressLbl.Location = new System.Drawing.Point(15, 80);
             this.progressLbl.Name = "progressLbl";
             this.progressLbl.Size = new System.Drawing.Size(0, 20);
             this.progressLbl.TabIndex = 9;
@@ -177,5 +237,10 @@
         private Button removeBtn;
         private Button addBtn;
         private Label progressLbl;
+        private Label label3;
+        private Label label6;
+        private ComboBox filterTeamCmb;
+        private Button filterBtn;
+        private Button clearFilterBtn;
     }
 }
