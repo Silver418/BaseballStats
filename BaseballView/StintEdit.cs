@@ -49,11 +49,14 @@ namespace BaseballView {
         //*****
 
         //pull year from the year picker, pull its records, populate player grid
-        private void GetSeason() {
+        private async void GetSeason() {
             SeasonDateRecord foundSeason = Queries.GetSeason(yearPicker.Value.Year);
             if (foundSeason != null) {
                 //save season record & display start/end dates
-                sps = new SeasonPersonStint(foundSeason);
+                progressLbl.Text = "Working; please wait.";
+                await Task.Run(() => sps = new SeasonPersonStint(foundSeason)); //awaited for responsiveness during potentially long task
+                progressLbl.Text = "";
+
                 seasonYearLbl.Text = sps.Season.YearId.ToString();
                 seasonStartLbl.Text = sps.Season.SeasonStart.ToString("MMM dd");
                 seasonEndLbl.Text = sps.Season.SeasonEnd.ToString("MMM dd");

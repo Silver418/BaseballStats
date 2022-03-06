@@ -57,6 +57,7 @@
             this.stintEditGrid = new System.Windows.Forms.DataGridView();
             this.stintHeader = new System.Windows.Forms.Label();
             this.personStintWrap = new System.Windows.Forms.SplitContainer();
+            this.progressLbl = new System.Windows.Forms.Label();
             this.controlPnl.SuspendLayout();
             this.yearEntryPnl.SuspendLayout();
             this.yearFilterPnl.SuspendLayout();
@@ -480,11 +481,22 @@
             this.personStintWrap.SplitterDistance = 234;
             this.personStintWrap.TabIndex = 3;
             // 
+            // progressLbl
+            // 
+            this.progressLbl.AutoSize = true;
+            this.progressLbl.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.progressLbl.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.progressLbl.Location = new System.Drawing.Point(386, 11);
+            this.progressLbl.Name = "progressLbl";
+            this.progressLbl.Size = new System.Drawing.Size(0, 20);
+            this.progressLbl.TabIndex = 13;
+            // 
             // StintEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.Controls.Add(this.progressLbl);
             this.Controls.Add(this.personStintWrap);
             this.Controls.Add(this.yearPnl);
             this.Controls.Add(this.controlPnl);
@@ -550,5 +562,6 @@
         private ComboBox filterTeamCmb;
         private Button clearFilterBtn;
         private Button singleStintsBtn;
+        private Label progressLbl;
     }
 }
