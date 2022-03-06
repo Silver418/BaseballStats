@@ -15,6 +15,7 @@ namespace BaseballView {
 
         CancellationTokenSource cts = null;
 
+        string teamDefaultKey; //default key for the team filter's "Show All Teams" option
 
         public SingleStintPlayers(SeasonPersonStint sps, SortedDictionary<string, string> teamOptions) {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace BaseballView {
             filterTeamCmb.DataSource = teamOptions.ToList();
             filterTeamCmb.ValueMember = "Key";
             filterTeamCmb.DisplayMember = "Value";
+            teamDefaultKey = teamOptions.Keys.First(); //first option is "Show All Teams"
         }
 
         //**********
@@ -57,6 +59,15 @@ namespace BaseballView {
             /*if (!ct.IsCancellationRequested) {
                 Invoke(() => progressLbl.Text = $"Working: {current} of {max} records");
             }*/
+        }
+
+        private void ApplyFilter() {
+            if (filterTeamCmb.SelectedValue.ToString().Equals(teamDefaultKey)) {
+                resultsGrid.DataSource = singlePlayerStints.SingleStinters;
+            }
+            else {
+                resultsGrid.DataSource = singlePlayerStints.FilterPlayers(filterTeamCmb.SelectedValue.ToString() ?? "");
+            }
         }
 
         private void ClearProgress() {
@@ -251,6 +262,21 @@ namespace BaseballView {
                 cts.Cancel();
                 cts.Dispose();
             }
+        }
+
+        private void filterBtn_Click(object sender, EventArgs e) {
+            ApplyFilter();
+        }
+
+        private void filterTeamCmb_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                ApplyFilter();
+            }
+        }
+
+        private void clearFilterBtn_Click(object sender, EventArgs e) {
+            filterTeamCmb.SelectedIndex = 0;
+            ApplyFilter();
         }
     }
 }

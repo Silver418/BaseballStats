@@ -26,7 +26,6 @@ namespace BaseballModel.Models {
         //populate method to be used after default constructor for progress reporting (by ProgressChanged event) & cancellation
         public void Populate(long yearId, List<PersonStint> ms, CancellationToken ct) {
 
-            //SEARCHY VERSION OF POPULATE METHOD
             multiStinters = ms;
 
             var playerStintsQuery = Queries.GetSingleStintPlayers(yearId);
@@ -62,6 +61,14 @@ namespace BaseballModel.Models {
             }
 
         } //end populate method
+
+        public List<PersonSingleStintRecord> FilterPlayers(string teamId) {
+            List<PersonSingleStintRecord> filtered =
+                (from person in SingleStinters
+                 where person.PlayedForTeam(teamId) == true
+                 select person).ToList();
+            return filtered;
+        }
 
     } //end class
 } //end namespace

@@ -129,6 +129,7 @@
             this.clearFilterBtn.TabIndex = 19;
             this.clearFilterBtn.Text = "Clear Filter";
             this.clearFilterBtn.UseVisualStyleBackColor = true;
+            this.clearFilterBtn.Click += new System.EventHandler(this.clearFilterBtn_Click);
             // 
             // filterBtn
             // 
@@ -140,6 +141,7 @@
             this.filterBtn.TabIndex = 18;
             this.filterBtn.Text = "Apply &Filter";
             this.filterBtn.UseVisualStyleBackColor = true;
+            this.filterBtn.Click += new System.EventHandler(this.filterBtn_Click);
             // 
             // filterTeamCmb
             // 
@@ -149,6 +151,7 @@
             this.filterTeamCmb.Name = "filterTeamCmb";
             this.filterTeamCmb.Size = new System.Drawing.Size(267, 23);
             this.filterTeamCmb.TabIndex = 17;
+            this.filterTeamCmb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filterTeamCmb_KeyDown);
             // 
             // label6
             // 
