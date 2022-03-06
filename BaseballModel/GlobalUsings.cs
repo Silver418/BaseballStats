@@ -1,4 +1,6 @@
-﻿global using Microsoft.EntityFrameworkCore;
+﻿//Baseball Model global usings
+
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Sqlite;
 global using BaseballModel.Context;
 global using BaseballModel.Entities;

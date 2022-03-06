@@ -557,11 +557,9 @@ namespace BaseballModel {
         } //end GetPlayerStints method
 
         //get List<StintRecord> of players who only have one stint in a given season; pulls StintRecord if exists, or creates fresh record
-        public async static Task<List<PersonStint>> GetSingleStintPlayers(long yearId) {
+        public static List<dynamic> GetSingleStintPlayers(long yearId) {
             using (BaseballContext db = new BaseballContext()) {
-                ConcurrentBag<PersonStint> personBag = new ConcurrentBag<PersonStint>();
-                //List<StintRecord> list = new List<StintRecord>();
-
+                //query List<string> of players we want to include in the single-player list
                 var oneStintPlayers =
                     (from a in db.Appearances
                      where a.YearId == yearId
@@ -570,36 +568,22 @@ namespace BaseballModel {
                      orderby player.Key ascending
                      select new { player.First().PlayerId, player.First().TeamId }).ToList();
 
+                using (TransContext trans = new TransContext()) {
+                    var stintsInYear =
+                        (from stint in trans.Stints
+                         where stint.YearId == yearId
+                         select stint);
 
-                /*
-                foreach (var player in oneStintPlayers) {
-                    List<StintRecord> stintList = new List<StintRecord>();
-                    StintRecord existing = GetStint(player.PlayerId, yearId, 1);
-                    if (existing != null) {
-                        stintList.Add(existing);
-                    }
-                    else {
-                        stintList.Add(new StintRecord(player.PlayerId, yearId, 1, player.TeamId));
-                    }
-                    personList.Add(new PersonStint(player.PlayerId, yearId, stintList));
-                }
-                */
-                Parallel.ForEach(oneStintPlayers, player => {
-                    List<StintRecord> stintList = new List<StintRecord>();
-                    StintRecord existing = GetStint(player.PlayerId, yearId, 1);
-                    if (existing != null) {
-                        stintList.Add(existing);
-                    }
-                    else {
-                        stintList.Add(new StintRecord(player.PlayerId, yearId, 1, player.TeamId));
-                    }
-                    personBag.Add(new PersonStint(player.PlayerId, yearId, stintList));
-                });
-                List<PersonStint> personList = personBag.ToList();
-                personList.Sort(new PersonStintComparer());
+                    var playerStints =
+                        (from a in oneStintPlayers
+                        join stint in stintsInYear
+                        on a.PlayerId equals stint.PlayerId into gj
+                        from substint in gj.DefaultIfEmpty()
+                        select new { a, substint }).AsEnumerable().Cast<dynamic>().ToList();
 
-                return personList;
-            }
+                    return playerStints;
+                } //end using trans context
+            } //end using baseball context
         }
 
         //get a single StintRecord if it exists in transaction.db; 
