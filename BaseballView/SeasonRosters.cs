@@ -101,7 +101,7 @@ namespace BaseballView {
 
                 season = Queries.GetSeason(teamRecord.YearId);
                 if (season != null) {
-                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season, true);
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {

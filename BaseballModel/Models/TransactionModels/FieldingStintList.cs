@@ -10,10 +10,10 @@ namespace BaseballModel.Models {
         private SeasonDateRecord? season;
 
         //constructor used when a SeasonDateRecord is available (calculates stint's StintX values)
-        public FieldingStintList(string teamId, string lgId, SeasonDateRecord s) {
+        public FieldingStintList(string teamId, string lgId, SeasonDateRecord s, bool includeOutfieldDetails = false) {
             season = s;
 
-            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, season.YearId);
+            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, season.YearId, includeOutfieldDetails);
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
                 StintRecord? stint = Queries.GetStint(teamId, season.YearId, fielding.PlayerId);
@@ -26,8 +26,8 @@ namespace BaseballModel.Models {
         }
 
         //constructor used with just a year number instead of a full SeasonDateRecord
-        public FieldingStintList(string teamId, string lgId, long yearId) {
-            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, yearId);
+        public FieldingStintList(string teamId, string lgId, long yearId, bool includeOutfieldDetails = false) {
+            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, yearId, includeOutfieldDetails);
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
                 StintRecord? stint = Queries.GetStint(teamId, yearId, fielding.PlayerId);
