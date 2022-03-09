@@ -16,10 +16,13 @@ namespace BaseballView {
         SeasonPersonStint sps;
         string activePlayer = "";
         string stintDefaultHeader = "Stints for Selected Player";
-        //other
+        //team filter vars
         string teamDefaultKey = "000000DEFAULT"; //default key for the "select all" team selection filter option
         string teamDefaultText = "<Show All Teams>"; //default text for ^
         SortedDictionary<string, string> teamOptions; //used for filters; will also pass this to child form (single stint editing) rather than rebuild
+        //vars for primary/ignorable stints
+        string primaryStintStr = "Primary Stint"; //string for name of the primary stint column in the stint editing grid
+        string ignoreStintStr = "Ignore Stint"; //string for name of the ignorable stint column in the stint editing grid
 
         public StintEdit(Panel containing) {
             InitializeComponent();
@@ -38,10 +41,18 @@ namespace BaseballView {
             stintEditGrid.AutoGenerateColumns = false;
             stintEditGrid.Columns.Add(Helpers.MakeColumn("Stint #", "StintId"));
             stintEditGrid.Columns.Add(Helpers.MakeColumn("Team", "TeamName"));
-            stintEditGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format:"MMM dd"));
+            stintEditGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format: "MMM dd"));
             stintEditGrid.Columns.Add(Helpers.MakeColumn("End Date", "StintEnd", format: "MMM dd"));
-            stintEditGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format:"#"));
+            stintEditGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
             stintEditGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;0.000;#"));
+
+            DataGridViewCheckBoxColumn ignoreCol = new DataGridViewCheckBoxColumn() { Name = ignoreStintStr };
+            stintEditGrid.Columns.Add(ignoreCol);
+
+            DataGridViewCheckBoxColumn primaryCol = new DataGridViewCheckBoxColumn() { Name = primaryStintStr };
+            stintEditGrid.Columns.Add(primaryCol);
+
+            DisablePrimaryStint();
         }
 
         //*****
@@ -102,10 +113,11 @@ namespace BaseballView {
             }
         }
 
+        //populate team list in team filter box & enable filter buttons
         private void SetupFilter() {
             if (sps != null) { //check that season has been selected
                 //build options for combobox
-                teamOptions = sps.GetTeams();                
+                teamOptions = sps.GetTeams();
                 teamOptions.TryAdd(teamDefaultKey, teamDefaultText);
                 filterTeamCmb.DataSource = teamOptions.ToList();
                 filterTeamCmb.ValueMember = "Key";
@@ -121,6 +133,7 @@ namespace BaseballView {
             }
         }
 
+        //apply the currently selected filter
         private void ApplyFilter() {
             if (sps != null) {//check that season has been selected
                 if (filterTeamCmb.SelectedValue.ToString().Equals(teamDefaultKey)) {
@@ -130,6 +143,19 @@ namespace BaseballView {
                     playerDataGrid.DataSource = sps.FilterPlayers(filterIncompleteChk.Checked, filterTeamCmb.SelectedValue.ToString() ?? "");
                 }
             }
+        }
+
+        private void DisablePrimaryStint() {
+            stintEditGrid.Columns[primaryStintStr].ReadOnly = true;
+            stintEditGrid.Columns[primaryStintStr].DefaultCellStyle.BackColor = Color.DarkGray;
+            foreach (DataGridViewRow row in stintEditGrid.Rows) {
+                row.Cells[primaryStintStr].Value = false;
+            }
+        }
+
+        private void EnablePrimaryStint() {
+            stintEditGrid.Columns[primaryStintStr].ReadOnly = false;
+            stintEditGrid.Columns[primaryStintStr].DefaultCellStyle.BackColor = Color.White;
         }
 
         //*****
@@ -169,6 +195,7 @@ namespace BaseballView {
             }
         }
 
+        //enter on the player grid
         private void playerDataGrid_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 e.Handled = true;
@@ -177,10 +204,12 @@ namespace BaseballView {
             }
         }
 
+        //double click a player on player grid
         private void playerDataGrid_DoubleClick(object sender, EventArgs e) {
             SelectPlayer();
         }
 
+        //save button for editing stints
         private void stintSaveBtn_Click(object sender, EventArgs e) {
             (bool validated, int recordsUpdated) = sps.ValidateSavePlayer(activePlayer);
             stintEditGrid.Refresh();
@@ -197,6 +226,7 @@ namespace BaseballView {
             }
         }
 
+        //cancel button for editing a player's stints
         private void stintCancelBtn_Click(object sender, EventArgs e) {
             //cancel any changes to the stint, revert to approved copy
             sps.RevertStintsPlayer(activePlayer);
@@ -205,32 +235,107 @@ namespace BaseballView {
             stintEditGrid.Update();
         }
 
+        //incorrect format entered for stint editing grid input
         private void stintEditGrid_DataError(object sender, DataGridViewDataErrorEventArgs e) {
             stintEditGrid.CancelEdit();
             e.Cancel = true;
         }
 
+        //apply filter button
         private void filterBtn_Click(object sender, EventArgs e) {
             ApplyFilter();
         }
 
+        //"enter" on team filter box
         private void filterTeamCmb_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 ApplyFilter();
             }
         }
 
+        //clear filter button
         private void clearFilterBtn_Click(object sender, EventArgs e) {
             filterIncompleteChk.Checked = false;
             filterTeamCmb.SelectedIndex = 0;
             ApplyFilter();
         }
 
+        //popup form for editing which single-stint players appear in the editing list
         private void singleStintsBtn_Click(object sender, EventArgs e) {
             SingleStintPlayers form = new SingleStintPlayers(sps, teamOptions);
             form.ShowDialog();
             playerDataGrid.DataSource = null;
-            playerDataGrid.DataSource = sps.GetPlayers();            
+            playerDataGrid.DataSource = sps.GetPlayers();
+        }
+
+        //handling for editing the Ignorable Stint & Primary Stints by click
+        private void stintEditGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0) return;
+
+            string columnName = stintEditGrid.Columns[e.ColumnIndex].Name;
+
+            //ignorable stint column handling
+            if (columnName.Equals(ignoreStintStr)) {
+                DataGridViewCheckBoxCell thisCell = (DataGridViewCheckBoxCell)stintEditGrid.Rows[e.RowIndex].Cells[columnName];
+
+                thisCell.Value = !(bool)thisCell.Value; //flip column value
+                if ((bool)thisCell.Value == true) { //if we just checked the box
+                    //unchecks this stint's matching Primary Stint box (a stint cannot be Ignored & Primary at the same time)
+                    EnablePrimaryStint();
+                    stintEditGrid.Rows[e.RowIndex].Cells[primaryStintStr].Value = false;
+                }
+                else { //if we just unchecked the box
+                    bool atLeastOne = false;
+                    foreach (DataGridViewRow row in stintEditGrid.Rows) {
+                        if ((bool)row.Cells[columnName].Value == true) {
+                            atLeastOne = true;
+                        }
+                    }
+                    if (atLeastOne) { //unlock primary stint column if at least one is checked
+
+                        EnablePrimaryStint();
+                    }
+                    else { //lock & clears the Primary Stint column if no Ignore Stint boxes are checked
+                        DisablePrimaryStint();
+                    }
+                }
+            }
+
+            //primary stint column handling
+            else if (columnName.Equals(primaryStintStr)) {
+                DataGridViewCheckBoxCell thisCell = (DataGridViewCheckBoxCell)stintEditGrid.Rows[e.RowIndex].Cells[columnName];
+                if (thisCell.ReadOnly == true) return;
+
+                if ((bool)thisCell.Value == false) { //checkbox starts out as false, we want to set it to true
+                    //make sure the matching "Ignore Stint" box is not checked (else cancel the change)
+                    if ((bool)stintEditGrid.Rows[e.RowIndex].Cells[ignoreStintStr].Value == true) {
+                        stintEditGrid.EndEdit();
+                        thisCell.Value = false;
+                    }
+                    else {
+                        // uncheck all other stints' Primary Stint box (like a radio button)
+                        foreach (DataGridViewRow row in stintEditGrid.Rows) {
+                            if (row.Cells[primaryStintStr] != thisCell) {
+                                row.Cells[primaryStintStr].Value = false;
+                            } else {
+                                thisCell.Value = true;
+                            }
+                        }
+                    }
+                }
+                else {
+                    thisCell.Value = false;
+                }
+            }
+        }
+
+        //TODO: Remove this event handler once we make the underlying database records necessarily contain true or false with no possibility of null
+        //for now, it initialized the Ignore Stint & Primary Stint columns with "false"
+        private void stintEditGrid_DataSourceChanged(object sender, EventArgs e) {
+            foreach (DataGridViewRow row in stintEditGrid.Rows) {
+                row.Cells[primaryStintStr].Value = false;
+                row.Cells[ignoreStintStr].Value = false;
+            }
         }
     }
 }
