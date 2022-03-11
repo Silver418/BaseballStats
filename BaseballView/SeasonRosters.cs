@@ -37,7 +37,7 @@ namespace BaseballView {
             fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format:"0.000"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format: "0.000"));
 
             //setup designated hitter grid
             desigHitterGrid.AutoGenerateColumns = false;
@@ -65,12 +65,45 @@ namespace BaseballView {
         //**********
 
         public void GetDesigDetails() {
-            if(desigHitterGrid.SelectedRows.Count == 1) {
+            if (desigHitterGrid.SelectedRows.Count == 1) {
                 DesignatedStintRecord source = (DesignatedStintRecord)desigHitterGrid.SelectedRows[0].DataBoundItem;
                 desigDetailGrid.DataSource = source.StintRecords;
             }
         }
 
+        public void CalcMStarts() {
+            if (fieldingResults != null && gamesNud.Value > 0 && lineupsNud.Value > 0 && pitcherNud.Value > 0) {
+                foreach (DataGridViewRow row in fieldingGrid.Rows) {
+                    //prep inputs
+                    decimal playerStarts = Convert.ToDecimal(row.Cells["GS"].Value);
+                    decimal teamGames = gamesNud.Value;
+                    decimal lineups = lineupsNud.Value;
+                    decimal pitcherSlots = pitcherNud.Value;
+
+                    //mStarts calcs
+                    decimal mStarts = 0;
+
+                    if (((string)row.Cells["Position"].Value).Equals("P")) {
+                        mStarts = playerStarts / teamGames * pitcherSlots;
+                    }
+                    else {
+                        mStarts = playerStarts / teamGames * lineups;
+                    }
+                    if ((decimal)row.Cells["StintX"].Value > 0) {
+                        mStarts /= (decimal)row.Cells["StintX"].Value;
+                    }
+
+                    row.Cells["Modified Starts"].Value = mStarts;
+                }
+            }
+        }
+
+        public void EnableMStartsButtons() {
+            gamesNud.Enabled = true;
+            lineupsNud.Enabled = true;
+            pitcherNud.Enabled = true;
+            calcMStartsBtn.Enabled = true;
+        }
 
 
         //**********
@@ -112,6 +145,8 @@ namespace BaseballView {
                 fieldingGrid.DataSource = fieldingResults.GetResults();
                 Helpers.ParseDataSourceWithChild(fieldingGrid);
                 desigHitterGrid.DataSource = dhResults.GetResults();
+
+                EnableMStartsButtons();
             }
         }
 
@@ -133,6 +168,18 @@ namespace BaseballView {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 GetDesigDetails();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            CalcMStarts();
+        }
+
+        private void MStartsInput_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Return) {
+                CalcMStarts();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
     }

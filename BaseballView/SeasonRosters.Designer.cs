@@ -57,7 +57,7 @@
             this.detailsBtn = new System.Windows.Forms.Button();
             this.desigDetailGrid = new System.Windows.Forms.DataGridView();
             this.calculationPnl = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.calcMStartsBtn = new System.Windows.Forms.Button();
             this.pitcherNud = new System.Windows.Forms.NumericUpDown();
             this.lineupsNud = new System.Windows.Forms.NumericUpDown();
             this.gamesNud = new System.Windows.Forms.NumericUpDown();
@@ -484,7 +484,7 @@
             // 
             // calculationPnl
             // 
-            this.calculationPnl.Controls.Add(this.button1);
+            this.calculationPnl.Controls.Add(this.calcMStartsBtn);
             this.calculationPnl.Controls.Add(this.pitcherNud);
             this.calculationPnl.Controls.Add(this.lineupsNud);
             this.calculationPnl.Controls.Add(this.gamesNud);
@@ -498,17 +498,20 @@
             this.calculationPnl.Size = new System.Drawing.Size(970, 37);
             this.calculationPnl.TabIndex = 0;
             // 
-            // button1
+            // calcMStartsBtn
             // 
-            this.button1.Location = new System.Drawing.Point(523, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(150, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Calculate &Modified Starts";
-            this.button1.UseVisualStyleBackColor = true;
+            this.calcMStartsBtn.Enabled = false;
+            this.calcMStartsBtn.Location = new System.Drawing.Point(538, 6);
+            this.calcMStartsBtn.Name = "calcMStartsBtn";
+            this.calcMStartsBtn.Size = new System.Drawing.Size(150, 23);
+            this.calcMStartsBtn.TabIndex = 3;
+            this.calcMStartsBtn.Text = "Calculate &Modified Starts";
+            this.calcMStartsBtn.UseVisualStyleBackColor = true;
+            this.calcMStartsBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // pitcherNud
             // 
+            this.pitcherNud.Enabled = false;
             this.pitcherNud.Location = new System.Drawing.Point(469, 5);
             this.pitcherNud.Maximum = new decimal(new int[] {
             99,
@@ -528,9 +531,11 @@
             0,
             0,
             0});
+            this.pitcherNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
             // 
             // lineupsNud
             // 
+            this.lineupsNud.Enabled = false;
             this.lineupsNud.Location = new System.Drawing.Point(263, 5);
             this.lineupsNud.Maximum = new decimal(new int[] {
             99,
@@ -550,9 +555,11 @@
             0,
             0,
             0});
+            this.lineupsNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
             // 
             // gamesNud
             // 
+            this.gamesNud.Enabled = false;
             this.gamesNud.Location = new System.Drawing.Point(127, 5);
             this.gamesNud.Maximum = new decimal(new int[] {
             999,
@@ -572,6 +579,7 @@
             0,
             0,
             0});
+            this.gamesNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
             // 
             // label7
             // 
@@ -696,6 +704,6 @@
         private Label label7;
         private Label label5;
         private Label label1;
-        private Button button1;
+        private Button calcMStartsBtn;
     }
 }
