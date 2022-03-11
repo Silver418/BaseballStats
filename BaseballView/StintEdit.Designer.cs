@@ -446,9 +446,9 @@
             this.stintEditGrid.ShowCellToolTips = false;
             this.stintEditGrid.Size = new System.Drawing.Size(819, 121);
             this.stintEditGrid.TabIndex = 6;
-            this.stintEditGrid.DataSourceChanged += new System.EventHandler(this.stintEditGrid_DataSourceChanged);
             this.stintEditGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stintEditGrid_CellContentClick);
             this.stintEditGrid.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stintEditGrid_CellContentClick);
+            this.stintEditGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.stintEditGrid_DataBindingComplete);
             this.stintEditGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.stintEditGrid_DataError);
             // 
             // stintHeader

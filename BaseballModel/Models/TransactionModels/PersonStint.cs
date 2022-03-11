@@ -23,7 +23,7 @@ namespace BaseballModel.Models {
             PlayerId = playerId;
             YearId = yearId;
             (NameFirst, NameLast) = Queries.PlayerName(PlayerId);
-            stintsApproved = Queries.GetPlayerStints(YearId, PlayerId, seasonDuration);
+            stintsApproved = Queries.GetPlayerStints(YearId, PlayerId);
 
             //if first and last stint record in a set with 2+ stints don't have dates (ie, they were fresh records), add the season start/stop dates to them
             if (stintsApproved.Count > 1 && seasonStart != null && seasonEnd != null) {
@@ -104,13 +104,15 @@ namespace BaseballModel.Models {
 
         //validate stints only
         internal bool Validate(DateTime seasonStart, DateTime seasonEnd) {
+            int numberPrimaryStints = 0;
+
             for (int i = 0; i < StintsEditable.Count; i++) {
 
                 if (StintsEditable[i].StintStart == null || StintsEditable[i].StintEnd == null) {
                     return false; //fail if any dates have null values
                 }
                 if (StintsEditable[i].StintStart >= StintsEditable[i].StintEnd) {
-                    return false;
+                    return false; //fail if the stint's start date is on/after the stint's end date
                 }
                 //check start date
                 if (i == 0) { //first record in set fails if it starts before the season starts
@@ -135,8 +137,17 @@ namespace BaseballModel.Models {
                         return false;
                     }
                 }
+                if (StintsEditable[i].PrimaryStint) { //if this stint is marked as primary, increment primary counter
+                    numberPrimaryStints++;
+                    if (StintsEditable[i].IgnoreStint) { //fail if a primary stint is also marked as an ignored stint
+                        return false;
+                    }
+                }
             } //end for loop validating all stints
-            return true;
+            if (numberPrimaryStints > 1) { //fail if more than one stint is marked as a primary stint
+                return false;
+            }
+            return true; //pass validation
         }
 
         //Validate editable stints & save to approved stints if passed
@@ -147,21 +158,38 @@ namespace BaseballModel.Models {
 
                 //calculate derived values, copy records to Approved, and save back to database
                 int changedRecords = 0;
+
+                decimal ignoredStintX = 0; //cumulative StintX from ignored stints
+                StintRecord primaryStint = null; //stint marked as "primary" - receives the StintX value from ignored stints
+
                 foreach (StintRecord stint in StintsEditable) {
                     stint.CalcDuration();
-                    stint.CalcStintX(seasonDuration);
+                    stint.StintX = stint.StintDuration / (decimal)seasonDuration;
+                    if (stint.IgnoreStint) { //if stint is ignored, add its StintX to the aggregator & set StintX to 0
+                        ignoredStintX += stint.StintX;
+                        stint.StintX = 0;
+                    } else if (stint.PrimaryStint) { //if stint is primary, bookmark it
+                        primaryStint = stint;
+                    }
+                }
+                
+                if (primaryStint != null) { //if we have a primary stint, add the ignored StintX values to it
+                    primaryStint.StintX += ignoredStintX;
+                }
+
+                //finally, copy the records to the Approved Stint list & save updated records to database
+                foreach (StintRecord stint in StintsEditable) {
                     stintsApproved.Add(stint.Copy());
                     changedRecords += Queries.UpdateStint(stint);
                 }
 
                 IsComplete = true;
                 return (true, changedRecords);
-
             }
-            else return (false, 0);
+            else return (false, 0); //failed validation; do not attempt update, return false for failing to pass & 0 records changed
         }
 
-        //Save player's stints without validating (best to only use with a fresh, empty record). Returns # of records updated
+        //Save player's stints without validating (only use with a fresh, empty record). Returns # of records updated
         //Will not calculate derived values due to lack of validation
         internal int SaveWithoutValidate() {
             //new Approved Stints list
@@ -189,6 +217,7 @@ namespace BaseballModel.Models {
             return deletedRecords;
         }
     } // end PersonStint class
+
 
     //comparer for PersonStint; 
     public class PersonStintComparer : IComparer<PersonStint> {

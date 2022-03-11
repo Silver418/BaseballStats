@@ -38,6 +38,10 @@ namespace BaseballModel.Context
             modelBuilder.Entity<Stint>(entity =>
             {
                 entity.HasKey(e => new { e.PlayerId, e.YearId, e.StintId });
+
+                entity.Property(e => e.IgnoreStint).HasDefaultValueSql("FALSE");
+
+                entity.Property(e => e.PrimaryStint).HasDefaultValueSql("FALSE");
             });
 
             OnModelCreatingPartial(modelBuilder);

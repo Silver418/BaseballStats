@@ -504,7 +504,7 @@ namespace BaseballModel {
             return GetPlayersWithStints((long)year, seasonStart, seasonEnd, seasonDuration);
         }
 
-        internal static List<StintRecord> GetPlayerStints(long yearId, string playerId, int seasonDuration = 0) {
+        internal static List<StintRecord> GetPlayerStints(long yearId, string playerId) {
             using (var db = new BaseballContext()) {
                 //Due to silliness in the baseball stats database schema, I have to account for the possibility of
                 //batting & fielding records having the same playerId, YearId, and Stint #, but different TeamIds.
@@ -531,15 +531,11 @@ namespace BaseballModel {
                              select s).FirstOrDefault();
 
                         if (stint != null) { //an existing record in the stint table is found: Use that one
-                            if (seasonDuration > 0) {
-                                list.Add(new StintRecord(stint, seasonDuration));
-                            }
-                            else {
-                                list.Add(new StintRecord(stint));
-                            }
+                            list.Add(new StintRecord(stint));
                         }
-                        else { //no existing record: check if a fresh record for this stint has already been created locally
-                            //(this is necessary due to the possibility of the batting & fielding tables disagreeing about what team a player was on for a given stint
+                        else { //no existing record in database: check if a fresh record for this stint has already been created locally
+                            //(this is necessary due to the possibility of the batting & fielding tables disagreeing about what team a player was on for a given stint,
+                            //which would produce two fresh records for a single stint if not caught
                             bool recordExists =
                                 (from localRecord in list
                                  where localRecord.StintId == record.Stint
@@ -576,10 +572,10 @@ namespace BaseballModel {
 
                     var playerStints =
                         (from a in oneStintPlayers
-                        join stint in stintsInYear
-                        on a.PlayerId equals stint.PlayerId into gj
-                        from substint in gj.DefaultIfEmpty()
-                        select new { a, substint }).AsEnumerable().Cast<dynamic>().ToList();
+                         join stint in stintsInYear
+                         on a.PlayerId equals stint.PlayerId into gj
+                         from substint in gj.DefaultIfEmpty()
+                         select new { a, substint }).AsEnumerable().Cast<dynamic>().ToList();
 
                     return playerStints;
                 } //end using trans context
@@ -621,6 +617,9 @@ namespace BaseballModel {
                 if (stint != null) { //update existing record
                     stint.StintStart = startString;
                     stint.StintEnd = endString;
+                    stint.StintX = record.StintX;
+                    stint.PrimaryStint = record.PrimaryStint;
+                    stint.IgnoreStint = record.IgnoreStint;
                 }
                 else { //else create new record
                     Stint update = new Stint {
@@ -629,7 +628,10 @@ namespace BaseballModel {
                         StintId = record.StintId,
                         TeamId = record.TeamId,
                         StintStart = startString,
-                        StintEnd = endString
+                        StintEnd = endString,
+                        StintX = record.StintX,
+                        PrimaryStint = record.PrimaryStint,
+                        IgnoreStint = record.IgnoreStint
                     };
                     db.Stints.Add(update);
                 }
@@ -664,12 +666,7 @@ namespace BaseballModel {
                      && rec.PlayerId == playerId
                      select rec).FirstOrDefault();
                 if (stint != null) {
-                    if (seasonDuration > 0) {
-                        return new StintRecord(stint, seasonDuration);
-                    }
-                    else {
-                        return new StintRecord(stint);
-                    }
+                    return new StintRecord(stint);
                 }
                 return null;
             }

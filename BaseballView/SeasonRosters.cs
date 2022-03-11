@@ -105,7 +105,7 @@ namespace BaseballView {
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {
-                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId, true);
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 fieldingGrid.DataSource = fieldingResults.GetResults();

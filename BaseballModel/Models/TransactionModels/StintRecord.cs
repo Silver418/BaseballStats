@@ -10,7 +10,7 @@ namespace BaseballModel.Models {
         public long YearId { get; private set; } = 0;
         public long StintId { get; private set; } = 0;
         public string TeamId { get; private set; } = "";
-        public string TeamName { get; private set; } = "";
+
         private DateTime? _stintStart;
         private DateTime? _stintEnd;
         public DateTime? StintStart {
@@ -35,18 +35,29 @@ namespace BaseballModel.Models {
                 }
             }
         }
+        public bool IgnoreStint { get; set; } = false;
+        public bool PrimaryStint { get; set; } = false;
+
         //calculated fields
         public int StintDuration { get; private set; } = 0;
-        public decimal StintX { get; private set; } = 0; // proportion of season taken by this stint (stint duration / season duration)
+        public decimal StintX { get; internal set; } = 0; // proportion of season taken by this stint. Calculated in PersonStint, due to relying on too many externalities
+
+
+        //Queried fields
+        public string TeamName { get; private set; } = "";
 
         //*****
         //constructors
         //*****
         internal StintRecord(Stint stint) {
+            //guaranteed inputs
             PlayerId = stint.PlayerId;
             YearId = stint.YearId;
             StintId = stint.StintId;
+            IgnoreStint = stint.IgnoreStint;
+            PrimaryStint = stint.PrimaryStint;            
 
+            //nullable inputs
             if (stint.TeamId != null) {
                 TeamId = stint.TeamId;
                 TeamName = Queries.GetTeamName(TeamId, YearId);
@@ -57,12 +68,11 @@ namespace BaseballModel.Models {
             if (stint.StintEnd != null) {
                 StintEnd = Helpers.StringToMonthDate(YearId, stint.StintEnd) ?? null;
             }
+            if (stint.StintX != null) {
+                StintX = (decimal)stint.StintX;
+            }
 
             CalcDuration();
-        }
-
-        internal StintRecord(Stint stint, int seasonDuration) : this(stint){
-            CalcStintX(seasonDuration);
         }
 
         //for creating fresh records that don't exist in database yet, so user can input dates
@@ -74,18 +84,19 @@ namespace BaseballModel.Models {
             TeamName = Queries.GetTeamName(TeamId, yearId);
         }
 
-        //full-parameter constructor for creating StintRecord copies without having to re-query known data
-        private StintRecord(string playerId, long yearId, long stintId, string teamId, string teamName,
-            DateTime? stintStart, DateTime? stintEnd, int stintDuration, decimal stintX) {
-            PlayerId = playerId;
-            YearId = yearId;
-            StintId = stintId;
-            TeamId = teamId;
-            TeamName = teamName;
-            StintStart = stintStart;
-            StintEnd = stintEnd;
-            StintDuration = stintDuration;
-            StintX = stintX;
+        //constructor for creating StintRecord copies without requerying/calculating known data
+        private StintRecord(StintRecord stint) {
+            PlayerId = stint.PlayerId;
+            YearId = stint.YearId;
+            StintId = stint.StintId;
+            TeamId = stint.TeamId;
+            TeamName = stint.TeamName;
+            StintStart = stint.StintStart;
+            StintEnd = stint.StintEnd;
+            StintDuration = stint.StintDuration;
+            IgnoreStint = stint.IgnoreStint;
+            PrimaryStint = stint.PrimaryStint;
+            StintX = stint.StintX;
         }
 
         //*****
@@ -99,17 +110,10 @@ namespace BaseballModel.Models {
                 StintDuration = interval.Days;
             }
         }
-
-        //calc stint X (proportion of season taken by this stint)
-        internal void CalcStintX(int seasonDuration) {
-            if (StintDuration > 0 && seasonDuration > 0) {
-                StintX = StintDuration / (decimal)seasonDuration;
-            }
-        }
-
+        
         //copy object
         public StintRecord Copy() {
-            return new StintRecord(PlayerId, YearId, StintId, TeamId, TeamName, StintStart, StintEnd, StintDuration, StintX);
+            return new StintRecord(this);
         }
 
     } //end StintRecord class

@@ -17,11 +17,18 @@ namespace BaseballModel.Models {
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
                 StintRecord? stint = Queries.GetStint(teamId, season.YearId, fielding.PlayerId);
+                //TODO: Cleanup
+                /*
                 if (stint != null) {
                     stint.CalcStintX(season.SeasonDuration);
                 }
-                FieldingStintRecord fsr = new FieldingStintRecord(fielding, stint);
-                list.Add(fsr);
+                */
+                //FieldingStintRecord fsr = new FieldingStintRecord(fielding, stint);
+                if (stint == null) { //if no stint is found, build a fresh record & add
+                    list.Add(new FieldingStintRecord(fielding, stint));
+                } else if (!stint.IgnoreStint) { //if we have a stint with IgnoreStint == false, add the existing record
+                    list.Add(new FieldingStintRecord(fielding, stint));
+                } //an existing stint with IgnoreStint == true does not get added
             }
         }
 

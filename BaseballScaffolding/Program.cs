@@ -3,6 +3,7 @@
 //Don't publish this project, and don't have other projects reference it
 
 //Use the Solution root folder as the working directory when running the scaffolding command.
+//Be sure *all* projects in the solution successfully build before running the commands, not just the relevant projects - otherwise it will fail & not tell you why
 
 //PMC command to scaffold baseball.db (Sean Lahman's baseball stats database):
 //Scaffold-DbContext -Connection 'Data Source=..\BaseballModel\Data\baseball.db' -Provider Microsoft.EntityFrameworkCore.Sqlite -Project BaseballModel -StartupProject BaseballScaffolding -Context BaseballContext -ContextDir Context -OutputDir Entities -DataAnnotations -Verbose
@@ -11,7 +12,7 @@
 //Scaffold-DbContext -Connection 'Data Source=..\BaseballModel\Data\transactions.db' -Provider Microsoft.EntityFrameworkCore.Sqlite -Project BaseballModel -StartupProject BaseballScaffolding -Context TransContext -ContextDir Context -OutputDir Entities -DataAnnotations -Verbose
 
 
-//after using either command, change the path in the context file's OnConfiguring method to only use
+//after using either command, change the path in the new context file's OnConfiguring method to only use
 //"Data Source=Data\\<database here>" instead of the longer path.
 //      optionsBuilder.UseSqlite("Data Source=Data\\baseball.db");
 //      optionsBuilder.UseSqlite("Data Source=Data\\transactions.db");

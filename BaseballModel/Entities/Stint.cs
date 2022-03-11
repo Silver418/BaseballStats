@@ -23,5 +23,11 @@ namespace BaseballModel.Entities
         public string? StintStart { get; set; }
         [Column("stintEnd", TypeName = "VARCHAR (10)")]
         public string? StintEnd { get; set; }
+        [Column("stintX", TypeName = "NUMERIC")]
+        public decimal? StintX { get; set; }
+        [Column("ignoreStint", TypeName = "BOOLEAN")]
+        public bool IgnoreStint { get; set; } = false;
+        [Column("primaryStint", TypeName = "BOOLEAN")]
+        public bool PrimaryStint { get; set; } = false;
     }
 }

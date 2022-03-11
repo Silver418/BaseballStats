@@ -46,10 +46,12 @@ namespace BaseballView {
             stintEditGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
             stintEditGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;0.000;#"));
 
-            DataGridViewCheckBoxColumn ignoreCol = new DataGridViewCheckBoxColumn() { Name = ignoreStintStr };
+            DataGridViewCheckBoxColumn ignoreCol = new DataGridViewCheckBoxColumn()
+            { Name = ignoreStintStr, DataPropertyName = "IgnoreStint" };
             stintEditGrid.Columns.Add(ignoreCol);
 
-            DataGridViewCheckBoxColumn primaryCol = new DataGridViewCheckBoxColumn() { Name = primaryStintStr };
+            DataGridViewCheckBoxColumn primaryCol = new DataGridViewCheckBoxColumn()
+            { Name = primaryStintStr, DataPropertyName = "PrimaryStint" };
             stintEditGrid.Columns.Add(primaryCol);
 
             DisablePrimaryStint();
@@ -100,6 +102,7 @@ namespace BaseballView {
             if (playerDataGrid.SelectedRows.Count == 1) {
                 string id = playerDataGrid.SelectedRows[0].Cells["Player ID"].Value.ToString() ?? "";
                 List<StintRecord>? stints = sps.GetPlayerStints(id);
+
                 if (stints != null) {
                     activePlayer = id;
                     stintEditGrid.DataSource = stints;
@@ -329,12 +332,19 @@ namespace BaseballView {
             }
         }
 
-        //TODO: Remove this event handler once we make the underlying database records necessarily contain true or false with no possibility of null
-        //for now, it initialized the Ignore Stint & Primary Stint columns with "false"
-        private void stintEditGrid_DataSourceChanged(object sender, EventArgs e) {
+        //if any stints are marked as "Ignore", enable the Primary Stint column; else, disable it
+        private void stintEditGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            bool anyIgnores = false;
             foreach (DataGridViewRow row in stintEditGrid.Rows) {
-                row.Cells[primaryStintStr].Value = false;
-                row.Cells[ignoreStintStr].Value = false;
+                if ((bool)row.Cells[ignoreStintStr].Value) {
+                    anyIgnores = true;
+                }
+            }
+            if (anyIgnores) {
+                EnablePrimaryStint();
+            }
+            else {
+                DisablePrimaryStint();
             }
         }
     }
