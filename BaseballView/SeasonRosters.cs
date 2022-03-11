@@ -37,6 +37,7 @@ namespace BaseballView {
             fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format:"0.000"));
 
             //setup designated hitter grid
             desigHitterGrid.AutoGenerateColumns = false;
