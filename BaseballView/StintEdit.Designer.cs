@@ -345,7 +345,7 @@
             this.singleStintsBtn.Name = "singleStintsBtn";
             this.singleStintsBtn.Size = new System.Drawing.Size(115, 40);
             this.singleStintsBtn.TabIndex = 5;
-            this.singleStintsBtn.Text = "Single-S&tint Players";
+            this.singleStintsBtn.Text = "Single S&tint Players";
             this.singleStintsBtn.UseVisualStyleBackColor = true;
             this.singleStintsBtn.Click += new System.EventHandler(this.singleStintsBtn_Click);
             // 

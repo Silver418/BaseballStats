@@ -268,7 +268,8 @@ namespace BaseballView {
             SingleStintPlayers form = new SingleStintPlayers(sps, teamOptions);
             form.ShowDialog();
             playerDataGrid.DataSource = null;
-            playerDataGrid.DataSource = sps.GetPlayers();
+            //playerDataGrid.DataSource = sps.GetPlayers();
+            ApplyFilter();
         }
 
         //handling for editing the Ignorable Stint & Primary Stints by click
