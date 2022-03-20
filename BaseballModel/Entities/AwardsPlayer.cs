@@ -22,6 +22,7 @@ namespace BaseballModel.Entities
         public string LgId { get; set; } = null!;
         [Column("tie", TypeName = "CHAR (1)")]
         public string? Tie { get; set; }
+        [Key]
         [Column("notes", TypeName = "VARCHAR (100)")]
         public string? Notes { get; set; }
     }
