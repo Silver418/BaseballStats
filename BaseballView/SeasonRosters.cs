@@ -27,16 +27,16 @@ namespace BaseballView {
 
             //setup grid for stints from fielding data
             fieldingGrid.AutoGenerateColumns = false;
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "MyFielding.PlayerId"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("First Name", "MyFielding.NameFirst"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Last Name", "MyFielding.NameLast"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Position", "MyFielding.Pos"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("G", "MyFielding.G", "Games Played"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("GS", "MyFielding.Gs", "Games Started"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "MyStint.StintStart", format: "MMM dd"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "MyStint.StintEnd", format: "MMM dd"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "MyStint.StintDuration", format: "#"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "MyStint.StintX", "Proportion of season taken by this stint", "0.000;#;#"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "PlayerId"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("G", "G", "Games Played"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("GS", "Gs", "Games Started"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format: "MMM dd"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "StintEnd", format: "MMM dd"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
+            fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;#;#"));
             fieldingGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format: "0.000"));
 
             //setup designated hitter grid
@@ -164,7 +164,7 @@ namespace BaseballView {
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 fieldingGrid.DataSource = fieldingResults.GetResults();
-                Helpers.ParseDataSourceWithChild(fieldingGrid);
+                //Helpers.ParseDataSourceWithChild(fieldingGrid);   //currently not used due to added interface properties in FieldingStintRecord.
                 desigHitterGrid.DataSource = dhResults.GetResults();
 
                 EnableProcessingButtons();

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace BaseballModel.Models {
     public class DesignatedStintList {
-        private List<DesignatedStintRecord> list = new List<DesignatedStintRecord>();
+        private List<DesignatedStintRecord> stintList = new List<DesignatedStintRecord>();
 
         //constructor which extracts year from season record & passes to main constructor
         public DesignatedStintList(string teamId, string lgId, SeasonDateRecord s)
-            : this(teamId, lgId, s.YearId){  
-        }
+            : this(teamId, lgId, s.YearId){}
 
         //constructor when season data isn't available
         public DesignatedStintList(string teamId, string lgId, long yearId) {
@@ -26,14 +25,14 @@ namespace BaseballModel.Models {
                          where stint.TeamId == teamId
                          && stint.IgnoreStint == false
                          select stint).Any()) {
-                        list.Add(new DesignatedStintRecord(appearance, stints));
+                        stintList.Add(new DesignatedStintRecord(appearance, stints));
                     }                    
                 }
             }
         }
 
         public List<DesignatedStintRecord> GetResults() {
-            return list;
+            return stintList;
         }
     }
 }
