@@ -382,7 +382,7 @@
             this.fieldingTab.Padding = new System.Windows.Forms.Padding(3);
             this.fieldingTab.Size = new System.Drawing.Size(962, 394);
             this.fieldingTab.TabIndex = 1;
-            this.fieldingTab.Text = "Defense Positions";
+            this.fieldingTab.Text = "Season Roster";
             this.fieldingTab.UseVisualStyleBackColor = true;
             // 
             // fieldingWrap
@@ -404,7 +404,7 @@
             this.desigHitterTab.Padding = new System.Windows.Forms.Padding(3);
             this.desigHitterTab.Size = new System.Drawing.Size(962, 394);
             this.desigHitterTab.TabIndex = 0;
-            this.desigHitterTab.Text = "Designated Hitters";
+            this.desigHitterTab.Text = "Designated Hitters Details";
             this.desigHitterTab.UseVisualStyleBackColor = true;
             // 
             // desigHitterWrap
