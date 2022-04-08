@@ -8,6 +8,7 @@ namespace BaseballView {
     public static class Helpers {
         public static DataGridViewTextBoxColumn MakeColumn(string name, string dataSource = "", string tooltip = "", string format = "") {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
+            column.SortMode = DataGridViewColumnSortMode.NotSortable;
             column.Name = name;
             if (!dataSource.Equals("")) {
                 column.DataPropertyName = dataSource;

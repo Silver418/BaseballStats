@@ -98,11 +98,12 @@ namespace BaseballView {
             }
         }
 
-        public void EnableMStartsButtons() {
+        public void EnableProcessingButtons() {
             gamesNud.Enabled = true;
             lineupsNud.Enabled = true;
             pitcherNud.Enabled = true;
             calcMStartsBtn.Enabled = true;
+            copyRosterBtn.Enabled = true;
         }
 
 
@@ -146,7 +147,7 @@ namespace BaseballView {
                 Helpers.ParseDataSourceWithChild(fieldingGrid);
                 desigHitterGrid.DataSource = dhResults.GetResults();
 
-                EnableMStartsButtons();
+                EnableProcessingButtons();
             }
         }
 
@@ -181,6 +182,14 @@ namespace BaseballView {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private void copyRosterBtn_Click(object sender, EventArgs e) {
+            fieldingGrid.SelectAll();
+            DataObject dataObj = fieldingGrid.GetClipboardContent();
+            Clipboard.SetDataObject(dataObj, true);
+            tabControl1.SelectTab(0);
+            MessageBox.Show("Roster contents copied to clipboard.");
         }
     }
 }

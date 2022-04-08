@@ -57,6 +57,7 @@
             this.detailsBtn = new System.Windows.Forms.Button();
             this.desigDetailGrid = new System.Windows.Forms.DataGridView();
             this.calculationPnl = new System.Windows.Forms.Panel();
+            this.copyRosterBtn = new System.Windows.Forms.Button();
             this.calcMStartsBtn = new System.Windows.Forms.Button();
             this.pitcherNud = new System.Windows.Forms.NumericUpDown();
             this.lineupsNud = new System.Windows.Forms.NumericUpDown();
@@ -153,6 +154,7 @@
             this.fieldingGrid.Name = "fieldingGrid";
             this.fieldingGrid.ReadOnly = true;
             this.fieldingGrid.RowTemplate.Height = 25;
+            this.fieldingGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
             this.fieldingGrid.ShowCellToolTips = false;
             this.fieldingGrid.Size = new System.Drawing.Size(946, 378);
             this.fieldingGrid.TabIndex = 12;
@@ -484,6 +486,7 @@
             // 
             // calculationPnl
             // 
+            this.calculationPnl.Controls.Add(this.copyRosterBtn);
             this.calculationPnl.Controls.Add(this.calcMStartsBtn);
             this.calculationPnl.Controls.Add(this.pitcherNud);
             this.calculationPnl.Controls.Add(this.lineupsNud);
@@ -497,6 +500,17 @@
             this.calculationPnl.Padding = new System.Windows.Forms.Padding(5);
             this.calculationPnl.Size = new System.Drawing.Size(970, 37);
             this.calculationPnl.TabIndex = 0;
+            // 
+            // copyRosterBtn
+            // 
+            this.copyRosterBtn.Enabled = false;
+            this.copyRosterBtn.Location = new System.Drawing.Point(700, 5);
+            this.copyRosterBtn.Name = "copyRosterBtn";
+            this.copyRosterBtn.Size = new System.Drawing.Size(150, 23);
+            this.copyRosterBtn.TabIndex = 7;
+            this.copyRosterBtn.Text = "Copy &Roster to Clipboard";
+            this.copyRosterBtn.UseVisualStyleBackColor = true;
+            this.copyRosterBtn.Click += new System.EventHandler(this.copyRosterBtn_Click);
             // 
             // calcMStartsBtn
             // 
@@ -705,5 +719,6 @@
         private Label label5;
         private Label label1;
         private Button calcMStartsBtn;
+        private Button copyRosterBtn;
     }
 }
