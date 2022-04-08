@@ -45,10 +45,12 @@ namespace BaseballView {
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
-            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G DH", "GDh", "Games Played as Designated Hitter"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("G Def", "GDefense", "Games Played in a Defensive Position"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("G DH", "GDh", "Games Played as Designated Hitter"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("Total Stints", "Count", format: "#"));
             desigHitterGrid.Columns.Add(Helpers.MakeColumn("StintX Sum", "StintXSum", "Sum of StintX for this player's stint with this team", "0.000;#;#"));
+            desigHitterGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format: "0.000"));
+
 
             //setup designated hitter details grid
             desigDetailGrid.AutoGenerateColumns = false;
@@ -73,12 +75,13 @@ namespace BaseballView {
 
         public void CalcMStarts() {
             if (fieldingResults != null && gamesNud.Value > 0 && lineupsNud.Value > 0 && pitcherNud.Value > 0) {
+                //prep one-time inputs
+                decimal teamGames = gamesNud.Value;
+                decimal lineups = lineupsNud.Value;
+                decimal pitcherSlots = pitcherNud.Value;
                 foreach (DataGridViewRow row in fieldingGrid.Rows) {
-                    //prep inputs
+                    //prep per-row input
                     decimal playerStarts = Convert.ToDecimal(row.Cells["GS"].Value);
-                    decimal teamGames = gamesNud.Value;
-                    decimal lineups = lineupsNud.Value;
-                    decimal pitcherSlots = pitcherNud.Value;
 
                     //mStarts calcs
                     decimal mStarts = 0;
@@ -91,6 +94,23 @@ namespace BaseballView {
                     }
                     if ((decimal)row.Cells["StintX"].Value > 0) {
                         mStarts /= (decimal)row.Cells["StintX"].Value;
+                    }
+
+                    row.Cells["Modified Starts"].Value = mStarts;
+                }
+            }
+            if (dhResults != null && gamesNud.Value > 0 && lineupsNud.Value > 0 && pitcherNud.Value > 0) {
+                //prep one-time inputs
+                decimal teamGames = gamesNud.Value;
+                decimal lineups = lineupsNud.Value;
+                foreach (DataGridViewRow row in desigHitterGrid.Rows) {
+                    //prep per-row input
+                    decimal playerDhGames = Convert.ToDecimal(row.Cells["G Dh"].Value);
+
+                    //mStarts calcs
+                    decimal mStarts = playerDhGames / teamGames * lineups;
+                    if ((decimal)row.Cells["StintX Sum"].Value > 0) {
+                        mStarts /= (decimal)row.Cells["StintX Sum"].Value;
                     }
 
                     row.Cells["Modified Starts"].Value = mStarts;
