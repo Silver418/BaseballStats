@@ -17,6 +17,7 @@ namespace BaseballView {
         private SeasonDateRecord? season;
         private FieldingStintList fieldingResults;
         private DesignatedStintList dhResults;
+        private RosterList rosterList;
 
 
         public SeasonRosters(Panel containing) {
@@ -26,18 +27,18 @@ namespace BaseballView {
             //Columns with a period in the DataPropertyName have special processing in the DataBindingComplete event
 
             //setup grid for stints from fielding data
-            fieldingGrid.AutoGenerateColumns = false;
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Player ID", "PlayerId"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("G", "G", "Games Played"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("GS", "Gs", "Games Started"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format: "MMM dd"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("End Date", "StintEnd", format: "MMM dd"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;#;#"));
-            fieldingGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format: "0.000"));
+            rosterGrid.AutoGenerateColumns = false;
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Player ID", "PlayerId"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("First Name", "NameFirst"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Last Name", "NameLast"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Position", "Pos"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("G", "G", "Games Played"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("GS", "Gs", "Games Started"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Start Date", "StintStart", format: "MMM dd"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("End Date", "StintEnd", format: "MMM dd"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Days", "StintDuration", format: "#"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("StintX", "StintX", "Proportion of season taken by this stint", "0.000;#;#"));
+            rosterGrid.Columns.Add(Helpers.MakeColumn("Modified Starts", format: "0.000"));
 
             //setup designated hitter grid
             desigHitterGrid.AutoGenerateColumns = false;
@@ -79,7 +80,7 @@ namespace BaseballView {
                 decimal teamGames = gamesNud.Value;
                 decimal lineups = lineupsNud.Value;
                 decimal pitcherSlots = pitcherNud.Value;
-                foreach (DataGridViewRow row in fieldingGrid.Rows) {
+                foreach (DataGridViewRow row in rosterGrid.Rows) {
                     //prep per-row input
                     decimal playerStarts = Convert.ToDecimal(row.Cells["GS"].Value);
 
@@ -163,8 +164,12 @@ namespace BaseballView {
                     fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId, true);
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
-                fieldingGrid.DataSource = fieldingResults.GetResults();
-                //Helpers.ParseDataSourceWithChild(fieldingGrid);   //currently not used due to added interface properties in FieldingStintRecord.
+                //build combined fielding + designated hitter list for display in main tab
+                rosterList = new RosterList().AppendFieldingStintList(fieldingResults)
+                    .AppendDesignatedStintList(dhResults).TeamSort();
+
+                rosterGrid.DataSource = rosterList.GetResults();
+                //Helpers.ParseDataSourceWithChild(fieldingGrid);   //currently not used due to added adapter properties in FieldingStintRecord.
                 desigHitterGrid.DataSource = dhResults.GetResults();
 
                 EnableProcessingButtons();
@@ -205,8 +210,8 @@ namespace BaseballView {
         }
 
         private void copyRosterBtn_Click(object sender, EventArgs e) {
-            fieldingGrid.SelectAll();
-            DataObject dataObj = fieldingGrid.GetClipboardContent();
+            rosterGrid.SelectAll();
+            DataObject dataObj = rosterGrid.GetClipboardContent();
             Clipboard.SetDataObject(dataObj, true);
             tabControl1.SelectTab(0);
             MessageBox.Show("Roster contents copied to clipboard.");

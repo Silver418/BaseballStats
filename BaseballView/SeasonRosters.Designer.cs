@@ -27,7 +27,7 @@
             this.controlPnl = new System.Windows.Forms.Panel();
             this.searchBtn = new System.Windows.Forms.Button();
             this.closeBtn = new System.Windows.Forms.Button();
-            this.fieldingGrid = new System.Windows.Forms.DataGridView();
+            this.rosterGrid = new System.Windows.Forms.DataGridView();
             this.bioPnl = new System.Windows.Forms.FlowLayoutPanel();
             this.teamIdPnl = new System.Windows.Forms.Panel();
             this.teamIdLbl = new System.Windows.Forms.Label();
@@ -66,7 +66,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.controlPnl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rosterGrid)).BeginInit();
             this.bioPnl.SuspendLayout();
             this.teamIdPnl.SuspendLayout();
             this.yearPnl.SuspendLayout();
@@ -140,24 +140,24 @@
             this.closeBtn.UseVisualStyleBackColor = true;
             this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
             // 
-            // fieldingGrid
+            // rosterGrid
             // 
-            this.fieldingGrid.AllowUserToAddRows = false;
-            this.fieldingGrid.AllowUserToDeleteRows = false;
-            this.fieldingGrid.AllowUserToResizeColumns = false;
-            this.fieldingGrid.AllowUserToResizeRows = false;
-            this.fieldingGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.fieldingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.fieldingGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fieldingGrid.Location = new System.Drawing.Point(5, 5);
-            this.fieldingGrid.MinimumSize = new System.Drawing.Size(600, 250);
-            this.fieldingGrid.Name = "fieldingGrid";
-            this.fieldingGrid.ReadOnly = true;
-            this.fieldingGrid.RowTemplate.Height = 25;
-            this.fieldingGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
-            this.fieldingGrid.ShowCellToolTips = false;
-            this.fieldingGrid.Size = new System.Drawing.Size(946, 378);
-            this.fieldingGrid.TabIndex = 12;
+            this.rosterGrid.AllowUserToAddRows = false;
+            this.rosterGrid.AllowUserToDeleteRows = false;
+            this.rosterGrid.AllowUserToResizeColumns = false;
+            this.rosterGrid.AllowUserToResizeRows = false;
+            this.rosterGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.rosterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rosterGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rosterGrid.Location = new System.Drawing.Point(5, 5);
+            this.rosterGrid.MinimumSize = new System.Drawing.Size(600, 250);
+            this.rosterGrid.Name = "rosterGrid";
+            this.rosterGrid.ReadOnly = true;
+            this.rosterGrid.RowTemplate.Height = 25;
+            this.rosterGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
+            this.rosterGrid.ShowCellToolTips = false;
+            this.rosterGrid.Size = new System.Drawing.Size(946, 378);
+            this.rosterGrid.TabIndex = 12;
             // 
             // bioPnl
             // 
@@ -387,7 +387,7 @@
             // 
             // fieldingWrap
             // 
-            this.fieldingWrap.Controls.Add(this.fieldingGrid);
+            this.fieldingWrap.Controls.Add(this.rosterGrid);
             this.fieldingWrap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fieldingWrap.Location = new System.Drawing.Point(3, 3);
             this.fieldingWrap.Name = "fieldingWrap";
@@ -640,7 +640,7 @@
             this.Name = "SeasonRosters";
             this.Size = new System.Drawing.Size(970, 600);
             this.controlPnl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.fieldingGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rosterGrid)).EndInit();
             this.bioPnl.ResumeLayout(false);
             this.bioPnl.PerformLayout();
             this.teamIdPnl.ResumeLayout(false);
@@ -682,7 +682,7 @@
         private Panel controlPnl;
         private Button closeBtn;
         private Button searchBtn;
-        private DataGridView fieldingGrid;
+        private DataGridView rosterGrid;
         private FlowLayoutPanel bioPnl;
         private Panel teamIdPnl;
         private Label teamIdLbl;

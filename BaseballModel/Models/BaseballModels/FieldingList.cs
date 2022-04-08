@@ -131,26 +131,5 @@ namespace BaseballModel.Models {
                 }
             } //end Compare method
         } //end PlayerFieldingComparer class
-
-        private class PositionComparer : IComparer<String> {
-            //for non-alphabetical sorting of fielding positions
-            private static string[] fieldPositions = { "P", "C", "1B", "2B", "3B", "SS", "OF", "LF", "CF", "RF", "DH" };
-
-            public int Compare(string? x, string? y) {
-                int pos1 = Array.IndexOf(fieldPositions, x);
-                int pos2 = Array.IndexOf(fieldPositions, y);
-
-                if (pos1 < pos2) {
-                    return -1;
-                }
-                else if (pos1 > pos2) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            }
-        } //end PositionComparer class
-
     }
 }
