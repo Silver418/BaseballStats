@@ -68,6 +68,7 @@
             this.yearPicker.CustomFormat = "yyyy";
             this.yearPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.yearPicker.Location = new System.Drawing.Point(45, 0);
+            this.yearPicker.MinDate = new System.DateTime(1786, 1, 1, 0, 0, 0, 0);
             this.yearPicker.Name = "yearPicker";
             this.yearPicker.ShowUpDown = true;
             this.yearPicker.Size = new System.Drawing.Size(50, 23);

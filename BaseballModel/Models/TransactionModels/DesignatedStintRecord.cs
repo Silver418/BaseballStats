@@ -15,7 +15,6 @@ namespace BaseballModel.Models {
         public long GDh { get; private set; } //games played as a designated hitter
         public long GDefense { get; private set; } //games played at a defensive position
         public List<StintRecord> StintRecords { get; private set; } //collection of this player's stint records
-                                                                    //TODO: want all stints, or for this team only?
         //queried data
         public string TeamName { get; private set; }
         public string NameFirst { get; private set; }
@@ -24,13 +23,13 @@ namespace BaseballModel.Models {
         public decimal StintXSum { get; private set; } = 0; //sum of all stints a player did for this team
         public int Count { get; private set; }
         public int StintDuration { get; private set; }  //sum of days for all stints for this team
-
-
+        //Stint start & end - per client preferences, draws from start of first & end of last stint for this particular team (calculated in ctor)
+        public DateTime? StintStart { get; private set; } = null;
+        public DateTime? StintEnd { get; private set; } = null;
         //dummy properties for satisfying IRosterRecord - pulls data from another property with a different name
         public long? G { get => GDefense; }
         public long? Gs { get => GDh; }
-        public DateTime? StintStart { get => null; }    //TODO: Check whether client wants to show first stint's start & last stint's end, or just leave blank
-        public DateTime? StintEnd { get => null; }
+        
         public decimal StintX { get => StintXSum; }
 
         //ctor
@@ -57,6 +56,24 @@ namespace BaseballModel.Models {
                 }
             }
             Count = StintRecords.Count();
+
+            //Stint start & stop
+            StintRecord first = null;
+            StintRecord last = null;
+            foreach (StintRecord record in stintRecords) {  //grab first & last stints player did for this team
+                if (record.TeamId == TeamId) {
+                    if (first == null) {
+                        first = record;
+                    }
+                    last = record;
+                }
+            }
+            if (first != null) {
+                StintStart = first.StintStart;
+            }
+            if (last != null) {
+                StintEnd = last.StintEnd;
+            }
         }
     }
 }

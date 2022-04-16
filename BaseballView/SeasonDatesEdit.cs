@@ -122,25 +122,23 @@ namespace BaseballView {
             string message = "";
             if (seasonGrid.SelectedRows.Count == 1) {
                 message = $"Delete data for {seasonGrid.SelectedRows[0].Cells["Year"].Value}?";
-
             }
             else if (seasonGrid.SelectedRows.Count > 1) {
                 message = $"Delete data for {seasonGrid.SelectedRows.Count} records?";
             }
 
             if (!message.Equals("")) {
+                message += "\nSeasons with existing stint data will not be deleted.";
                 DialogResult doTheThing = MessageBox.Show(message, "Delete?", MessageBoxButtons.YesNo);
 
                 if (doTheThing == DialogResult.Yes) {
                     int rowsAffected = 0;
                     foreach (DataGridViewRow row in seasonGrid.SelectedRows) {
-                        long year = (long)row.Cells["Year"].Value;
-                        rowsAffected += Queries.DeleteSeason(year);
+                        rowsAffected += Queries.DeleteSeason((long)row.Cells["Year"].Value);
                     }
                     RefreshDateGrid();
                     MessageBox.Show($"Removed {rowsAffected} record(s).");
                 }
-
             }
             else {
                 MessageBox.Show("No rows selected.");

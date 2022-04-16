@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaseballModel {
     public static class Queries {
+        #region QueriesFromUserEnteredData
         //******************************************************************************************
         //searches with user-parseable data
         //******************************************************************************************
@@ -51,7 +52,9 @@ namespace BaseballModel {
                 return new TeamYearSearchList(result);
             }
         }
+        #endregion
 
+        #region QueriesFromIDs
         //******************************************************************************************
         //searches with IDs etc.
         //******************************************************************************************
@@ -386,7 +389,9 @@ namespace BaseballModel {
                 return teams;
             }
         }
+        #endregion
 
+        #region SeasonTransactionQueries
         //**********
         //Season Transactions for transact.db
         //**********
@@ -444,6 +449,12 @@ namespace BaseballModel {
 
         public static int DeleteSeason(long year) {
             using (var db = new TransContext()) {
+                //check for stint records matching this season; do not remove season if any exist
+                bool stints = (from stint in db.Stints
+                               where stint.YearId == year
+                               select stint).Any();
+                if (stints) return 0; //if any stints found, abandon deletion
+
                 var deletion = (from row in db.SeasonDates
                                 where row.YearId == year
                                 select row).FirstOrDefault();
@@ -671,6 +682,7 @@ namespace BaseballModel {
                 return null;
             }
         }
+        #endregion
 
     } //end Queries class
 } //end BaseballModel namespace
