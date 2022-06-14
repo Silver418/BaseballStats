@@ -80,9 +80,16 @@ namespace BaseballView {
                 decimal teamGames = gamesNud.Value;
                 decimal lineups = lineupsNud.Value;
                 decimal pitcherSlots = pitcherNud.Value;
+
                 foreach (DataGridViewRow row in rosterGrid.Rows) {
                     //prep per-row input
-                    decimal playerStarts = Convert.ToDecimal(row.Cells["GS"].Value);
+                    decimal playerStarts = 0;
+                    if (row.Cells["GS"].Value == null) {
+                        playerStarts = Convert.ToDecimal(row.Cells["G"].Value);
+                    }
+                    else {
+                        playerStarts = Convert.ToDecimal(row.Cells["GS"].Value);
+                    }
 
                     //mStarts calcs
                     decimal mStarts = 0;
