@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BaseballModel.Models {
     public class FieldingStintRecord : IRosterRecord {
         public FieldingRecord MyFielding { get; private set; }   // a given fielding record won't have a matching stint if:
-        public StintRecord MyStint { get; private set; } // A) player only played for one team, or B) uesr hasn't yet entered stint data for the player
+        public StintRecord MyStint { get; private set; } // A) player only played for one team, or B) user hasn't yet entered stint data for the player
 
         //get-only adapters for fetching data from child objects
         public string PlayerId { get => MyFielding.PlayerId; }

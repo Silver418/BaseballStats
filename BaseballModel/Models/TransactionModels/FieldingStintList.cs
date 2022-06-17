@@ -7,17 +7,14 @@ using System.Threading.Tasks;
 namespace BaseballModel.Models {
     public class FieldingStintList {
         private List<FieldingStintRecord> list = new List<FieldingStintRecord>();
-        private SeasonDateRecord? season;
 
         //constructor used when a SeasonDateRecord is available (calculates stint's StintX values)
         public FieldingStintList(string teamId, string lgId, SeasonDateRecord s, bool includeOutfieldDetails = false) {
-            season = s;
 
-            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, season.YearId, includeOutfieldDetails);
+            FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, s.YearId, includeOutfieldDetails);
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
-                StintRecord? stint = Queries.GetStint(teamId, season.YearId, fielding.PlayerId);
-                //FieldingStintRecord fsr = new FieldingStintRecord(fielding, stint);
+                StintRecord? stint = Queries.GetStint(teamId, s.YearId, fielding.PlayerId);
                 if (stint == null) { //if no stint is found, build a fresh record & add
                     list.Add(new FieldingStintRecord(fielding, stint));
                 } else if (!stint.IgnoreStint) { //if we have a stint with IgnoreStint == false, add the existing record
