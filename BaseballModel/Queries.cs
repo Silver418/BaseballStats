@@ -229,9 +229,9 @@ namespace BaseballModel {
                 }
                 else {
                     var players =
-                        from p in db.Fieldings
+                        (from p in db.Fieldings
                         where p.TeamId == teamId && p.LgId == lgAbbr && p.YearId == yearId
-                        select new { p.PlayerId, p.YearId, p.Stint };
+                        select new { p.PlayerId, p.YearId, p.Stint }).Distinct();
 
                     var outfieldingLump =
                         from outfield in db.FieldingOfs
