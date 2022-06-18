@@ -158,18 +158,21 @@ namespace BaseballModel {
             }
         }
 
-        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId, bool includeOutfieldDetails = false) {
+        public static FieldingList TeamFieldingByID(string teamId, string lgAbbr, long yearId,
+            bool includeOutfieldDetails = false, bool includePitching = true) {
             using (var db = new BaseballContext()) {
-                var fielding =
+                IQueryable<Fielding> fielding =
                     from field in db.Fieldings
                     where field.TeamId == teamId && field.LgId == lgAbbr && field.YearId == yearId
                     select field;
+                
+                if (!includePitching) { //remove pitching records if unwanted
+                    fielding = fielding.Where(f => f.Pos != "P");
+                }
 
+                FieldingList myList;
                 if (!includeOutfieldDetails) { //do not want detailed OF info
-                    FieldingList myList = new FieldingList(fielding);
-                    myList.TeamSort();
-
-                    return myList;
+                    myList = new FieldingList(fielding);
                 }
                 else { //want detailed OF info
                     var outfieldingSplits =
@@ -189,10 +192,10 @@ namespace BaseballModel {
                         equals new { p.PlayerId, p.YearId, p.Stint }
                         select outfield;
 
-                    FieldingList myList = new FieldingList(fielding, outfieldingSplits, outfieldingLump);
-                    myList.TeamSort();
-                    return myList;
+                    myList = new FieldingList(fielding, outfieldingSplits, outfieldingLump);
                 }
+                myList.TeamSort();
+                return myList;
             }
         }
 

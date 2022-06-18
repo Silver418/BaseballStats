@@ -12,13 +12,20 @@ namespace BaseballModel.Models {
 
         public RosterList() { } //default ctor
 
+        public RosterList AppendPitchingStintList(PitchingStintList pitchingStintList) {
+            foreach (IRosterRecord record in pitchingStintList.GetResults()) {
+                list.Add(record);
+            }
+            return this;
+        }
+
         public RosterList AppendFieldingStintList(FieldingStintList fieldingStintList) {
             foreach (IRosterRecord record in fieldingStintList.GetResults()) {
                 list.Add(record);
             }
             return this;
         }
-
+        
         public RosterList AppendDesignatedStintList(DesignatedStintList designatedStintList) {
             foreach (IRosterRecord record in designatedStintList.GetResults()) {
                 list.Add(record);

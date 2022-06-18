@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseballModel.Models.TransactionModels {
+namespace BaseballModel.Models {
     public class PitchingStintRecord : IRosterRecord {
         public PitchingRecord MyPitching { get; private set; }
         public StintRecord MyStint { get; private set; }

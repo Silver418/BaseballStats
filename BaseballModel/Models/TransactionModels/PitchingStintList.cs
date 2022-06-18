@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseballModel.Models.TransactionModels {
+namespace BaseballModel.Models {
     public class PitchingStintList {
         private List<PitchingStintRecord> list = new List<PitchingStintRecord>();
 

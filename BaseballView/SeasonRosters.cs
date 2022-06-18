@@ -15,6 +15,7 @@ namespace BaseballView {
         //handle to active data
         private TeamYearSearchRecord teamRecord;
         private SeasonDateRecord? season;
+        private PitchingStintList pitchingResults;
         private FieldingStintList fieldingResults;
         private DesignatedStintList dhResults;
         private RosterList rosterList;
@@ -75,7 +76,7 @@ namespace BaseballView {
         }
 
         public void CalcMStarts() {
-            if (fieldingResults != null && gamesNud.Value > 0 && lineupsNud.Value > 0 && pitcherNud.Value > 0) {
+            if (rosterList != null && gamesNud.Value > 0 && lineupsNud.Value > 0 && pitcherNud.Value > 0) {
                 //prep one-time inputs
                 decimal teamGames = gamesNud.Value;
                 decimal lineups = lineupsNud.Value;
@@ -164,15 +165,18 @@ namespace BaseballView {
 
                 season = Queries.GetSeason(teamRecord.YearId);
                 if (season != null) {
-                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season, true);
+                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, season);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, season, true, false);
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, season);
                 }
                 else {
-                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId, true);
+                    pitchingResults = new PitchingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
+                    fieldingResults = new FieldingStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId, true, false);
                     dhResults = new DesignatedStintList(teamRecord.TeamId, teamRecord.LgId, teamRecord.YearId);
                 }
                 //build combined fielding + designated hitter list for display in main tab
-                rosterList = new RosterList().AppendFieldingStintList(fieldingResults)
+                rosterList = new RosterList().AppendPitchingStintList(pitchingResults)
+                    .AppendFieldingStintList(fieldingResults)
                     .AppendDesignatedStintList(dhResults).TeamSort();
 
                 rosterGrid.DataSource = rosterList.GetResults();
