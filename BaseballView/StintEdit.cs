@@ -133,6 +133,7 @@ namespace BaseballView {
                 filterTeamCmb.Enabled = true;
                 filterBtn.Enabled = true;
                 clearFilterBtn.Enabled = true;
+                transactionBtn.Enabled = true;
             }
         }
 
@@ -271,6 +272,13 @@ namespace BaseballView {
             //playerDataGrid.DataSource = sps.GetPlayers();
             ApplyFilter();
         }
+
+        //popup form for viewing completed transaction dates for the season
+        private void transactionBtn_Click(object sender, EventArgs e) {
+            TransactionDatesView form = new TransactionDatesView(sps);
+            form.ShowDialog();
+        }
+
 
         //handling for editing the Ignorable Stint & Primary Stints by click
         private void stintEditGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {

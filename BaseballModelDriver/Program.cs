@@ -33,4 +33,10 @@ static void printPlayer(Person person) => Console.WriteLine($"{person.NameFirst}
 
 
 //GetPlayersWithStints(1953);
+
+//SeasonDateRecord foundSeason = Queries.GetSeason(2015);
+//SeasonPersonStint sps = new SeasonPersonStint(foundSeason);
+//TransactionList trans = new TransactionList(sps);
+//Console.WriteLine($"{trans.GetTransactions().Count}");
+
 Console.WriteLine("Hello worldo");

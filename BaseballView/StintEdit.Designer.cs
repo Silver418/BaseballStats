@@ -47,6 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.yearPnl = new System.Windows.Forms.Panel();
             this.playerSelectPnl = new System.Windows.Forms.Panel();
+            this.transactionBtn = new System.Windows.Forms.Button();
             this.singleStintsBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.editPlayerBtn = new System.Windows.Forms.Button();
@@ -326,6 +327,7 @@
             // playerSelectPnl
             // 
             this.playerSelectPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.playerSelectPnl.Controls.Add(this.transactionBtn);
             this.playerSelectPnl.Controls.Add(this.singleStintsBtn);
             this.playerSelectPnl.Controls.Add(this.label5);
             this.playerSelectPnl.Controls.Add(this.editPlayerBtn);
@@ -335,6 +337,19 @@
             this.playerSelectPnl.Name = "playerSelectPnl";
             this.playerSelectPnl.Size = new System.Drawing.Size(964, 234);
             this.playerSelectPnl.TabIndex = 13;
+            // 
+            // transactionBtn
+            // 
+            this.transactionBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.transactionBtn.Enabled = false;
+            this.transactionBtn.Location = new System.Drawing.Point(837, 150);
+            this.transactionBtn.Margin = new System.Windows.Forms.Padding(10);
+            this.transactionBtn.Name = "transactionBtn";
+            this.transactionBtn.Size = new System.Drawing.Size(115, 40);
+            this.transactionBtn.TabIndex = 6;
+            this.transactionBtn.Text = "View Transactions by &Date";
+            this.transactionBtn.UseVisualStyleBackColor = true;
+            this.transactionBtn.Click += new System.EventHandler(this.transactionBtn_Click);
             // 
             // singleStintsBtn
             // 
@@ -566,5 +581,6 @@
         private Button clearFilterBtn;
         private Button singleStintsBtn;
         private Label progressLbl;
+        private Button transactionBtn;
     }
 }

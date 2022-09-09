@@ -61,6 +61,14 @@ namespace BaseballModel.Models {
             FillTeams();
         }
 
+        //Return a copy of the approved stints list
+        public List<StintRecord> GetStints() {
+            List<StintRecord> stints  = new List<StintRecord>();
+            foreach (StintRecord record in stintsApproved) {
+                stints.Add(record.Copy());
+            }
+            return stints;
+        }
 
         //Populate teams string from stints
         private void FillTeams() {
