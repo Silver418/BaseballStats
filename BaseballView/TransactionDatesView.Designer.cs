@@ -42,7 +42,7 @@
             this.gridWrap.Location = new System.Drawing.Point(0, 36);
             this.gridWrap.Name = "gridWrap";
             this.gridWrap.Padding = new System.Windows.Forms.Padding(10);
-            this.gridWrap.Size = new System.Drawing.Size(800, 414);
+            this.gridWrap.Size = new System.Drawing.Size(800, 445);
             this.gridWrap.TabIndex = 13;
             // 
             // transactionGrid
@@ -58,7 +58,7 @@
             this.transactionGrid.RowTemplate.Height = 25;
             this.transactionGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.transactionGrid.ShowCellToolTips = false;
-            this.transactionGrid.Size = new System.Drawing.Size(780, 394);
+            this.transactionGrid.Size = new System.Drawing.Size(780, 425);
             this.transactionGrid.TabIndex = 4;
             // 
             // controlPnl
@@ -66,7 +66,7 @@
             this.controlPnl.Controls.Add(this.clipboardBtn);
             this.controlPnl.Controls.Add(this.CloseBtn);
             this.controlPnl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.controlPnl.Location = new System.Drawing.Point(0, 370);
+            this.controlPnl.Location = new System.Drawing.Point(0, 481);
             this.controlPnl.Name = "controlPnl";
             this.controlPnl.Size = new System.Drawing.Size(800, 80);
             this.controlPnl.TabIndex = 14;
@@ -121,9 +121,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.controlPnl);
+            this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.gridWrap);
+            this.Controls.Add(this.controlPnl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "TransactionDatesView";
