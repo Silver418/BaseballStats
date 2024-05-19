@@ -14,7 +14,7 @@ namespace BaseballModel.Models {
             PitchingList pitchingList = Queries.TeamPitchingByID(teamId, lgId, s.YearId);
 
             foreach (PitchingRecord pitching in pitchingList.GetResults()) {
-                StintRecord? stint = Queries.GetStint(teamId, s.YearId, pitching.PlayerId);
+                StintRecord? stint = Queries.GetStint(pitching.PlayerId, pitching.YearId, pitching.Stint);
                 if (stint == null) { //if no stint is found, build a fresh record & add
                     list.Add(new PitchingStintRecord(pitching, stint));
                 }
@@ -29,7 +29,7 @@ namespace BaseballModel.Models {
             PitchingList pitchingList = Queries.TeamPitchingByID(teamId, lgId, yearId);
 
             foreach (PitchingRecord pitching in pitchingList.GetResults()) {
-                StintRecord? stint = Queries.GetStint(teamId, yearId, pitching.PlayerId);
+                StintRecord? stint = Queries.GetStint(pitching.PlayerId, pitching.YearId, pitching.Stint);
                 list.Add(new PitchingStintRecord(pitching, stint));
             }
         }

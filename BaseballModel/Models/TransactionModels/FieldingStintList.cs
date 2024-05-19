@@ -15,7 +15,7 @@ namespace BaseballModel.Models {
             FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, s.YearId, includeOutfieldDetails, includePitching);
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
-                StintRecord? stint = Queries.GetStint(teamId, s.YearId, fielding.PlayerId);
+                StintRecord? stint = Queries.GetStint(fielding.PlayerId, fielding.YearId, fielding.Stint);
                 if (stint == null) { //if no stint is found, build a fresh record & add
                     list.Add(new FieldingStintRecord(fielding, stint));
                 } else if (!stint.IgnoreStint) { //if we have a stint with IgnoreStint == false, add the existing record
@@ -30,7 +30,7 @@ namespace BaseballModel.Models {
             FieldingList fieldingList = Queries.TeamFieldingByID(teamId, lgId, yearId, includeOutfieldDetails, includePitching);
 
             foreach (FieldingRecord fielding in fieldingList.GetResults()) {
-                StintRecord? stint = Queries.GetStint(teamId, yearId, fielding.PlayerId);
+                StintRecord? stint = Queries.GetStint(fielding.PlayerId, fielding.YearId, fielding.Stint);
                 list.Add(new FieldingStintRecord(fielding, stint));
             }
         }

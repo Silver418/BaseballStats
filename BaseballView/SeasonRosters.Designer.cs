@@ -22,658 +22,620 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
-            this.headerLbl = new System.Windows.Forms.Label();
-            this.controlPnl = new System.Windows.Forms.Panel();
-            this.searchBtn = new System.Windows.Forms.Button();
-            this.closeBtn = new System.Windows.Forms.Button();
-            this.rosterGrid = new System.Windows.Forms.DataGridView();
-            this.bioPnl = new System.Windows.Forms.FlowLayoutPanel();
-            this.teamIdPnl = new System.Windows.Forms.Panel();
-            this.teamIdLbl = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.yearPnl = new System.Windows.Forms.Panel();
-            this.yearLbl = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lgPnl = new System.Windows.Forms.Panel();
-            this.leagueLbl = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.divPnl = new System.Windows.Forms.Panel();
-            this.divLbl = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.teamNamePnl = new System.Windows.Forms.Panel();
-            this.teamNameLbl = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.gamesPnl = new System.Windows.Forms.Panel();
-            this.gamesLbl = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.statsPnl = new System.Windows.Forms.Panel();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.fieldingTab = new System.Windows.Forms.TabPage();
-            this.fieldingWrap = new System.Windows.Forms.Panel();
-            this.desigHitterTab = new System.Windows.Forms.TabPage();
-            this.desigHitterWrap = new System.Windows.Forms.SplitContainer();
-            this.desigHitterGrid = new System.Windows.Forms.DataGridView();
-            this.detailsBtn = new System.Windows.Forms.Button();
-            this.desigDetailGrid = new System.Windows.Forms.DataGridView();
-            this.calculationPnl = new System.Windows.Forms.Panel();
-            this.copyRosterBtn = new System.Windows.Forms.Button();
-            this.calcMStartsBtn = new System.Windows.Forms.Button();
-            this.pitcherNud = new System.Windows.Forms.NumericUpDown();
-            this.lineupsNud = new System.Windows.Forms.NumericUpDown();
-            this.gamesNud = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.controlPnl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rosterGrid)).BeginInit();
-            this.bioPnl.SuspendLayout();
-            this.teamIdPnl.SuspendLayout();
-            this.yearPnl.SuspendLayout();
-            this.lgPnl.SuspendLayout();
-            this.divPnl.SuspendLayout();
-            this.teamNamePnl.SuspendLayout();
-            this.gamesPnl.SuspendLayout();
-            this.statsPnl.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.fieldingTab.SuspendLayout();
-            this.fieldingWrap.SuspendLayout();
-            this.desigHitterTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.desigHitterWrap)).BeginInit();
-            this.desigHitterWrap.Panel1.SuspendLayout();
-            this.desigHitterWrap.Panel2.SuspendLayout();
-            this.desigHitterWrap.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.desigDetailGrid)).BeginInit();
-            this.calculationPnl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pitcherNud)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lineupsNud)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gamesNud)).BeginInit();
-            this.SuspendLayout();
+        private void InitializeComponent()
+        {
+            headerLbl = new Label();
+            controlPnl = new Panel();
+            searchBtn = new Button();
+            closeBtn = new Button();
+            rosterGrid = new DataGridView();
+            bioPnl = new FlowLayoutPanel();
+            teamIdPnl = new Panel();
+            teamIdLbl = new Label();
+            label10 = new Label();
+            yearPnl = new Panel();
+            yearLbl = new Label();
+            label2 = new Label();
+            lgPnl = new Panel();
+            leagueLbl = new Label();
+            label4 = new Label();
+            divPnl = new Panel();
+            divLbl = new Label();
+            label6 = new Label();
+            teamNamePnl = new Panel();
+            teamNameLbl = new Label();
+            label8 = new Label();
+            gamesPnl = new Panel();
+            gamesLbl = new Label();
+            label3 = new Label();
+            statsPnl = new Panel();
+            tabControl1 = new TabControl();
+            fieldingTab = new TabPage();
+            fieldingWrap = new Panel();
+            desigHitterTab = new TabPage();
+            desigHitterWrap = new SplitContainer();
+            desigHitterGrid = new DataGridView();
+            detailsBtn = new Button();
+            desigDetailGrid = new DataGridView();
+            calculationPnl = new Panel();
+            copyRosterBtn = new Button();
+            calcMStartsBtn = new Button();
+            pitcherNud = new NumericUpDown();
+            lineupsNud = new NumericUpDown();
+            gamesNud = new NumericUpDown();
+            label7 = new Label();
+            label5 = new Label();
+            label1 = new Label();
+            controlPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)rosterGrid).BeginInit();
+            bioPnl.SuspendLayout();
+            teamIdPnl.SuspendLayout();
+            yearPnl.SuspendLayout();
+            lgPnl.SuspendLayout();
+            divPnl.SuspendLayout();
+            teamNamePnl.SuspendLayout();
+            gamesPnl.SuspendLayout();
+            statsPnl.SuspendLayout();
+            tabControl1.SuspendLayout();
+            fieldingTab.SuspendLayout();
+            fieldingWrap.SuspendLayout();
+            desigHitterTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)desigHitterWrap).BeginInit();
+            desigHitterWrap.Panel1.SuspendLayout();
+            desigHitterWrap.Panel2.SuspendLayout();
+            desigHitterWrap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)desigHitterGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)desigDetailGrid).BeginInit();
+            calculationPnl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pitcherNud).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)lineupsNud).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gamesNud).BeginInit();
+            SuspendLayout();
             // 
             // headerLbl
             // 
-            this.headerLbl.AutoSize = true;
-            this.headerLbl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.headerLbl.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.headerLbl.Location = new System.Drawing.Point(0, 0);
-            this.headerLbl.Margin = new System.Windows.Forms.Padding(5);
-            this.headerLbl.Name = "headerLbl";
-            this.headerLbl.Padding = new System.Windows.Forms.Padding(5);
-            this.headerLbl.Size = new System.Drawing.Size(175, 31);
-            this.headerLbl.TabIndex = 4;
-            this.headerLbl.Text = "View Season Rosters";
+            headerLbl.AutoSize = true;
+            headerLbl.Dock = DockStyle.Top;
+            headerLbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            headerLbl.Location = new Point(0, 0);
+            headerLbl.Margin = new Padding(5);
+            headerLbl.Name = "headerLbl";
+            headerLbl.Padding = new Padding(5);
+            headerLbl.Size = new Size(175, 31);
+            headerLbl.TabIndex = 4;
+            headerLbl.Text = "View Season Rosters";
             // 
             // controlPnl
             // 
-            this.controlPnl.AutoScroll = true;
-            this.controlPnl.AutoSize = true;
-            this.controlPnl.Controls.Add(this.searchBtn);
-            this.controlPnl.Controls.Add(this.closeBtn);
-            this.controlPnl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.controlPnl.Location = new System.Drawing.Point(0, 544);
-            this.controlPnl.Name = "controlPnl";
-            this.controlPnl.Size = new System.Drawing.Size(970, 56);
-            this.controlPnl.TabIndex = 9;
+            controlPnl.AutoScroll = true;
+            controlPnl.AutoSize = true;
+            controlPnl.Controls.Add(searchBtn);
+            controlPnl.Controls.Add(closeBtn);
+            controlPnl.Dock = DockStyle.Bottom;
+            controlPnl.Location = new Point(0, 544);
+            controlPnl.Name = "controlPnl";
+            controlPnl.Size = new Size(970, 56);
+            controlPnl.TabIndex = 9;
             // 
             // searchBtn
             // 
-            this.searchBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.searchBtn.Location = new System.Drawing.Point(349, 6);
-            this.searchBtn.Margin = new System.Windows.Forms.Padding(10);
-            this.searchBtn.Name = "searchBtn";
-            this.searchBtn.Size = new System.Drawing.Size(115, 40);
-            this.searchBtn.TabIndex = 3;
-            this.searchBtn.Text = "&Search Team";
-            this.searchBtn.UseVisualStyleBackColor = true;
-            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            searchBtn.Anchor = AnchorStyles.Top;
+            searchBtn.Location = new Point(349, 6);
+            searchBtn.Margin = new Padding(10);
+            searchBtn.Name = "searchBtn";
+            searchBtn.Size = new Size(115, 40);
+            searchBtn.TabIndex = 3;
+            searchBtn.Text = "&Search Team";
+            searchBtn.UseVisualStyleBackColor = true;
+            searchBtn.Click += searchBtn_Click;
             // 
             // closeBtn
             // 
-            this.closeBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.closeBtn.Location = new System.Drawing.Point(483, 6);
-            this.closeBtn.Margin = new System.Windows.Forms.Padding(10);
-            this.closeBtn.Name = "closeBtn";
-            this.closeBtn.Size = new System.Drawing.Size(115, 40);
-            this.closeBtn.TabIndex = 2;
-            this.closeBtn.Text = "&Close";
-            this.closeBtn.UseVisualStyleBackColor = true;
-            this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
+            closeBtn.Anchor = AnchorStyles.Top;
+            closeBtn.Location = new Point(483, 6);
+            closeBtn.Margin = new Padding(10);
+            closeBtn.Name = "closeBtn";
+            closeBtn.Size = new Size(115, 40);
+            closeBtn.TabIndex = 2;
+            closeBtn.Text = "&Close";
+            closeBtn.UseVisualStyleBackColor = true;
+            closeBtn.Click += closeBtn_Click;
             // 
             // rosterGrid
             // 
-            this.rosterGrid.AllowUserToAddRows = false;
-            this.rosterGrid.AllowUserToDeleteRows = false;
-            this.rosterGrid.AllowUserToResizeColumns = false;
-            this.rosterGrid.AllowUserToResizeRows = false;
-            this.rosterGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.rosterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.rosterGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rosterGrid.Location = new System.Drawing.Point(5, 5);
-            this.rosterGrid.MinimumSize = new System.Drawing.Size(600, 250);
-            this.rosterGrid.Name = "rosterGrid";
-            this.rosterGrid.ReadOnly = true;
-            this.rosterGrid.RowTemplate.Height = 25;
-            this.rosterGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
-            this.rosterGrid.ShowCellToolTips = false;
-            this.rosterGrid.Size = new System.Drawing.Size(946, 378);
-            this.rosterGrid.TabIndex = 12;
+            rosterGrid.AllowUserToAddRows = false;
+            rosterGrid.AllowUserToDeleteRows = false;
+            rosterGrid.AllowUserToResizeColumns = false;
+            rosterGrid.AllowUserToResizeRows = false;
+            rosterGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            rosterGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            rosterGrid.Dock = DockStyle.Fill;
+            rosterGrid.Location = new Point(5, 5);
+            rosterGrid.MinimumSize = new Size(600, 250);
+            rosterGrid.Name = "rosterGrid";
+            rosterGrid.ReadOnly = true;
+            rosterGrid.RowTemplate.Height = 25;
+            rosterGrid.SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
+            rosterGrid.ShowCellToolTips = false;
+            rosterGrid.Size = new Size(946, 378);
+            rosterGrid.TabIndex = 12;
             // 
             // bioPnl
             // 
-            this.bioPnl.AutoScroll = true;
-            this.bioPnl.AutoSize = true;
-            this.bioPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.bioPnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bioPnl.Controls.Add(this.teamIdPnl);
-            this.bioPnl.Controls.Add(this.yearPnl);
-            this.bioPnl.Controls.Add(this.lgPnl);
-            this.bioPnl.Controls.Add(this.divPnl);
-            this.bioPnl.Controls.Add(this.teamNamePnl);
-            this.bioPnl.Controls.Add(this.gamesPnl);
-            this.bioPnl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bioPnl.Location = new System.Drawing.Point(0, 31);
-            this.bioPnl.Name = "bioPnl";
-            this.bioPnl.Padding = new System.Windows.Forms.Padding(5);
-            this.bioPnl.Size = new System.Drawing.Size(970, 54);
-            this.bioPnl.TabIndex = 13;
+            bioPnl.AutoScroll = true;
+            bioPnl.AutoSize = true;
+            bioPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            bioPnl.BorderStyle = BorderStyle.FixedSingle;
+            bioPnl.Controls.Add(teamIdPnl);
+            bioPnl.Controls.Add(yearPnl);
+            bioPnl.Controls.Add(lgPnl);
+            bioPnl.Controls.Add(divPnl);
+            bioPnl.Controls.Add(teamNamePnl);
+            bioPnl.Controls.Add(gamesPnl);
+            bioPnl.Dock = DockStyle.Top;
+            bioPnl.Location = new Point(0, 31);
+            bioPnl.Name = "bioPnl";
+            bioPnl.Padding = new Padding(5);
+            bioPnl.Size = new Size(970, 54);
+            bioPnl.TabIndex = 13;
             // 
             // teamIdPnl
             // 
-            this.teamIdPnl.AutoSize = true;
-            this.teamIdPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.teamIdPnl.Controls.Add(this.teamIdLbl);
-            this.teamIdPnl.Controls.Add(this.label10);
-            this.teamIdPnl.Location = new System.Drawing.Point(8, 8);
-            this.teamIdPnl.Name = "teamIdPnl";
-            this.teamIdPnl.Size = new System.Drawing.Size(68, 15);
-            this.teamIdPnl.TabIndex = 8;
+            teamIdPnl.AutoSize = true;
+            teamIdPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            teamIdPnl.Controls.Add(teamIdLbl);
+            teamIdPnl.Controls.Add(label10);
+            teamIdPnl.Location = new Point(8, 8);
+            teamIdPnl.Name = "teamIdPnl";
+            teamIdPnl.Size = new Size(68, 15);
+            teamIdPnl.TabIndex = 8;
             // 
             // teamIdLbl
             // 
-            this.teamIdLbl.AutoSize = true;
-            this.teamIdLbl.Location = new System.Drawing.Point(65, 0);
-            this.teamIdLbl.Name = "teamIdLbl";
-            this.teamIdLbl.Size = new System.Drawing.Size(0, 15);
-            this.teamIdLbl.TabIndex = 1;
+            teamIdLbl.AutoSize = true;
+            teamIdLbl.Location = new Point(65, 0);
+            teamIdLbl.Name = "teamIdLbl";
+            teamIdLbl.Size = new Size(0, 15);
+            teamIdLbl.TabIndex = 1;
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label10.Location = new System.Drawing.Point(0, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 15);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Team ID:";
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label10.Location = new Point(0, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(56, 15);
+            label10.TabIndex = 0;
+            label10.Text = "Team ID:";
             // 
             // yearPnl
             // 
-            this.yearPnl.AutoSize = true;
-            this.yearPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.yearPnl.Controls.Add(this.yearLbl);
-            this.yearPnl.Controls.Add(this.label2);
-            this.yearPnl.Location = new System.Drawing.Point(82, 8);
-            this.yearPnl.Name = "yearPnl";
-            this.yearPnl.Size = new System.Drawing.Size(38, 15);
-            this.yearPnl.TabIndex = 9;
+            yearPnl.AutoSize = true;
+            yearPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            yearPnl.Controls.Add(yearLbl);
+            yearPnl.Controls.Add(label2);
+            yearPnl.Location = new Point(82, 8);
+            yearPnl.Name = "yearPnl";
+            yearPnl.Size = new Size(38, 15);
+            yearPnl.TabIndex = 9;
             // 
             // yearLbl
             // 
-            this.yearLbl.AutoSize = true;
-            this.yearLbl.Location = new System.Drawing.Point(35, 0);
-            this.yearLbl.Name = "yearLbl";
-            this.yearLbl.Size = new System.Drawing.Size(0, 15);
-            this.yearLbl.TabIndex = 1;
+            yearLbl.AutoSize = true;
+            yearLbl.Location = new Point(35, 0);
+            yearLbl.Name = "yearLbl";
+            yearLbl.Size = new Size(0, 15);
+            yearLbl.TabIndex = 1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 15);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Year:";
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(34, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Year:";
             // 
             // lgPnl
             // 
-            this.lgPnl.AutoSize = true;
-            this.lgPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.lgPnl.Controls.Add(this.leagueLbl);
-            this.lgPnl.Controls.Add(this.label4);
-            this.lgPnl.Location = new System.Drawing.Point(126, 8);
-            this.lgPnl.Name = "lgPnl";
-            this.lgPnl.Size = new System.Drawing.Size(58, 15);
-            this.lgPnl.TabIndex = 10;
+            lgPnl.AutoSize = true;
+            lgPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            lgPnl.Controls.Add(leagueLbl);
+            lgPnl.Controls.Add(label4);
+            lgPnl.Location = new Point(126, 8);
+            lgPnl.Name = "lgPnl";
+            lgPnl.Size = new Size(58, 15);
+            lgPnl.TabIndex = 10;
             // 
             // leagueLbl
             // 
-            this.leagueLbl.AutoSize = true;
-            this.leagueLbl.Location = new System.Drawing.Point(55, 0);
-            this.leagueLbl.Name = "leagueLbl";
-            this.leagueLbl.Size = new System.Drawing.Size(0, 15);
-            this.leagueLbl.TabIndex = 1;
+            leagueLbl.AutoSize = true;
+            leagueLbl.Location = new Point(55, 0);
+            leagueLbl.Name = "leagueLbl";
+            leagueLbl.Size = new Size(0, 15);
+            leagueLbl.TabIndex = 1;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(0, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 15);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "League:";
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Location = new Point(0, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(50, 15);
+            label4.TabIndex = 0;
+            label4.Text = "League:";
             // 
             // divPnl
             // 
-            this.divPnl.AutoSize = true;
-            this.divPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.divPnl.Controls.Add(this.divLbl);
-            this.divPnl.Controls.Add(this.label6);
-            this.bioPnl.SetFlowBreak(this.divPnl, true);
-            this.divPnl.Location = new System.Drawing.Point(190, 8);
-            this.divPnl.Name = "divPnl";
-            this.divPnl.Size = new System.Drawing.Size(63, 15);
-            this.divPnl.TabIndex = 11;
+            divPnl.AutoSize = true;
+            divPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            divPnl.Controls.Add(divLbl);
+            divPnl.Controls.Add(label6);
+            bioPnl.SetFlowBreak(divPnl, true);
+            divPnl.Location = new Point(190, 8);
+            divPnl.Name = "divPnl";
+            divPnl.Size = new Size(63, 15);
+            divPnl.TabIndex = 11;
             // 
             // divLbl
             // 
-            this.divLbl.AutoSize = true;
-            this.divLbl.Location = new System.Drawing.Point(60, 0);
-            this.divLbl.Name = "divLbl";
-            this.divLbl.Size = new System.Drawing.Size(0, 15);
-            this.divLbl.TabIndex = 1;
+            divLbl.AutoSize = true;
+            divLbl.Location = new Point(60, 0);
+            divLbl.Name = "divLbl";
+            divLbl.Size = new Size(0, 15);
+            divLbl.TabIndex = 1;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 15);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Division:";
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(54, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Division:";
             // 
             // teamNamePnl
             // 
-            this.teamNamePnl.AutoSize = true;
-            this.teamNamePnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.teamNamePnl.Controls.Add(this.teamNameLbl);
-            this.teamNamePnl.Controls.Add(this.label8);
-            this.teamNamePnl.Location = new System.Drawing.Point(8, 29);
-            this.teamNamePnl.Name = "teamNamePnl";
-            this.teamNamePnl.Size = new System.Drawing.Size(83, 15);
-            this.teamNamePnl.TabIndex = 12;
+            teamNamePnl.AutoSize = true;
+            teamNamePnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            teamNamePnl.Controls.Add(teamNameLbl);
+            teamNamePnl.Controls.Add(label8);
+            teamNamePnl.Location = new Point(8, 29);
+            teamNamePnl.Name = "teamNamePnl";
+            teamNamePnl.Size = new Size(83, 15);
+            teamNamePnl.TabIndex = 12;
             // 
             // teamNameLbl
             // 
-            this.teamNameLbl.AutoSize = true;
-            this.teamNameLbl.Location = new System.Drawing.Point(80, 0);
-            this.teamNameLbl.Name = "teamNameLbl";
-            this.teamNameLbl.Size = new System.Drawing.Size(0, 15);
-            this.teamNameLbl.TabIndex = 1;
+            teamNameLbl.AutoSize = true;
+            teamNameLbl.Location = new Point(80, 0);
+            teamNameLbl.Name = "teamNameLbl";
+            teamNameLbl.Size = new Size(0, 15);
+            teamNameLbl.TabIndex = 1;
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(76, 15);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Team Name:";
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Location = new Point(0, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(76, 15);
+            label8.TabIndex = 0;
+            label8.Text = "Team Name:";
             // 
             // gamesPnl
             // 
-            this.gamesPnl.AutoSize = true;
-            this.gamesPnl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gamesPnl.Controls.Add(this.gamesLbl);
-            this.gamesPnl.Controls.Add(this.label3);
-            this.gamesPnl.Location = new System.Drawing.Point(97, 29);
-            this.gamesPnl.Name = "gamesPnl";
-            this.gamesPnl.Size = new System.Drawing.Size(53, 15);
-            this.gamesPnl.TabIndex = 20;
+            gamesPnl.AutoSize = true;
+            gamesPnl.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            gamesPnl.Controls.Add(gamesLbl);
+            gamesPnl.Controls.Add(label3);
+            gamesPnl.Location = new Point(97, 29);
+            gamesPnl.Name = "gamesPnl";
+            gamesPnl.Size = new Size(53, 15);
+            gamesPnl.TabIndex = 20;
             // 
             // gamesLbl
             // 
-            this.gamesLbl.AutoSize = true;
-            this.gamesLbl.Location = new System.Drawing.Point(50, 0);
-            this.gamesLbl.Name = "gamesLbl";
-            this.gamesLbl.Size = new System.Drawing.Size(0, 15);
-            this.gamesLbl.TabIndex = 1;
+            gamesLbl.AutoSize = true;
+            gamesLbl.Location = new Point(50, 0);
+            gamesLbl.Name = "gamesLbl";
+            gamesLbl.Size = new Size(0, 15);
+            gamesLbl.TabIndex = 1;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Games:";
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Location = new Point(0, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(48, 15);
+            label3.TabIndex = 0;
+            label3.Text = "Games:";
             // 
             // statsPnl
             // 
-            this.statsPnl.Controls.Add(this.tabControl1);
-            this.statsPnl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statsPnl.Location = new System.Drawing.Point(0, 122);
-            this.statsPnl.Name = "statsPnl";
-            this.statsPnl.Size = new System.Drawing.Size(970, 422);
-            this.statsPnl.TabIndex = 14;
+            statsPnl.Controls.Add(tabControl1);
+            statsPnl.Dock = DockStyle.Fill;
+            statsPnl.Location = new Point(0, 122);
+            statsPnl.Name = "statsPnl";
+            statsPnl.Size = new Size(970, 422);
+            statsPnl.TabIndex = 14;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.fieldingTab);
-            this.tabControl1.Controls.Add(this.desigHitterTab);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(970, 422);
-            this.tabControl1.TabIndex = 0;
+            tabControl1.Controls.Add(fieldingTab);
+            tabControl1.Controls.Add(desigHitterTab);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(970, 422);
+            tabControl1.TabIndex = 0;
             // 
             // fieldingTab
             // 
-            this.fieldingTab.AutoScroll = true;
-            this.fieldingTab.Controls.Add(this.fieldingWrap);
-            this.fieldingTab.Location = new System.Drawing.Point(4, 24);
-            this.fieldingTab.Name = "fieldingTab";
-            this.fieldingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.fieldingTab.Size = new System.Drawing.Size(962, 394);
-            this.fieldingTab.TabIndex = 1;
-            this.fieldingTab.Text = "Season Roster";
-            this.fieldingTab.UseVisualStyleBackColor = true;
+            fieldingTab.AutoScroll = true;
+            fieldingTab.Controls.Add(fieldingWrap);
+            fieldingTab.Location = new Point(4, 24);
+            fieldingTab.Name = "fieldingTab";
+            fieldingTab.Padding = new Padding(3);
+            fieldingTab.Size = new Size(962, 394);
+            fieldingTab.TabIndex = 1;
+            fieldingTab.Text = "Season Roster";
+            fieldingTab.UseVisualStyleBackColor = true;
             // 
             // fieldingWrap
             // 
-            this.fieldingWrap.Controls.Add(this.rosterGrid);
-            this.fieldingWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fieldingWrap.Location = new System.Drawing.Point(3, 3);
-            this.fieldingWrap.Name = "fieldingWrap";
-            this.fieldingWrap.Padding = new System.Windows.Forms.Padding(5);
-            this.fieldingWrap.Size = new System.Drawing.Size(956, 388);
-            this.fieldingWrap.TabIndex = 8;
+            fieldingWrap.Controls.Add(rosterGrid);
+            fieldingWrap.Dock = DockStyle.Fill;
+            fieldingWrap.Location = new Point(3, 3);
+            fieldingWrap.Name = "fieldingWrap";
+            fieldingWrap.Padding = new Padding(5);
+            fieldingWrap.Size = new Size(956, 388);
+            fieldingWrap.TabIndex = 8;
             // 
             // desigHitterTab
             // 
-            this.desigHitterTab.AutoScroll = true;
-            this.desigHitterTab.Controls.Add(this.desigHitterWrap);
-            this.desigHitterTab.Location = new System.Drawing.Point(4, 24);
-            this.desigHitterTab.Name = "desigHitterTab";
-            this.desigHitterTab.Padding = new System.Windows.Forms.Padding(3);
-            this.desigHitterTab.Size = new System.Drawing.Size(962, 394);
-            this.desigHitterTab.TabIndex = 0;
-            this.desigHitterTab.Text = "Designated Hitters Details";
-            this.desigHitterTab.UseVisualStyleBackColor = true;
+            desigHitterTab.AutoScroll = true;
+            desigHitterTab.Controls.Add(desigHitterWrap);
+            desigHitterTab.Location = new Point(4, 24);
+            desigHitterTab.Name = "desigHitterTab";
+            desigHitterTab.Padding = new Padding(3);
+            desigHitterTab.Size = new Size(962, 394);
+            desigHitterTab.TabIndex = 0;
+            desigHitterTab.Text = "Designated Hitters Details";
+            desigHitterTab.UseVisualStyleBackColor = true;
             // 
             // desigHitterWrap
             // 
-            this.desigHitterWrap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.desigHitterWrap.Location = new System.Drawing.Point(3, 3);
-            this.desigHitterWrap.Name = "desigHitterWrap";
-            this.desigHitterWrap.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            desigHitterWrap.Dock = DockStyle.Fill;
+            desigHitterWrap.Location = new Point(3, 3);
+            desigHitterWrap.Name = "desigHitterWrap";
+            desigHitterWrap.Orientation = Orientation.Horizontal;
             // 
             // desigHitterWrap.Panel1
             // 
-            this.desigHitterWrap.Panel1.Controls.Add(this.desigHitterGrid);
-            this.desigHitterWrap.Panel1MinSize = 100;
+            desigHitterWrap.Panel1.Controls.Add(desigHitterGrid);
+            desigHitterWrap.Panel1MinSize = 100;
             // 
             // desigHitterWrap.Panel2
             // 
-            this.desigHitterWrap.Panel2.Controls.Add(this.detailsBtn);
-            this.desigHitterWrap.Panel2.Controls.Add(this.desigDetailGrid);
-            this.desigHitterWrap.Panel2MinSize = 100;
-            this.desigHitterWrap.Size = new System.Drawing.Size(956, 388);
-            this.desigHitterWrap.SplitterDistance = 263;
-            this.desigHitterWrap.TabIndex = 7;
+            desigHitterWrap.Panel2.Controls.Add(detailsBtn);
+            desigHitterWrap.Panel2.Controls.Add(desigDetailGrid);
+            desigHitterWrap.Panel2MinSize = 100;
+            desigHitterWrap.Size = new Size(956, 388);
+            desigHitterWrap.SplitterDistance = 263;
+            desigHitterWrap.TabIndex = 7;
             // 
             // desigHitterGrid
             // 
-            this.desigHitterGrid.AllowUserToAddRows = false;
-            this.desigHitterGrid.AllowUserToDeleteRows = false;
-            this.desigHitterGrid.AllowUserToResizeRows = false;
-            this.desigHitterGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.desigHitterGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.desigHitterGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.desigHitterGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.desigHitterGrid.Location = new System.Drawing.Point(0, 0);
-            this.desigHitterGrid.Margin = new System.Windows.Forms.Padding(5);
-            this.desigHitterGrid.MinimumSize = new System.Drawing.Size(600, 250);
-            this.desigHitterGrid.Name = "desigHitterGrid";
-            this.desigHitterGrid.ReadOnly = true;
-            this.desigHitterGrid.RowTemplate.Height = 25;
-            this.desigHitterGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.desigHitterGrid.ShowCellToolTips = false;
-            this.desigHitterGrid.Size = new System.Drawing.Size(956, 263);
-            this.desigHitterGrid.TabIndex = 5;
-            this.desigHitterGrid.SelectionChanged += new System.EventHandler(this.desigHitterGrid_SelectionChanged);
-            this.desigHitterGrid.DoubleClick += new System.EventHandler(this.details_Click);
-            this.desigHitterGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.desigHitterGrid_KeyDown);
+            desigHitterGrid.AllowUserToAddRows = false;
+            desigHitterGrid.AllowUserToDeleteRows = false;
+            desigHitterGrid.AllowUserToResizeRows = false;
+            desigHitterGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            desigHitterGrid.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            desigHitterGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            desigHitterGrid.Dock = DockStyle.Fill;
+            desigHitterGrid.Location = new Point(0, 0);
+            desigHitterGrid.Margin = new Padding(5);
+            desigHitterGrid.MinimumSize = new Size(600, 250);
+            desigHitterGrid.Name = "desigHitterGrid";
+            desigHitterGrid.ReadOnly = true;
+            desigHitterGrid.RowTemplate.Height = 25;
+            desigHitterGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            desigHitterGrid.ShowCellToolTips = false;
+            desigHitterGrid.Size = new Size(956, 263);
+            desigHitterGrid.TabIndex = 5;
+            desigHitterGrid.SelectionChanged += desigHitterGrid_SelectionChanged;
+            desigHitterGrid.DoubleClick += details_Click;
+            desigHitterGrid.KeyDown += desigHitterGrid_KeyDown;
             // 
             // detailsBtn
             // 
-            this.detailsBtn.Enabled = false;
-            this.detailsBtn.Location = new System.Drawing.Point(3, 10);
-            this.detailsBtn.Margin = new System.Windows.Forms.Padding(10);
-            this.detailsBtn.Name = "detailsBtn";
-            this.detailsBtn.Size = new System.Drawing.Size(115, 40);
-            this.detailsBtn.TabIndex = 7;
-            this.detailsBtn.Text = "Show &Details";
-            this.detailsBtn.UseVisualStyleBackColor = true;
-            this.detailsBtn.Click += new System.EventHandler(this.details_Click);
+            detailsBtn.Enabled = false;
+            detailsBtn.Location = new Point(3, 10);
+            detailsBtn.Margin = new Padding(10);
+            detailsBtn.Name = "detailsBtn";
+            detailsBtn.Size = new Size(115, 40);
+            detailsBtn.TabIndex = 7;
+            detailsBtn.Text = "Show &Details";
+            detailsBtn.UseVisualStyleBackColor = true;
+            detailsBtn.Click += details_Click;
             // 
             // desigDetailGrid
             // 
-            this.desigDetailGrid.AllowUserToAddRows = false;
-            this.desigDetailGrid.AllowUserToDeleteRows = false;
-            this.desigDetailGrid.AllowUserToResizeRows = false;
-            this.desigDetailGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.desigDetailGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.desigDetailGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.desigDetailGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.desigDetailGrid.Location = new System.Drawing.Point(120, 0);
-            this.desigDetailGrid.Margin = new System.Windows.Forms.Padding(5);
-            this.desigDetailGrid.MinimumSize = new System.Drawing.Size(600, 100);
-            this.desigDetailGrid.Name = "desigDetailGrid";
-            this.desigDetailGrid.ReadOnly = true;
-            this.desigDetailGrid.RowTemplate.Height = 25;
-            this.desigDetailGrid.ShowCellToolTips = false;
-            this.desigDetailGrid.Size = new System.Drawing.Size(835, 121);
-            this.desigDetailGrid.TabIndex = 6;
+            desigDetailGrid.AllowUserToAddRows = false;
+            desigDetailGrid.AllowUserToDeleteRows = false;
+            desigDetailGrid.AllowUserToResizeRows = false;
+            desigDetailGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            desigDetailGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            desigDetailGrid.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            desigDetailGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            desigDetailGrid.Location = new Point(120, 0);
+            desigDetailGrid.Margin = new Padding(5);
+            desigDetailGrid.MinimumSize = new Size(600, 100);
+            desigDetailGrid.Name = "desigDetailGrid";
+            desigDetailGrid.ReadOnly = true;
+            desigDetailGrid.RowTemplate.Height = 25;
+            desigDetailGrid.ShowCellToolTips = false;
+            desigDetailGrid.Size = new Size(835, 121);
+            desigDetailGrid.TabIndex = 6;
             // 
             // calculationPnl
             // 
-            this.calculationPnl.Controls.Add(this.copyRosterBtn);
-            this.calculationPnl.Controls.Add(this.calcMStartsBtn);
-            this.calculationPnl.Controls.Add(this.pitcherNud);
-            this.calculationPnl.Controls.Add(this.lineupsNud);
-            this.calculationPnl.Controls.Add(this.gamesNud);
-            this.calculationPnl.Controls.Add(this.label7);
-            this.calculationPnl.Controls.Add(this.label5);
-            this.calculationPnl.Controls.Add(this.label1);
-            this.calculationPnl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.calculationPnl.Location = new System.Drawing.Point(0, 85);
-            this.calculationPnl.Name = "calculationPnl";
-            this.calculationPnl.Padding = new System.Windows.Forms.Padding(5);
-            this.calculationPnl.Size = new System.Drawing.Size(970, 37);
-            this.calculationPnl.TabIndex = 0;
+            calculationPnl.Controls.Add(copyRosterBtn);
+            calculationPnl.Controls.Add(calcMStartsBtn);
+            calculationPnl.Controls.Add(pitcherNud);
+            calculationPnl.Controls.Add(lineupsNud);
+            calculationPnl.Controls.Add(gamesNud);
+            calculationPnl.Controls.Add(label7);
+            calculationPnl.Controls.Add(label5);
+            calculationPnl.Controls.Add(label1);
+            calculationPnl.Dock = DockStyle.Top;
+            calculationPnl.Location = new Point(0, 85);
+            calculationPnl.Name = "calculationPnl";
+            calculationPnl.Padding = new Padding(5);
+            calculationPnl.Size = new Size(970, 37);
+            calculationPnl.TabIndex = 0;
             // 
             // copyRosterBtn
             // 
-            this.copyRosterBtn.Enabled = false;
-            this.copyRosterBtn.Location = new System.Drawing.Point(700, 5);
-            this.copyRosterBtn.Name = "copyRosterBtn";
-            this.copyRosterBtn.Size = new System.Drawing.Size(150, 23);
-            this.copyRosterBtn.TabIndex = 7;
-            this.copyRosterBtn.Text = "Copy &Roster to Clipboard";
-            this.copyRosterBtn.UseVisualStyleBackColor = true;
-            this.copyRosterBtn.Click += new System.EventHandler(this.copyRosterBtn_Click);
+            copyRosterBtn.Enabled = false;
+            copyRosterBtn.Location = new Point(700, 5);
+            copyRosterBtn.Name = "copyRosterBtn";
+            copyRosterBtn.Size = new Size(150, 23);
+            copyRosterBtn.TabIndex = 7;
+            copyRosterBtn.Text = "Copy &Roster to Clipboard";
+            copyRosterBtn.UseVisualStyleBackColor = true;
+            copyRosterBtn.Click += copyRosterBtn_Click;
             // 
             // calcMStartsBtn
             // 
-            this.calcMStartsBtn.Enabled = false;
-            this.calcMStartsBtn.Location = new System.Drawing.Point(538, 6);
-            this.calcMStartsBtn.Name = "calcMStartsBtn";
-            this.calcMStartsBtn.Size = new System.Drawing.Size(150, 23);
-            this.calcMStartsBtn.TabIndex = 3;
-            this.calcMStartsBtn.Text = "Calculate &Modified Starts";
-            this.calcMStartsBtn.UseVisualStyleBackColor = true;
-            this.calcMStartsBtn.Click += new System.EventHandler(this.button1_Click);
+            calcMStartsBtn.Enabled = false;
+            calcMStartsBtn.Location = new Point(538, 6);
+            calcMStartsBtn.Name = "calcMStartsBtn";
+            calcMStartsBtn.Size = new Size(150, 23);
+            calcMStartsBtn.TabIndex = 3;
+            calcMStartsBtn.Text = "Calculate &Modified Starts";
+            calcMStartsBtn.UseVisualStyleBackColor = true;
+            calcMStartsBtn.Click += button1_Click;
             // 
             // pitcherNud
             // 
-            this.pitcherNud.Enabled = false;
-            this.pitcherNud.Location = new System.Drawing.Point(469, 5);
-            this.pitcherNud.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.pitcherNud.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.pitcherNud.Name = "pitcherNud";
-            this.pitcherNud.Size = new System.Drawing.Size(45, 23);
-            this.pitcherNud.TabIndex = 2;
-            this.pitcherNud.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.pitcherNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
+            pitcherNud.Enabled = false;
+            pitcherNud.Location = new Point(469, 5);
+            pitcherNud.Maximum = new decimal(new int[] { 99, 0, 0, 0 });
+            pitcherNud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            pitcherNud.Name = "pitcherNud";
+            pitcherNud.Size = new Size(45, 23);
+            pitcherNud.TabIndex = 2;
+            pitcherNud.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            pitcherNud.KeyDown += MStartsInput_KeyDown;
             // 
             // lineupsNud
             // 
-            this.lineupsNud.Enabled = false;
-            this.lineupsNud.Location = new System.Drawing.Point(263, 5);
-            this.lineupsNud.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.lineupsNud.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.lineupsNud.Name = "lineupsNud";
-            this.lineupsNud.Size = new System.Drawing.Size(45, 23);
-            this.lineupsNud.TabIndex = 1;
-            this.lineupsNud.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.lineupsNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
+            lineupsNud.Enabled = false;
+            lineupsNud.Location = new Point(263, 5);
+            lineupsNud.Maximum = new decimal(new int[] { 99, 0, 0, 0 });
+            lineupsNud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            lineupsNud.Name = "lineupsNud";
+            lineupsNud.Size = new Size(45, 23);
+            lineupsNud.TabIndex = 1;
+            lineupsNud.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            lineupsNud.KeyDown += MStartsInput_KeyDown;
             // 
             // gamesNud
             // 
-            this.gamesNud.Enabled = false;
-            this.gamesNud.Location = new System.Drawing.Point(127, 5);
-            this.gamesNud.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.gamesNud.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.gamesNud.Name = "gamesNud";
-            this.gamesNud.Size = new System.Drawing.Size(55, 23);
-            this.gamesNud.TabIndex = 0;
-            this.gamesNud.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.gamesNud.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MStartsInput_KeyDown);
+            gamesNud.Enabled = false;
+            gamesNud.Location = new Point(127, 5);
+            gamesNud.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            gamesNud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            gamesNud.Name = "gamesNud";
+            gamesNud.Size = new Size(55, 23);
+            gamesNud.TabIndex = 0;
+            gamesNud.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            gamesNud.KeyDown += MStartsInput_KeyDown;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(321, 7);
-            this.label7.Margin = new System.Windows.Forms.Padding(3);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(141, 15);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "# Pitcher Rotation Slots:";
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Location = new Point(321, 7);
+            label7.Margin = new Padding(3);
+            label7.Name = "label7";
+            label7.Size = new Size(141, 15);
+            label7.TabIndex = 6;
+            label7.Text = "# Pitcher Rotation Slots:";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(195, 7);
-            this.label5.Margin = new System.Windows.Forms.Padding(3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 15);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "# Lineups:";
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Location = new Point(195, 7);
+            label5.Margin = new Padding(3);
+            label5.Name = "label5";
+            label5.Size = new Size(62, 15);
+            label5.TabIndex = 5;
+            label5.Text = "# Lineups:";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(9, 7);
-            this.label1.Margin = new System.Windows.Forms.Padding(3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Games Per Season:";
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(9, 7);
+            label1.Margin = new Padding(3);
+            label1.Name = "label1";
+            label1.Size = new Size(112, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Games Per Season:";
             // 
             // SeasonRosters
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.statsPnl);
-            this.Controls.Add(this.controlPnl);
-            this.Controls.Add(this.calculationPnl);
-            this.Controls.Add(this.bioPnl);
-            this.Controls.Add(this.headerLbl);
-            this.Name = "SeasonRosters";
-            this.Size = new System.Drawing.Size(970, 600);
-            this.controlPnl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.rosterGrid)).EndInit();
-            this.bioPnl.ResumeLayout(false);
-            this.bioPnl.PerformLayout();
-            this.teamIdPnl.ResumeLayout(false);
-            this.teamIdPnl.PerformLayout();
-            this.yearPnl.ResumeLayout(false);
-            this.yearPnl.PerformLayout();
-            this.lgPnl.ResumeLayout(false);
-            this.lgPnl.PerformLayout();
-            this.divPnl.ResumeLayout(false);
-            this.divPnl.PerformLayout();
-            this.teamNamePnl.ResumeLayout(false);
-            this.teamNamePnl.PerformLayout();
-            this.gamesPnl.ResumeLayout(false);
-            this.gamesPnl.PerformLayout();
-            this.statsPnl.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.fieldingTab.ResumeLayout(false);
-            this.fieldingWrap.ResumeLayout(false);
-            this.desigHitterTab.ResumeLayout(false);
-            this.desigHitterWrap.Panel1.ResumeLayout(false);
-            this.desigHitterWrap.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.desigHitterWrap)).EndInit();
-            this.desigHitterWrap.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.desigHitterGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.desigDetailGrid)).EndInit();
-            this.calculationPnl.ResumeLayout(false);
-            this.calculationPnl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pitcherNud)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lineupsNud)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gamesNud)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(statsPnl);
+            Controls.Add(controlPnl);
+            Controls.Add(calculationPnl);
+            Controls.Add(bioPnl);
+            Controls.Add(headerLbl);
+            Name = "SeasonRosters";
+            Size = new Size(970, 600);
+            controlPnl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)rosterGrid).EndInit();
+            bioPnl.ResumeLayout(false);
+            bioPnl.PerformLayout();
+            teamIdPnl.ResumeLayout(false);
+            teamIdPnl.PerformLayout();
+            yearPnl.ResumeLayout(false);
+            yearPnl.PerformLayout();
+            lgPnl.ResumeLayout(false);
+            lgPnl.PerformLayout();
+            divPnl.ResumeLayout(false);
+            divPnl.PerformLayout();
+            teamNamePnl.ResumeLayout(false);
+            teamNamePnl.PerformLayout();
+            gamesPnl.ResumeLayout(false);
+            gamesPnl.PerformLayout();
+            statsPnl.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            fieldingTab.ResumeLayout(false);
+            fieldingWrap.ResumeLayout(false);
+            desigHitterTab.ResumeLayout(false);
+            desigHitterWrap.Panel1.ResumeLayout(false);
+            desigHitterWrap.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)desigHitterWrap).EndInit();
+            desigHitterWrap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)desigHitterGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)desigDetailGrid).EndInit();
+            calculationPnl.ResumeLayout(false);
+            calculationPnl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pitcherNud).EndInit();
+            ((System.ComponentModel.ISupportInitialize)lineupsNud).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gamesNud).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

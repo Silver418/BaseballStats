@@ -597,7 +597,7 @@ namespace BaseballModel {
         }
 
         //get a single StintRecord if it exists in transaction.db; 
-        public static StintRecord GetStint(string playerId, long yearId, int stintId) {
+        public static StintRecord GetStint(string playerId, long yearId, long stintId) {
             using (TransContext db = new TransContext()) {
                 Stint? stint = (from s in db.Stints
                                 where s.PlayerId == playerId
@@ -668,21 +668,6 @@ namespace BaseballModel {
                 else {
                     return 0;
                 }
-            }
-        }
-
-        internal static StintRecord? GetStint(string teamId, long yearId, string playerId, int seasonDuration = 0) {
-            using (var db = new TransContext()) {
-                var stint =
-                    (from rec in db.Stints
-                     where rec.TeamId == teamId
-                     && rec.YearId == yearId
-                     && rec.PlayerId == playerId
-                     select rec).FirstOrDefault();
-                if (stint != null) {
-                    return new StintRecord(stint);
-                }
-                return null;
             }
         }
         #endregion
